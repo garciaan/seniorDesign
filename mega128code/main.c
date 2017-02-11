@@ -1,4 +1,3 @@
-
 #ifndef F_CPU
 #define F_CPU 16000000UL
 #endif
@@ -13,21 +12,20 @@
 #define P6 0x20
 #define P7 0x40
 #define P8 0x80
-#define TIMER3_FREQ F_CPU   //change this per the scaler equation
 
 #define TRIG 0x01
 #define ECHO 0x02
 #define SONAR1 (1<<0)
 #define SONAR2 (1<<2)
 #define NUM_SONARS  1
-#define SOUND_SPEED 340	//Meters per second
+#define STOP 1500
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <avr/interrupt.h>
 
 
 
@@ -46,165 +44,174 @@ void trigger(unsigned int pin);
 double get_distance(unsigned int pin);
 double print_distance(unsigned int pin);
 void blink(int led, int speed);
-void enable_input_capture();
-int is_rising();
-void set_to_rising();
-void set_to_falling();
-void enable_input_capture();
-void disable_input_capture();
-void clear_input_flag();
-void setup_input_capture();
-
+void forward(int speed);
+void reverse(int speed);
+void stop();
+void TIM16_WriteTCNT1( unsigned int i );
 
 uint8_t temp, read_byte;
 
-//Global Variables for Input Capture
-volatile unsigned int start_time = 0;
-volatile unsigned int end_time = 0;
-volatile unsigned int high_time = 0;
-volatile unsigned int capture_complete = 0;
-
 
 int main(void){
-	DDRB = 0xFF;
+    DDRB = 0xFF;
     PORTB = 0x00;
     DDRD = 0x00;
-    DDRE = 0b01010100;    //1,3,5 is output, the rest input
-    PORTE = 0x00;   //set low
 
 
-	int count = 0;
-    int direction = 0;
-	char buffer[16];
-    double distance = 0;
-    int sonars[NUM_SONARS];
-    int i;
-    for (i = 0; i < NUM_SONARS; ++i){
-        sonars[i] = (1<<(i * 2));
-    }
-    int limit = 20;
-    int step = 5;
+    char buffer[16];
     spi_init();
     lcd_init();
-    
+
     double temp;
 
+    clear_display();
+    string2lcd("Press S1");
+	while (((PIND) & (1 << 0)));
+	
+	PORTB |= (1 << 4);
+	_delay_us(STOP);
+	PORTB &= ~(1 << 4);
+	_delay_ms(1000);
 
+    /*
     //8 bit phase correct pwm
-    TCCR0 |= (1 << WGM00);  
-    TCCR0 &= ~(1 << WGM01);
-    TCCR0 |= (1 << COM01); //Clear OC0 on compare match when up-counting. Set OC0 on compare match when downcounting.
-    //Prescaler 256
-    TCCR0 |= (1 << CS02) | (1 << CS01);
-    TCCR0 &= ~(1 << CS00);
+    TCCR0 = (1 << WGM00) | (1 << WGM01);
+
+    //Non inverting
+    TCCR0 |= (1 << COM01);
+    
+    //Prescaler 1024
+    TCCR0 |= (1 << CS02) | (1 << CS01) | (1 << CS00);
 
     OCR0 = 0;
+    */
 
-    clear_display();
-    string2lcd("Starting Program");
+    
+    //16-bit fast pwm non-inverting on PB5
+    TCCR1A |= (1 << COM1A1); //inverting
 
+    //16-bit fast pwm non-inverting on PB6
+    TCCR1A |= (1 << COM1B1); //non-inverting
 
-    _delay_ms(500);
+    //16-bit fast pwm non-inverting on PB7
+    TCCR1A |= (1 << COM1C1); //non-inverting
+
+    //Fast PWM w/ TOP ICR1
+    TCCR1A |= (1 << WGM11); 
+    TCCR1B |= (1 << WGM13) | (1 << WGM12);
+    
+    //Prescaler 8 which is 30.517578 Hz
+    //TCCR1B |= (1 << CS11);
+
+    //Prescaler 1 which is 244.140625 Hz
+    TCCR1B |= (1 << CS10);
+
+    TIM16_WriteTCNT1(1);
+    ICR1 = (unsigned int) 65535;
+    _delay_ms(100);
+	
     while(1){
         clear_display();
-        
-        for (i = 0; i < NUM_SONARS; ++i){
-            distance = print_distance(sonars[i]);
-            if (distance <= limit){
-                PORTB |= (1 << 6);
-            }
-            else {
-                PORTB &= ~(1 << 6);
-            }
-            if (distance > limit && distance <= limit + 4 * step){
-
-                temp = distance - limit;
-                if (temp < 0){
-                    temp = 0;
-                }
-                temp *= 255.0/(4 * step);
-                temp = 255.0 - temp;
-                OCR0 = temp;
-                home_line2();
-                dtostrf(temp,1,6,buffer);
-                //string2lcd(buffer);
-            }
-            else {
-                OCR0 = 0;
-                home_line2();
-                dtostrf(0.0,1,6,buffer);
-                //string2lcd(buffer);
-
-            }
-
-        }
-
-        _delay_ms(60);
-        
+		if (!((PIND) & (1 << 7))){
+			//string2lcd("Forward 25%");
+            string2lcd(itoa(TCNT1,buffer,10));
+            OCR1A = (unsigned int)10000;
+            OCR1B = (unsigned int)5000;
+            OCR1C = 65000;
+			//forward(25);
+		}
+		else if (!((PIND) & (1 << 6))){
+			//string2lcd("Reverse 25%");
+            string2lcd(itoa(TCNT1,buffer,10));
+            OCR1A = (unsigned int)30000;
+            OCR1B = (unsigned int)20000;
+            OCR1C = 0;
+			//reverse(25);
+		}
+		else if (!((PIND) & (1 << 5))){
+			//string2lcd("Forward 75%");
+            string2lcd(itoa(TCNT1,buffer,10));
+            OCR1A = (unsigned int)50000;
+            OCR1B = (unsigned int)40000;
+            OCR1C = 10000;
+			//forward(75);
+		}
+		else {
+			string2lcd(itoa(TCNT1,buffer,10));
+			//stop();
+            OCR1A = (unsigned int)65535;
+            OCR1B = (unsigned int)65535;
+            OCR1C = 30000;
+		}
+		_delay_ms(20);
 	}
 
-	return 0;
-}
-
-//Input capture interrupt
-ISR(TIMER3_CAPT_vect){
-    if (is_rising()){
-        set_to_falling();
-        start_time = ICR3;
-        clear_input_flag();
-    }
-    else {
-        end_time = ICR3;
-        disable_input_capture();
-        set_to_rising();
-        high_time = end_time - start_time;
-        capture_complete = 1;
-    }
-}
-int is_rising(){
-    if (TCCR3B & (1 << ICES3)){
-        return 1;
-    }
     return 0;
 }
-void set_to_rising(){
-    TCCR3B |= (1 << ICES3);
-}
-void set_to_falling(){
-    TCCR3B &= ~(1 << ICES3);
-}
-void enable_input_capture(){
-    set_to_rising();
-    ETIMSK |= (1 << TICIE3);
-}
-void disable_input_capture(){
-    ETIMSK &= ~(1 << TICIE3);
-}
-void clear_input_flag(){
-    ETIFR |= (1 << ICF3);
-}
-void setup_input_capture(){
-    disable_input_capture();
-    //reset the registers
-    TCCR3A = 0;
-    TCCR3B = 0;
-    //Normal Port Operation, OC3B Disconnected
-    TCCR3A &= ~((1 << COM3B1) | (1 << COM3B0));
-    //clear the reserved bit
-    TCCR3B &= ~(1 << 5);
-    //enable input capture noise canceller
-    TCCR3B |= (1 << ICNC3); 
-    //Set ICR3 to TOP, noted as Fast PWM Mode?
-    TCCR3A &= ~(1 << WGM30);
-    TCCR3A |= (1 << WGM31);
-    TCCR3B |= ((1 << WGM32) | (1 << WGM33));
-    //CLKio/1 (no prescaling)
-    TCCR3B |= (1 << CS30);
-    TCCR3B &= ~(1 << CS31);
-    TCCR3B &= ~(1 << CS32);
-    set_to_rising();
 
+void TIM16_WriteTCNT1( unsigned int i ) {
+    unsigned char sreg;
+    /* Save global interrupt flag */ 
+    sreg = SREG;
+    /* Disable interrupts */ 
+    cli();
+    /* Set TCNTn to i */
+    TCNT1 = i;
+    sei();
+    /* Restore global interrupt flag */ 
+    SREG = sreg;
 }
+
+void forward(int speed){
+	if (speed > 100){
+		speed = 100;
+	}
+	if (speed < 0){
+		speed = 0;
+	}
+	speed *= 4;
+
+	PORTB |= (1 << 4);
+	int i;
+	for (i = 0; i < STOP + speed; ++i){
+		_delay_us(1);
+	}
+	//_delay_us(1600);
+	PORTB &= ~(1 << 4);
+	home_line2();
+	char buffer[16];
+	string2lcd(itoa(STOP + speed,buffer,10));
+}
+void reverse(int speed){
+	if (speed > 100){
+		speed = 100;
+	}
+	if (speed < 0){
+		speed = 0;
+	}
+	speed *= 4;
+	home_line2();
+	char buffer[16];
+	string2lcd(itoa(STOP - speed,buffer,10));
+	PORTB |= (1 << 4);
+	int i;
+	for (i = 0; i < STOP - speed; ++i){
+		_delay_us(1);
+	}
+	
+	//_delay_us(1400);
+	PORTB &= ~(1 << 4);
+}
+void stop(){
+	PORTB |= (1 << 4);
+	_delay_us(STOP);
+	PORTB &= ~(1 << 4);
+	home_line2();
+	char buffer[16];
+	string2lcd(itoa(STOP,buffer,10));
+}
+
+
 
 void blink(int led, int speed){
     if (speed < 0){
@@ -219,7 +226,27 @@ void blink(int led, int speed){
         _delay_ms(1);
     }
     PORTB &= ~(1 << led);
-
+    /*
+    int wait = 0;
+    int i;
+    if (speed <= 25){
+        wait = 100;
+    }
+    else if (speed > 25 && speed <= 50){
+        wait = 60;
+    }
+    else if (speed > 50 && speed <= 75){
+        wait = 30;
+    }
+    else {
+        wait = 10;
+    }
+    PORTB |= (1 << led);
+    for (i = 0; i < wait; ++i){
+        _delay_ms(1);
+    }
+    PORTB &= ~(1 << led);
+    */
 }
 double print_distance(unsigned int pin){
     char str[16];
@@ -238,10 +265,8 @@ void trigger(unsigned int pin){
 
 double get_distance(unsigned int pin){
     double distance = 0;
-	unsigned long count = 0;
-    double time_sec;
-	trigger(pin);
-    
+    int count = 0;
+    trigger(pin);
     while ((PINE & (pin << 1)) == 0); //while pinc port 1 is low, aka wait for echo to raise
     while (1){
         if ((PINE & (pin << 1)) != (pin << 1)){ //wait for pinc port 1 to go back to low
@@ -253,18 +278,11 @@ double get_distance(unsigned int pin){
         _delay_us(50);
         ++count;
     }
-	//time = count * (0.001); //convert to seconds 	
-    //distance = time * SOUND_SPEED / 2;
+
     distance = (double)count * 40;
     distance /= 58;
 
-    
-    /*
-    enable_input_capture();
-    while (!capture_complete);
-    time_sec = high_time / (double)TIMER3_FREQ;
-    distance = time_sec * SOUND_SPEED / 2; // meters
-    */
+
     return distance;
 }
 
@@ -297,7 +315,7 @@ void clear_display(void){
     SPDR = 0x01;    //clear display command
     while (!(SPSR & 0x80)) {}   // Wait for SPI transfer to complete
     strobe_lcd();   //strobe the LCD enable pin
-    _delay_ms(1.6);   //obligatory waiting for slow LCD
+    _delay_ms(2.6);   //obligatory waiting for slow LCD
 }
 
 void home_line2(void){

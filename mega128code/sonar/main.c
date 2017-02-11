@@ -77,10 +77,9 @@ int main(void){
     //8 bit phase correct pwm
     TCCR0 |= (1 << WGM00);  
     TCCR0 &= ~(1 << WGM01);
-    TCCR0 |= (1 << COM01); //Clear OC0 on compare match when up-counting. Set OC0 on compare match when downcounting.
-    //Prescaler 256
-    TCCR0 |= (1 << CS02) | (1 << CS01);
-    TCCR0 &= ~(1 << CS00);
+    
+    //Prescaler 1024
+    TCCR0 |= (1 << CS02) | (1 << CS01) | (1 << CS00);
 
     OCR0 = 0;
     
@@ -166,7 +165,7 @@ int main(void){
         
         OCR0 = count;
         */
-        _delay_ms(60);
+        _delay_ms(1000);
         
     }
 

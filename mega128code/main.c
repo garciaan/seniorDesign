@@ -20,6 +20,17 @@
 #define NUM_SONARS  1
 #define STOP 1500
 
+#define MAX_SPEED   3800  //in timer steps -- 1900usec @ 30.517578Hz
+#define MIN_SPEED   2200  //in timer steps -- 1100usec @ 30.517578Hz
+#define SPEED_RANGE MAX_SPEED - MIN_SPEED
+#define STOP_SPEED  SPEED_RANGE/2 + MIN_SPEED
+
+#define MIN_INPUT   -100
+#define MAX_INPUT   100
+
+#define STEP        (double)(MAX_INPUT - MIN_INPUT)/((double)(MAX_SPEED - MIN_SPEED))
+
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -48,6 +59,7 @@ void forward(int speed);
 void reverse(int speed);
 void stop();
 void TIM16_WriteTCNT1( unsigned int i );
+void move(float left, float right, float z);
 
 uint8_t temp, read_byte;
 
@@ -101,10 +113,10 @@ int main(void){
     TCCR1B |= (1 << WGM13) | (1 << WGM12);
     
     //Prescaler 8 which is 30.517578 Hz
-    //TCCR1B |= (1 << CS11);
+    TCCR1B |= (1 << CS11);
 
-    //Prescaler 1 which is 244.140625 Hz
-    TCCR1B |= (1 << CS10);
+    //Prescaler 1 which is 244.140625 Hz --> actually 800Hz?
+    //TCCR1B |= (1 << CS10);
 
     TIM16_WriteTCNT1(1);
     ICR1 = (unsigned int) 65535;
@@ -113,35 +125,36 @@ int main(void){
     while(1){
         clear_display();
 		if (!((PIND) & (1 << 7))){
-			//string2lcd("Forward 25%");
-            string2lcd(itoa(TCNT1,buffer,10));
-            OCR1A = (unsigned int)10000;
-            OCR1B = (unsigned int)5000;
+			string2lcd("Left 6%");
+            move(6,0,0);
             OCR1C = 65000;
-			//forward(25);
 		}
 		else if (!((PIND) & (1 << 6))){
-			//string2lcd("Reverse 25%");
-            string2lcd(itoa(TCNT1,buffer,10));
-            OCR1A = (unsigned int)30000;
-            OCR1B = (unsigned int)20000;
+			string2lcd("Left 7%");
+            move(7,0,0);
             OCR1C = 0;
-			//reverse(25);
 		}
 		else if (!((PIND) & (1 << 5))){
-			//string2lcd("Forward 75%");
-            string2lcd(itoa(TCNT1,buffer,10));
-            OCR1A = (unsigned int)50000;
-            OCR1B = (unsigned int)40000;
+			string2lcd("Left 8%");
+            move(8,0,0);
             OCR1C = 10000;
-			//forward(75);
 		}
+		else if (!((PIND) & (1 << 4))){
+            string2lcd("Left 9%");
+			move(9,0,0);
+		}
+		else if (!((PIND) & (1 << 3))){
+            string2lcd("Left 10%");
+            move(10,0,0);
+		}
+        else if (!((PIND) & (1 << 1))){
+            string2lcd("Left 50%");
+            move(50,0,0);
+        }
 		else {
-			string2lcd(itoa(TCNT1,buffer,10));
+			string2lcd("Stop");
 			//stop();
-            OCR1A = (unsigned int)65535;
-            OCR1B = (unsigned int)65535;
-            OCR1C = 30000;
+            move(0,0,0);
 		}
 		_delay_ms(20);
 	}
@@ -160,6 +173,48 @@ void TIM16_WriteTCNT1( unsigned int i ) {
     sei();
     /* Restore global interrupt flag */ 
     SREG = sreg;
+}
+
+/*
+    OCR1A = Left motor
+    OCR1B = Right motor
+    maybe OCR1C = Z motor?
+
+    NOTE: Does not activate AfroESC with Simonk firmware given less than 6
+*/
+void move(float left, float right, float z){
+    if (left < MIN_INPUT){
+        left = MIN_INPUT;
+    }
+    if (left > MAX_INPUT){
+        left = MAX_INPUT;
+    }
+    if (right < MIN_INPUT){
+        right = MIN_INPUT;
+    }
+    if (right > MAX_INPUT){
+        right = MAX_INPUT;
+    }
+    if (z < MIN_INPUT){
+        z = MIN_INPUT;
+    }
+    if (z > MAX_INPUT){
+        z = MAX_INPUT;
+    }
+    unsigned int left_speed, right_speed, z_speed;
+    left_speed = (unsigned int)((100 + left)/((double)STEP) + MIN_SPEED);
+    right_speed = (unsigned int)((100 + right)/((double)STEP) + MIN_SPEED);
+    //This needs to be redone to account for a different controller
+    z_speed = (unsigned int)((100 + z)/((double)STEP) + MIN_SPEED); 
+    OCR1A = left_speed;
+    OCR1B = right_speed;
+    /*
+	char buffer[16];
+	string2lcd(utoa(left_speed,buffer,10));
+	home_line2();
+	string2lcd(utoa(right_speed,buffer,10));
+    */
+
 }
 
 void forward(int speed){

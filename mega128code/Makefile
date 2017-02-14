@@ -6,7 +6,7 @@ PRG = main
 # You should not have to change anything below here, but go ahead and
 # try to understand what is going on.
 
-OBJ            = $(PRG).o i2c_master.o
+OBJ            = $(PRG).o ./I2C-master-lib/i2c_master.o
 MCU_TARGET     = atmega128
 OPTIMIZE       = -O2    # options are 1, 2, 3, s
 

@@ -13,12 +13,10 @@
 #define P7 0x40
 #define P8 0x80
 
-#define TRIG 0x01
-#define ECHO 0x02
-#define SONAR1 (1<<0)
-#define SONAR2 (1<<2)
-#define NUM_SONARS  1
-#define STOP 1500
+#define PRESCALER 8
+
+
+#define STOP 1500   //1500 usec pulse for calibration
 
 #define MAX_SPEED   3800  //in timer steps -- 1900usec @ 30.517578Hz
 #define MIN_SPEED   2200  //in timer steps -- 1100usec @ 30.517578Hz
@@ -30,6 +28,7 @@
 
 #define STEP        (double)(MAX_INPUT - MIN_INPUT)/((double)(MAX_SPEED - MIN_SPEED))
 
+#define MAX_STRING_SIZE 100
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -37,11 +36,14 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "ascii_special.h"
 
 
 
 void USART_Init( unsigned int ubrr );
 void USART_Transmit( unsigned char data );
+unsigned char USART_Receive(void);
+void USART_Receive_String(unsigned char *str);
 void home_line2(void);
 void string2lcd(char *lcd_str);
 void strobe_lcd(void);
@@ -60,6 +62,8 @@ void reverse(int speed);
 void stop();
 void TIM16_WriteTCNT1( unsigned int i );
 void move(float left, float right, float z);
+void set_16bitPWM1();
+void init_esc();
 
 uint8_t temp, read_byte;
 
@@ -69,61 +73,22 @@ int main(void){
     PORTB = 0x00;
     DDRD = 0x00;
 
-
     char buffer[16];
+    unsigned char str[MAX_STRING_SIZE];
+
     spi_init();
     lcd_init();
 
-    double temp;
-
-    clear_display();
+    //Wait for S1 to be pressed before doing anything, remove this eventually
     string2lcd("Press S1");
 	while (((PIND) & (1 << 0)));
 	
-	PORTB |= (1 << 4);
-	_delay_us(STOP);
-	PORTB &= ~(1 << 4);
-	_delay_ms(1000);
-
-    /*
-    //8 bit phase correct pwm
-    TCCR0 = (1 << WGM00) | (1 << WGM01);
-
-    //Non inverting
-    TCCR0 |= (1 << COM01);
+	init_esc();
+    void set_16bitPWM1();
     
-    //Prescaler 1024
-    TCCR0 |= (1 << CS02) | (1 << CS01) | (1 << CS00);
-
-    OCR0 = 0;
-    */
-
-    
-    //16-bit fast pwm non-inverting on PB5
-    TCCR1A |= (1 << COM1A1); //inverting
-
-    //16-bit fast pwm non-inverting on PB6
-    TCCR1A |= (1 << COM1B1); //non-inverting
-
-    //16-bit fast pwm non-inverting on PB7
-    TCCR1A |= (1 << COM1C1); //non-inverting
-
-    //Fast PWM w/ TOP ICR1
-    TCCR1A |= (1 << WGM11); 
-    TCCR1B |= (1 << WGM13) | (1 << WGM12);
-    
-    //Prescaler 8 which is 30.517578 Hz
-    TCCR1B |= (1 << CS11);
-
-    //Prescaler 1 which is 244.140625 Hz --> actually 800Hz?
-    //TCCR1B |= (1 << CS10);
-
-    TIM16_WriteTCNT1(1);
-    ICR1 = (unsigned int) 65535;
-    _delay_ms(100);
-	
     while(1){
         clear_display();
+        USART_Receive_String(str);
 		if (!((PIND) & (1 << 7))){
 			string2lcd("Left 6%");
             move(6,0,0);
@@ -162,6 +127,45 @@ int main(void){
     return 0;
 }
 
+void init_esc(){
+    PORTB |= (1 << 4);
+    _delay_us(STOP);
+    PORTB &= ~(1 << 4);
+    _delay_ms(1000);
+}
+
+void set_16bitPWM1(){
+    //16-bit fast pwm non-inverting on PB5
+    TCCR1A |= (1 << COM1A1); //inverting
+
+    //16-bit fast pwm non-inverting on PB6
+    TCCR1A |= (1 << COM1B1); //non-inverting
+
+    //16-bit fast pwm non-inverting on PB7
+    TCCR1A |= (1 << COM1C1); //non-inverting
+
+    //Fast PWM w/ TOP ICR1
+    TCCR1A |= (1 << WGM11); 
+    TCCR1B |= (1 << WGM13) | (1 << WGM12);
+    
+    switch (PRESCALER){
+        case 1:
+            TCCR1B |= (1 << CS10); //244.140625 Hz --> actually 800Hz?
+            break;
+        case 8:
+            TCCR1B |= (1 << CS11); //30.517578 Hz
+            break;
+        default:                    //prescaler 1
+            TCCR1B |= (1 << CS10); //244.140625 Hz --> actually 800Hz?
+            break;
+    }
+    
+
+    TIM16_WriteTCNT1(1);
+    ICR1 = (unsigned int) 65535;
+    _delay_ms(100);
+}
+
 void TIM16_WriteTCNT1( unsigned int i ) {
     unsigned char sreg;
     /* Save global interrupt flag */ 
@@ -176,9 +180,9 @@ void TIM16_WriteTCNT1( unsigned int i ) {
 }
 
 /*
-    OCR1A = Left motor
-    OCR1B = Right motor
-    maybe OCR1C = Z motor?
+    OCR1A = Left motor PB5
+    OCR1B = Right motor PB6
+    maybe OCR1C = Z motor? PB7
 
     NOTE: Does not activate AfroESC with Simonk firmware given less than 6
 */
@@ -217,130 +221,6 @@ void move(float left, float right, float z){
 
 }
 
-void forward(int speed){
-	if (speed > 100){
-		speed = 100;
-	}
-	if (speed < 0){
-		speed = 0;
-	}
-	speed *= 4;
-
-	PORTB |= (1 << 4);
-	int i;
-	for (i = 0; i < STOP + speed; ++i){
-		_delay_us(1);
-	}
-	//_delay_us(1600);
-	PORTB &= ~(1 << 4);
-	home_line2();
-	char buffer[16];
-	string2lcd(itoa(STOP + speed,buffer,10));
-}
-void reverse(int speed){
-	if (speed > 100){
-		speed = 100;
-	}
-	if (speed < 0){
-		speed = 0;
-	}
-	speed *= 4;
-	home_line2();
-	char buffer[16];
-	string2lcd(itoa(STOP - speed,buffer,10));
-	PORTB |= (1 << 4);
-	int i;
-	for (i = 0; i < STOP - speed; ++i){
-		_delay_us(1);
-	}
-	
-	//_delay_us(1400);
-	PORTB &= ~(1 << 4);
-}
-void stop(){
-	PORTB |= (1 << 4);
-	_delay_us(STOP);
-	PORTB &= ~(1 << 4);
-	home_line2();
-	char buffer[16];
-	string2lcd(itoa(STOP,buffer,10));
-}
-
-
-
-void blink(int led, int speed){
-    if (speed < 0){
-        speed = 0;
-    }
-    if (speed > 100){
-        speed = 100;
-    }
-    int i;
-    PORTB |= (1 << led);
-    for (i = 0; i < (121-speed); ++i){
-        _delay_ms(1);
-    }
-    PORTB &= ~(1 << led);
-    /*
-    int wait = 0;
-    int i;
-    if (speed <= 25){
-        wait = 100;
-    }
-    else if (speed > 25 && speed <= 50){
-        wait = 60;
-    }
-    else if (speed > 50 && speed <= 75){
-        wait = 30;
-    }
-    else {
-        wait = 10;
-    }
-    PORTB |= (1 << led);
-    for (i = 0; i < wait; ++i){
-        _delay_ms(1);
-    }
-    PORTB &= ~(1 << led);
-    */
-}
-double print_distance(unsigned int pin){
-    char str[16];
-    double distance = 0;
-    distance = get_distance(pin);
-    dtostrf(distance,1,6,str);
-    string2lcd(str);
-    return distance;
-}
-
-void trigger(unsigned int pin){
-    PORTE |= pin;
-    _delay_us(15);
-    PORTE &= ~pin;
-}
-
-double get_distance(unsigned int pin){
-    double distance = 0;
-    int count = 0;
-    trigger(pin);
-    while ((PINE & (pin << 1)) == 0); //while pinc port 1 is low, aka wait for echo to raise
-    while (1){
-        if ((PINE & (pin << 1)) != (pin << 1)){ //wait for pinc port 1 to go back to low
-            break;
-        }
-        if (count == 255){
-            break;
-        }
-        _delay_us(50);
-        ++count;
-    }
-
-    distance = (double)count * 40;
-    distance /= 58;
-
-
-    return distance;
-}
-
 
 void USART_Init( unsigned int ubrr ) {
     /* Set baud rate */
@@ -357,6 +237,29 @@ void USART_Transmit( unsigned char data ) {
     /* Put data into buffer, sends the data */ 
     UDR1 = data;
 }
+
+unsigned char USART_Receive(void){
+    /* Wait for data to be received */ 
+    while ( !(UCSR1A & (1<<RXC1)) );
+    /* Get and return received data from buffer */ 
+    return UDR1;
+}
+
+void USART_Receive_String(unsigned char *str){
+    int i = 0;
+    unsigned char c;
+    while ((c = USART_Receive()) != END_STRING){ //END_STRING == 255 or 0xFF
+        str[i] = c;
+        ++i;
+        if (i >= MAX_STRING_SIZE){
+            str[MAX_STRING_SIZE - 1] = '\0';
+            return;
+        }
+    }
+    str[i] = '\0';
+
+}
+
 //twiddles bit 3, PORTF creating the enable signal for the LCD
 void strobe_lcd(void){
     PORTF |= 0x08;

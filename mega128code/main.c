@@ -1,9 +1,8 @@
 #ifndef F_CPU
 #define F_CPU 16000000UL
 #endif
-#define FOSC 1843200// Clock Speed 
 #define BAUD 9600
-#define MYUBRR FOSC/16/BAUD-1
+#define MYUBRR F_CPU/16/BAUD-1
 #define P1 0x01
 #define P2 0x02
 #define P3 0x04
@@ -23,7 +22,7 @@
 #define SPEED_RANGE MAX_SPEED - MIN_SPEED
 #define STOP_SPEED  SPEED_RANGE/2 + MIN_SPEED
 
-#define MIN_INPUT   -100
+#define MIN_INPUT   0
 #define MAX_INPUT   100
 
 #define STEP        (double)(MAX_INPUT - MIN_INPUT)/((double)(MAX_SPEED - MIN_SPEED))
@@ -41,16 +40,16 @@
 
 
 void USART_Init( unsigned int ubrr );
-void USART_Transmit( unsigned char data );
-unsigned char USART_Receive(void);
-void USART_Receive_String(unsigned char *str);
+void USART_Transmit(char data );
+void USART_send_string(char *data);
+char USART_Receive(void);
+void USART_Receive_String(char *str);
 void home_line2(void);
 void string2lcd(char *lcd_str);
 void strobe_lcd(void);
 void clear_display(void);
 void home_line2(void);
 void char2lcd(char a_char);
-void string2lcd(char *lcd_str);
 void spi_init(void);
 void lcd_init(void);
 void trigger(unsigned int pin);
@@ -73,8 +72,17 @@ int main(void){
     PORTB = 0x00;
     DDRD = 0x00;
 
-    char buffer[16];
-    unsigned char str[MAX_STRING_SIZE];
+    /*
+    [0] == left motor power
+    [1] == right motor power
+    [2] == z motor power
+    [3] == reserved for string terminator
+    */
+    char buffer[4]; 
+    int i;
+    for (i = 0; i < 4; ++i){
+        buffer[i] = ' ';
+    }
 
     spi_init();
     lcd_init();
@@ -82,17 +90,22 @@ int main(void){
     //Wait for S1 to be pressed before doing anything, remove this eventually
     string2lcd("Press S1");
 	while (((PIND) & (1 << 0)));
-	
+	clear_display();
+
 	init_esc();
-    void set_16bitPWM1();
+    set_16bitPWM1();
     
+    USART_Init(MYUBRR);
+    _delay_ms(100);
+
     while(1){
-        clear_display();
-        USART_Receive_String(str);
-		if (!((PIND) & (1 << 7))){
+        
+        USART_Receive_String(buffer);
+        move((unsigned int)buffer[0],(unsigned int)buffer[1],(unsigned int)buffer[2]);
+		/*
+        if (!((PIND) & (1 << 7))){
 			string2lcd("Left 6%");
-            move(6,0,0);
-            OCR1C = 65000;
+            move(10,0,0);
 		}
 		else if (!((PIND) & (1 << 6))){
 			string2lcd("Left 7%");
@@ -121,6 +134,7 @@ int main(void){
 			//stop();
             move(0,0,0);
 		}
+        */
 		_delay_ms(20);
 	}
 
@@ -150,13 +164,13 @@ void set_16bitPWM1(){
     
     switch (PRESCALER){
         case 1:
-            TCCR1B |= (1 << CS10); //244.140625 Hz --> actually 800Hz?
+            TCCR1B |= (1 << CS10); //244.140625 Hz
             break;
         case 8:
             TCCR1B |= (1 << CS11); //30.517578 Hz
             break;
         default:                    //prescaler 1
-            TCCR1B |= (1 << CS10); //244.140625 Hz --> actually 800Hz?
+            TCCR1B |= (1 << CS10); //244.140625 Hz
             break;
     }
     
@@ -206,18 +220,20 @@ void move(float left, float right, float z){
         z = MAX_INPUT;
     }
     unsigned int left_speed, right_speed, z_speed;
-    left_speed = (unsigned int)((100 + left)/((double)STEP) + MIN_SPEED);
-    right_speed = (unsigned int)((100 + right)/((double)STEP) + MIN_SPEED);
+    left_speed = (unsigned int)((left - MIN_INPUT)/((double)STEP) + MIN_SPEED);
+    right_speed = (unsigned int)((right - MIN_INPUT)/((double)STEP) + MIN_SPEED);
     //This needs to be redone to account for a different controller
-    z_speed = (unsigned int)((100 + z)/((double)STEP) + MIN_SPEED); 
+    z_speed = (unsigned int)(ICR1 * (z/((double)MAX_INPUT))); 
     OCR1A = left_speed;
     OCR1B = right_speed;
-    /*
+    OCR1C = z_speed;
+    
 	char buffer[16];
+    clear_display();
 	string2lcd(utoa(left_speed,buffer,10));
 	home_line2();
 	string2lcd(utoa(right_speed,buffer,10));
-    */
+    
 
 }
 
@@ -230,33 +246,47 @@ void USART_Init( unsigned int ubrr ) {
     UCSR1B = (1<<RXEN1)|(1<<TXEN1);
     /* Set frame format: 8data, 2stop bit */ 
     UCSR1C = (1<<USBS1)|(3<<UCSZ01);
+    _delay_ms(100);
 }
-void USART_Transmit( unsigned char data ) {
+void USART_Transmit(char data ) {
     /* Wait for empty transmit buffer */ 
     while ( !( UCSR1A & (1<<UDRE1)) );
     /* Put data into buffer, sends the data */ 
     UDR1 = data;
 }
 
-unsigned char USART_Receive(void){
+void USART_send_string(char *data){
+    int i = 0;
+    while (data[i] != '\0'){
+        USART_Transmit(data[i]);
+        ++i;
+    }
+}
+
+char USART_Receive(void){
     /* Wait for data to be received */ 
     while ( !(UCSR1A & (1<<RXC1)) );
     /* Get and return received data from buffer */ 
     return UDR1;
 }
 
-void USART_Receive_String(unsigned char *str){
+void USART_Receive_String(char *str){
     int i = 0;
-    unsigned char c;
-    while ((c = USART_Receive()) != END_STRING){ //END_STRING == 255 or 0xFF
+    char c;
+
+    while ((c = USART_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
         str[i] = c;
+        //char2lcd(c);
+        //string2lcd(str);
         ++i;
         if (i >= MAX_STRING_SIZE){
             str[MAX_STRING_SIZE - 1] = '\0';
+
             return;
         }
     }
-    str[i] = '\0';
+    //str[i] = '\0';
+    //string2lcd(str);
 
 }
 

@@ -124,7 +124,8 @@ class XboxController(threading.Thread):
                  joystickNo = 0,
                  deadzone = 0.1,
                  scale = 1,
-                 invertYAxis = False):
+                 invertYAxis = False,
+                 lowVal = 0):
 
         #setup threading
         threading.Thread.__init__(self)
@@ -133,11 +134,14 @@ class XboxController(threading.Thread):
         self.running = False
         self.controllerCallBack = controllerCallBack
         self.joystickNo = joystickNo
-        self.lowerDeadzone = deadzone * -1
-        self.upperDeadzone = deadzone
+        self.lowerDeadzone = deadzone * -1 + scale
+        self.upperDeadzone = deadzone + scale
         self.scale = scale
         self.invertYAxis = invertYAxis
+        self.lowVal = lowVal
         self.controlCallbacks = {}
+        self.left_x = 50
+        self.left_y = 50
 
         #setup controller properties
         self.controlValues = {self.XboxControls.LTHUMBX:0,
@@ -324,9 +328,11 @@ class XboxController(threading.Thread):
         #invert yAxis
         if yAxis and self.invertYAxis: value = value * -1
         #scale the value
-        value = value * self.scale
+        value = value * self.scale + self.scale
+        if value < 0:
+            value = 0;
         #apply the deadzone
-        if value < self.upperDeadzone and value > self.lowerDeadzone: value = 0
+        if value < self.upperDeadzone and value > self.lowerDeadzone: value = self.scale
         return value
 
     #turns the trigger value into something sensible and scales it
@@ -334,7 +340,7 @@ class XboxController(threading.Thread):
         #trigger goes -1 to 1 (-1 is off, 1 is full on, half is 0) - I want this to be 0 - 1
         value = max(0,(value + 1) / 2)
         #scale the value
-        value = value * self.scale
+        value = value * self.scale + self.scale
         return value
 
     #turns the event type (up/down) into a value
@@ -352,12 +358,12 @@ if __name__ == '__main__':
 
     #specific callbacks for the left thumb (X & Y)
     def leftThumbX(xValue):
-        print ("LX {}".format(xValue))
+        pass#print ("LX {}".format(xValue))
     def leftThumbY(yValue):
-        print ("LY {}".format(yValue))
+        pass#print ("LY {}".format(yValue))
 
     #setup xbox controller, set out the deadzone and scale, also invert the Y Axis (for some reason in Pygame negative is up - wierd! 
-    xboxCont = XboxController(controlCallBack, deadzone = 10, scale = 100, invertYAxis = True)
+    xboxCont = XboxController(controlCallBack, deadzone = 10, scale = 50, invertYAxis = True )
 
     #setup the left thumb (X & Y) callbacks
     xboxCont.setupControlCallback(xboxCont.XboxControls.LTHUMBX, leftThumbX)

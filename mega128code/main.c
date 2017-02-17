@@ -24,6 +24,7 @@
 
 #define MIN_INPUT   0
 #define MAX_INPUT   100
+#define SATURATE_DIFFERENCE 20 //takes this value away from the max and min
 
 #define STEP        (double)(MAX_INPUT - MIN_INPUT)/((double)(MAX_SPEED - MIN_SPEED))
 
@@ -201,23 +202,23 @@ void TIM16_WriteTCNT1( unsigned int i ) {
     NOTE: Does not activate AfroESC with Simonk firmware given less than 6
 */
 void move(float left, float right, float z){
-    if (left < MIN_INPUT){
-        left = MIN_INPUT;
+    if (left < (MIN_INPUT + SATURATE_DIFFERENCE)){
+        left = MIN_INPUT + SATURATE_DIFFERENCE;
     }
-    if (left > MAX_INPUT){
-        left = MAX_INPUT;
+    if (left > (MAX_INPUT - SATURATE_DIFFERENCE)){
+        left = MAX_INPUT - SATURATE_DIFFERENCE;
     }
-    if (right < MIN_INPUT){
-        right = MIN_INPUT;
+    if (right < (MIN_INPUT + SATURATE_DIFFERENCE)){
+        right = MIN_INPUT + SATURATE_DIFFERENCE;
     }
-    if (right > MAX_INPUT){
-        right = MAX_INPUT;
+    if (right > (MAX_INPUT - SATURATE_DIFFERENCE)){
+        right = MAX_INPUT - SATURATE_DIFFERENCE;
     }
-    if (z < MIN_INPUT){
-        z = MIN_INPUT;
+    if (z < (MIN_INPUT + SATURATE_DIFFERENCE)){
+        z = MIN_INPUT + SATURATE_DIFFERENCE;
     }
-    if (z > MAX_INPUT){
-        z = MAX_INPUT;
+    if (z > (MAX_INPUT - SATURATE_DIFFERENCE)){
+        z = MAX_INPUT - SATURATE_DIFFERENCE;
     }
     unsigned int left_speed, right_speed, z_speed;
     left_speed = (unsigned int)((left - MIN_INPUT)/((double)STEP) + MIN_SPEED);
@@ -264,10 +265,15 @@ void USART_send_string(char *data){
 }
 
 char USART_Receive(void){
-    /* Wait for data to be received */ 
-    while ( !(UCSR1A & (1<<RXC1)) );
-    /* Get and return received data from buffer */ 
-    return UDR1;
+    uint16_t timeout = 20000;
+    /* Wait for data to be received or for timeout*/ 
+    do {
+        if((UCSR1A & (1<<RXC1))){
+            /* Get and return received data from buffer */ 
+            return UDR1;
+        }
+    } while (--timeout);
+    return -1;
 }
 
 void USART_Receive_String(char *str){
@@ -275,6 +281,11 @@ void USART_Receive_String(char *str){
     char c;
 
     while ((c = USART_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
+        if (c == -1){
+            str[0] = 50;
+            str[1] = 50;
+            str[2] = 50;
+        }
         str[i] = c;
         //char2lcd(c);
         //string2lcd(str);

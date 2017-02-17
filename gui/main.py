@@ -5,26 +5,11 @@
 
 import sys, os
 from PyQt5.QtWidgets import (QWidget, QGridLayout, 
-    QPushButton, QApplication)
+    QPushButton, QApplication, QCheckBox)
 from PyQt5 import (QtGui,QtCore)
 import serial
 sys.path.append(os.path.dirname(__file__) + "../XboxController/")
 from XboxController import XboxController
-
-B = b'\x00'
-Y = b'\x01'
-Select = b'\x02'
-Start = b'\x03'
-Up = b'\x04'
-Down = b'\x05'
-Left = b'\x06'
-Right = b'\x07'
-A = b'\x08'
-X = b'\x09'
-L = b'\x0A'
-R = b'\x0B'
-SwingRight = b'\x0C'
-SwingLeft = b'\x0D'
 
 def contains(main_list,items):
     try:
@@ -59,7 +44,7 @@ class MainWindow(QWidget):
         self.setLayout(grid)
     
         delay = 50
-        interval = 60
+        interval = 10
         forward_button = QPushButton(text = "Forward")
         forward_button.setAutoRepeat(1)
         forward_button.setAutoRepeatDelay(delay)
@@ -102,6 +87,10 @@ class MainWindow(QWidget):
         bt_close_button = QPushButton(text = "Disconnect Tank")
         bt_close_button.pressed.connect(lambda: self.bt_close(self.ser))
 
+        xbox_button = QCheckBox(text = "Use Xbox Controller")
+        xbox_button.setChecked(False)
+        xbox_button.stateChanged.connect(lambda:self.setXboxSend(xbox_button))
+
         grid.addWidget(forward_button,1,3)
         grid.addWidget(right_button,2,4)
         grid.addWidget(left_button,2,2)
@@ -110,6 +99,7 @@ class MainWindow(QWidget):
         grid.addWidget(sr_button,1,4)
         grid.addWidget(bt_button,1,1)
         grid.addWidget(bt_close_button,3,1)
+        grid.addWidget(xbox_button,4,1)
 
         
         self.move(300, 150)
@@ -118,16 +108,7 @@ class MainWindow(QWidget):
         self.show()
 
 
-         #generic call back
-        def controlCallBack(xboxControlId, value):
-            if (xboxControlId == 1):
-                self.left_y = value
-                #print ("Y axis: {0}".format(value))
-
-        #setup xbox controller, set out the deadzone and scale, also invert the Y Axis (for some reason in Pygame negative is up - wierd! 
-        self.xboxCont = XboxController(controlCallBack, deadzone = 10, scale = 50, invertYAxis = True)
-
-        self.xboxCont.start()
+         
 
 
     def printMotorPower(self):
@@ -171,42 +152,42 @@ class MainWindow(QWidget):
     def swing_right(self):
         try:
             print("Swing Right")
-            self.ser.write(SwingRight)
+            self.ser.write(bytes([100,50,0,126]))
         except:
             print ("Could not send swing right command")
 
     def swing_left(self):
         try:
             print("Swing Left")
-            self.ser.write(SwingLeft)
+            self.ser.write(bytes([50,100,0,126]))
         except:
             print ("Could not send swing left command")
 
     def forward(self):
         try:
             print ("Forward")
-            self.ser.write(Up)
+            self.ser.write(bytes([100,100,0,126]))
         except:
             print ("Could not send forward command")
 
     def reverse(self):
         try:
             print ("Reverse")
-            self.ser.write(Down)
+            self.ser.write(bytes([0,0,0,126]))
         except:
             print ("Could not send reverse command")
 
     def right(self):
         try:
             print ("Right")
-            self.ser.write(Right)
+            self.ser.write(bytes([100,0,0,126]))
         except:
             print ("Could not send right command")
 
     def left(self):
         try:
             print ("Left")
-            self.ser.write(Left)
+            self.ser.write(bytes([0,100,0,126]))
         except:
             print ("Could not send left command")
 
@@ -223,7 +204,31 @@ class MainWindow(QWidget):
                 self.keys.remove(event.key())
             except:
                 pass
-    
+    def setXboxSend(self,button):
+        if button.isChecked() == True:
+            try:
+                #generic call back
+                def controlCallBack(xboxControlId, value):
+                    if (xboxControlId == 1):
+                        self.left_y = value
+                        #print ("Y axis: {0}".format(value))
+
+                #setup xbox controller, set out the deadzone and scale, also invert the Y Axis (for some reason in Pygame negative is up - wierd! 
+                self.xboxCont = XboxController(controlCallBack, deadzone = 10, scale = 50, invertYAxis = True)
+                self.xboxCont.start()
+                print ("Xbox 360 Controller Connected")
+
+            except Exception as e:
+                print (e)
+                button.setChecked(False)
+        else:
+            try:
+                self.xboxCont.stop()
+                self.xboxCont = None
+                print ("Xbox 360 Controller Disconnected")
+            except:
+                pass
+
     def multikey(self):
         if (contains(self.keys,[QtCore.Qt.Key_W,QtCore.Qt.Key_A])):
             self.swing_left()
@@ -256,7 +261,10 @@ class MainWindow(QWidget):
             print ("Unknown Key: " + str(self.keys))
 
     def closeEvent(self,event):
-        self.xboxCont.stop()
+        try:
+            self.xboxCont.stop()
+        except:
+            pass
         event.accept()
 
 if __name__ == '__main__':

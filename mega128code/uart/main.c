@@ -53,7 +53,6 @@ uint8_t temp, read_byte;
 int main(void){
 
     char buffer[16] = "Hello World";
-    char temp;
     spi_init();
     lcd_init();
 
@@ -61,15 +60,14 @@ int main(void){
     string2lcd("Starting Program");
 
     USART_Init(MYUBRR);
-
+    char c;
     _delay_ms(500);
     while(1){
         clear_display();
-        _delay_ms(1);
-        USART_Transmit(5);
+        c = USART_Receive();
+        USART_Transmit(c);
 
-        buffer[14] = temp;
-        string2lcd(buffer);
+        char2lcd(c);
 
         _delay_ms(60);
         
@@ -140,7 +138,7 @@ void USART_Init( unsigned int ubrr ) {
     /* Enable receiver and transmitter */ 
     UCSR1B = (1<<RXEN1)|(1<<TXEN1);
     /* Set frame format: 8data, 2stop bit */ 
-    UCSR1C = (1<<USBS1)|(3<<UCSZ01);
+    UCSR1C = (3<<UCSZ01);
 }
 void USART_Transmit( unsigned char data ) {
     /* Wait for empty transmit buffer */ 

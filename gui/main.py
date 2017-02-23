@@ -37,7 +37,8 @@ class MainWindow(QWidget):
         self.left_motor_power = 50  #note that 0 is full reverse, 50 is stop, and 100 is full forward
         self.right_motor_power = 50 #note that 0 is full reverse, 50 is stop, and 100 is full forward
         self.z_motor_power = 50     #note that 0 is full reverse, 50 is stop, and 100 is full forward
-
+        self.sendSliderTimer = QtCore.QTimer()
+        self.sendSliderTimer.setInterval(1)
 
     def initUI(self):
         
@@ -97,6 +98,10 @@ class MainWindow(QWidget):
         xbox_button.setChecked(False)
         xbox_button.stateChanged.connect(lambda:self.setXboxSend(xbox_button))
 
+        send_button = QCheckBox(text = "Send slider values")
+        send_button.setChecked(False)
+        send_button.stateChanged.connect(lambda:self.setSendSlider(send_button))
+
         self.sliders = []
         for x in range (3):
             self.sliders.append(QSlider(QtCore.Qt.Vertical))
@@ -104,7 +109,7 @@ class MainWindow(QWidget):
             self.sliders[x].setMaximum(100)
             self.sliders[x].setValue(50)
             self.sliders[x].valueChanged.connect(lambda: self.setSliderValues(x))
-
+            self.sliders[x].setInvertedAppearance(True)
         
 
 
@@ -117,15 +122,20 @@ class MainWindow(QWidget):
         grid.addWidget(sr_button,1,4)
         grid.addWidget(bt_button,1,1)
         grid.addWidget(xbox_button,2,1)
-        grid.addWidget(self.sliders[0],1,5)
-        grid.addWidget(self.sliders[1],1,6)
-        grid.addWidget(self.sliders[2],1,7)
+        grid.addWidget(send_button,3,1)
+        grid.addWidget(self.sliders[0],1,5,2,4)
+        grid.addWidget(self.sliders[1],1,7,2,4)
+        grid.addWidget(self.sliders[2],1,9,2,4)
 
         
         self.move(300, 150)
         self.setWindowTitle('AquaDrone Controller')
         self.show()
 
+
+    def setSendSlider(button):
+        if button.isChecked():
+            pass
 
     def setSliderValues(self,motor):
         self.motor_powers[motor] = self.sliders[motor].value()

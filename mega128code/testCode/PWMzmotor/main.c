@@ -38,6 +38,7 @@
 #include <stdlib.h>
 #include "ascii_special.h"
 
+#define MOTOR_MAX 50000
 
 
 void USART_Init( unsigned int ubrr );
@@ -79,7 +80,7 @@ int main(void){
     [2] == z motor power
     [3] == reserved for string terminator
     */
-    unsigned char buffer[4]; 
+    char buffer[4]; 
     int i;
     for (i = 0; i < 4; ++i){
         buffer[i] = ' ';
@@ -98,44 +99,31 @@ int main(void){
     
     USART_Init(MYUBRR);
     _delay_ms(100);
-
+    unsigned int val = 0;
+    float voltage = 0;
     while(1){
         
-        USART_Receive_String(buffer);
-        move((unsigned int)buffer[0],(unsigned int)buffer[1],(unsigned int)buffer[2]);
-		/*
         if (!((PIND) & (1 << 7))){
-			string2lcd("Left 6%");
-            move(10,0,0);
+            val = MOTOR_MAX;
 		}
 		else if (!((PIND) & (1 << 6))){
-			string2lcd("Left 7%");
-            move(7,0,0);
-            OCR1C = 0;
+            val = 3*MOTOR_MAX/4;
 		}
 		else if (!((PIND) & (1 << 5))){
-			string2lcd("Left 8%");
-            move(8,0,0);
-            OCR1C = 10000;
+            val = MOTOR_MAX/2;
 		}
-		else if (!((PIND) & (1 << 4))){
-            string2lcd("Left 9%");
-			move(9,0,0);
-		}
-		else if (!((PIND) & (1 << 3))){
-            string2lcd("Left 10%");
-            move(10,0,0);
-		}
-        else if (!((PIND) & (1 << 1))){
-            string2lcd("Left 50%");
-            move(50,0,0);
+        else if (!((PIND) & (1 << 4))){
+            val = MOTOR_MAX/4;
         }
 		else {
-			string2lcd("Stop");
-			//stop();
-            move(0,0,0);
+			val = 0;
 		}
-        */
+        OCR1A = val;
+        clear_display();
+        string2lcd((unsigned char *)utoa(val,buffer,10));
+        home_line2();
+        voltage = 14.8 * ((float)val) / ((float)65535);
+        string2lcd((unsigned char*)dtostrf(voltage,2,3,(char*)buffer));
 		_delay_ms(20);
 	}
 

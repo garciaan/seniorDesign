@@ -107,13 +107,12 @@ int main(void){
     unsigned char c;
     while(1){
 
-        USART_Receive_String(buffer);
+        USART0_Receive_String(buffer);
         if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0 && buffer[3] == 0){
             continue;
         }
         clear_display();
         string2lcd(buffer);
-        USART0_send_string(buffer);
 
         _delay_ms(20);
 	}

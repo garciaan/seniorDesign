@@ -10,10 +10,13 @@
 #include <avr/interrupt.h>
 
 
-#include "./I2C-master-lib/i2c_master.h"
-#define HMC5883L_WRITE 0x3C
-#define HMC5883L_READ 0x3D 
-char buffer[6];
+#include "../I2C-master-lib/i2c_master.h"
+//#define HMC5883L_WRITE 0x3C
+//#define HMC5883L_READ 0x3D 
+#define HMC5883L_READ 0x1E
+#define HMC5883L_WRITE 0x1E  
+
+char buffer[16];
 int16_t raw_x = 0;
 int16_t raw_y = 0;
 int16_t raw_z = 0;
@@ -35,6 +38,7 @@ float getHeading(void);
 int main(void){
 	DDRB = 0xFF;
     PORTB = 0x00;
+    DDRD = 0x00;
 
     spi_init();
     lcd_init();
@@ -53,14 +57,23 @@ int main(void){
         getHeading();
         itoa(raw_y,buffer,10);
         string2lcd(buffer);
-        _delay_ms(50);
+        /*
+        char2lcd(' ');
+        itoa(raw_y,buffer,10);
+        string2lcd(buffer);
+        home_line2();
+        itoa(raw_z,buffer,10);
+        string2lcd(buffer);*/
+        //dtostrf((double)raw_x,3,6,buffer);
+
+        _delay_ms(500);
         
 	}
 
 	return 0;
 }
 void init_HMC5883L(void){
-
+    
     i2c_start(HMC5883L_WRITE);
     i2c_write(0x00); // set pointer to CRA
     i2c_write(0x70); // write 0x70 to CRA
@@ -70,7 +83,7 @@ void init_HMC5883L(void){
     i2c_write(0x01); // set pointer to CRB
     i2c_write(0xA0);
     i2c_stop();
-
+    
     i2c_start(HMC5883L_WRITE);
     i2c_write(0x02); // set pointer to measurement mode
     i2c_write(0x00); // continous measurement

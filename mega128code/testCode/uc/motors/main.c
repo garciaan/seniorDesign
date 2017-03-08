@@ -109,6 +109,7 @@ int main(void){
             val = MOTOR_MAX;
             OCR1C = val;
             home_line2();
+            voltage = (float)BATTERY_VOLTAGE * ((float)val) / ((float)65535);
             string2lcd((unsigned char*)dtostrf(voltage,2,3,(char*)buffer));
 		}
 		else if (!((PIND) & (1 << 6))){

@@ -1,0 +1,895 @@
+Archive member included to satisfy reference by file (symbol)
+
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+                              main.o (__addsf3)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o) (__addsf3x)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                              main.o (atan2)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o) (atan)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+                              main.o (__divsf3)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o) (__divsf3x)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(floatsisf.o)
+                              main.o (__floatsisf)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_inf.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o) (__fp_inf)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_nan.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o) (__fp_nan)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o) (__fp_powser)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscA.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o) (__fp_pscA)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscB.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o) (__fp_pscB)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_round.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o) (__fp_round)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_split3.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o) (__fp_split3)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_zero.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o) (__fp_zero)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(inverse.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o) (inverse)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+                              main.o (__mulsf3)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o) (__mulsf3x)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(square.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o) (square)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+                              main.o (__udivmodsi4)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o (exit)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+                              main.o (__do_copy_data)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+                              main.o (dtostrf)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o)
+                              main.o (__itoa_ncheck)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o) (__utoa_common)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o) (dtoa_prf)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(ftoa_engine.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o) (__ftoa_engine)
+/usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(strrev.o)
+                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o) (strrev)
+
+Allocating common symbols
+Common symbol       size              file
+
+buffer              0x6               main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x0000000000000000 0x0000000000020000 xr
+data             0x0000000000800100 0x000000000000ff00 rw !x
+eeprom           0x0000000000810000 0x0000000000010000 rw !x
+fuse             0x0000000000820000 0x0000000000000400 rw !x
+lock             0x0000000000830000 0x0000000000000400 rw !x
+signature        0x0000000000840000 0x0000000000000400 rw !x
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800100
+LOAD /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+LOAD main.o
+LOAD i2c_master.o
+LOAD /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a
+START GROUP
+LOAD /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a
+LOAD /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a
+LOAD /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a
+LOAD /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libatmega128.a
+END GROUP
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x0000000000000000     0x116a
+ *(.vectors)
+ .vectors       0x0000000000000000       0x8c /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+                0x0000000000000000                __vectors
+                0x0000000000000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ .progmem.gcc_fplib
+                0x000000000000008c       0x2d /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+                0x00000000000000ba                . = ALIGN (0x2)
+ *fill*         0x00000000000000b9        0x1 
+                0x00000000000000ba                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000000000000ba        0x0 linker stubs
+ *(.trampolines*)
+                0x00000000000000ba                __trampolines_end = .
+ *(.progmem*)
+ .progmem.data  0x00000000000000ba       0xfa /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(ftoa_engine.o)
+                0x00000000000001b4                . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000000000001b4                __ctors_start = .
+ *(.ctors)
+                0x00000000000001b4                __ctors_end = .
+                0x00000000000001b4                __dtors_start = .
+ *(.dtors)
+                0x00000000000001b4                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000000000001b4        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+                0x00000000000001b4                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000000000001b4        0xc /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000000000001c0       0x1a /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+                0x00000000000001c0                __do_copy_data
+ .init4         0x00000000000001da       0x10 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+                0x00000000000001da                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000000000001ea        0x8 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ *(.init9)
+ *(.text)
+ .text          0x00000000000001f2        0x4 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+                0x00000000000001f2                __vector_20
+                0x00000000000001f2                __vector_28
+                0x00000000000001f2                __vector_1
+                0x00000000000001f2                __vector_32
+                0x00000000000001f2                __vector_34
+                0x00000000000001f2                __vector_24
+                0x00000000000001f2                __vector_12
+                0x00000000000001f2                __bad_interrupt
+                0x00000000000001f2                __vector_6
+                0x00000000000001f2                __vector_31
+                0x00000000000001f2                __vector_3
+                0x00000000000001f2                __vector_23
+                0x00000000000001f2                __vector_30
+                0x00000000000001f2                __vector_25
+                0x00000000000001f2                __vector_11
+                0x00000000000001f2                __vector_13
+                0x00000000000001f2                __vector_17
+                0x00000000000001f2                __vector_19
+                0x00000000000001f2                __vector_7
+                0x00000000000001f2                __vector_27
+                0x00000000000001f2                __vector_5
+                0x00000000000001f2                __vector_33
+                0x00000000000001f2                __vector_4
+                0x00000000000001f2                __vector_9
+                0x00000000000001f2                __vector_2
+                0x00000000000001f2                __vector_21
+                0x00000000000001f2                __vector_15
+                0x00000000000001f2                __vector_29
+                0x00000000000001f2                __vector_8
+                0x00000000000001f2                __vector_26
+                0x00000000000001f2                __vector_14
+                0x00000000000001f2                __vector_10
+                0x00000000000001f2                __vector_16
+                0x00000000000001f2                __vector_18
+                0x00000000000001f2                __vector_22
+ .text          0x00000000000001f6      0x18c main.o
+                0x00000000000001f6                init_uart
+                0x0000000000000226                uart_putc
+                0x000000000000022e                uart_puts
+                0x0000000000000246                init_HMC5883L
+                0x0000000000000288                getHeading
+ .text          0x0000000000000382      0x28e i2c_master.o
+                0x0000000000000382                i2c_init
+                0x000000000000038a                i2c_start
+                0x00000000000003ce                i2c_write
+                0x00000000000003f2                i2c_read_ack
+                0x0000000000000406                i2c_read_nack
+                0x000000000000041a                i2c_transmit
+                0x0000000000000478                i2c_receive
+                0x00000000000004e8                i2c_writeReg
+                0x0000000000000568                i2c_readReg
+                0x0000000000000608                i2c_stop
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(floatsisf.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_inf.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_nan.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscA.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscB.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_round.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_split3.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_zero.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(inverse.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(square.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(ftoa_engine.o)
+ .text          0x0000000000000610        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(strrev.o)
+                0x0000000000000610                . = ALIGN (0x2)
+ *(.text.*)
+ .text.startup  0x0000000000000610       0xb8 main.o
+                0x0000000000000610                main
+ .text.avr-libc.fplib
+                0x00000000000006c8        0xe /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+                0x00000000000006c8                __subsf3
+                0x00000000000006ca                __addsf3
+ .text.avr-libc.fplib
+                0x00000000000006d6       0xcc /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+                0x00000000000006f8                __addsf3x
+ .text.avr-libc.fplib
+                0x00000000000007a2       0x86 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                0x00000000000007c8                atan2
+ .text.avr-libc.fplib
+                0x0000000000000828       0x5e /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+                0x0000000000000828                atan
+ .text.avr-libc.fplib
+                0x0000000000000886        0x8 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+                0x0000000000000886                __divsf3
+ .text.avr-libc.fplib
+                0x000000000000088e       0xdc /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                0x00000000000008ae                __divsf3x
+                0x00000000000008b4                __divsf3_pse
+ .text.avr-libc.fplib
+                0x000000000000096a       0x7a /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(floatsisf.o)
+                0x000000000000096a                __floatunsisf
+                0x000000000000096e                __floatsisf
+ .text.avr-libc.fplib
+                0x00000000000009e4        0xc /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_inf.o)
+                0x00000000000009e4                __fp_inf
+ .text.avr-libc.fplib
+                0x00000000000009f0        0x6 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_nan.o)
+                0x00000000000009f0                __fp_nan
+ .text.avr-libc.fplib
+                0x00000000000009f6       0x4e /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+                0x00000000000009f6                __fp_powser
+ .text.avr-libc.fplib
+                0x0000000000000a44        0xe /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscA.o)
+                0x0000000000000a44                __fp_pscA
+ .text.avr-libc.fplib
+                0x0000000000000a52        0xe /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscB.o)
+                0x0000000000000a52                __fp_pscB
+ .text.avr-libc.fplib
+                0x0000000000000a60       0x22 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_round.o)
+                0x0000000000000a60                __fp_round
+ .text.avr-libc.fplib
+                0x0000000000000a82       0x44 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_split3.o)
+                0x0000000000000a82                __fp_split3
+                0x0000000000000a92                __fp_splitA
+ .text.avr-libc.fplib
+                0x0000000000000ac6        0xe /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_zero.o)
+                0x0000000000000ac6                __fp_zero
+                0x0000000000000ac8                __fp_szero
+ .text.avr-libc.fplib
+                0x0000000000000ad4       0x10 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(inverse.o)
+                0x0000000000000ad4                inverse
+ .text.avr-libc.fplib
+                0x0000000000000ae4        0x8 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+                0x0000000000000ae4                __mulsf3
+ .text.avr-libc.fplib
+                0x0000000000000aec       0xd2 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                0x0000000000000b0a                __mulsf3x
+                0x0000000000000b10                __mulsf3_pse
+ .text.avr-libc.fplib
+                0x0000000000000bbe        0x8 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(square.o)
+                0x0000000000000bbe                square
+ .text.libgcc.mul
+                0x0000000000000bc6        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.div
+                0x0000000000000bc6       0x44 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+                0x0000000000000bc6                __udivmodsi4
+ .text.libgcc   0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.prologue
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.builtins
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.fmul
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.fixed
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.mul
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x0000000000000c0a        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .text.avr-libc
+                0x0000000000000c0a       0x40 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+                0x0000000000000c0a                dtostrf
+ .text.avr-libc
+                0x0000000000000c4a       0x16 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o)
+                0x0000000000000c4a                __itoa_ncheck
+ .text.avr-libc
+                0x0000000000000c60       0x34 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+                0x0000000000000c60                __utoa_ncheck
+                0x0000000000000c62                __utoa_common
+ .text.avr-libc
+                0x0000000000000c94      0x302 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+                0x0000000000000c94                dtoa_prf
+ .text.avr-libc
+                0x0000000000000f96      0x1b0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(ftoa_engine.o)
+                0x0000000000000f96                __ftoa_engine
+ .text.avr-libc
+                0x0000000000001146       0x20 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(strrev.o)
+                0x0000000000001146                strrev
+                0x0000000000001166                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x0000000000001166        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+                0x0000000000001166                exit
+                0x0000000000001166                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x0000000000001166        0x4 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ *(.fini0)
+                0x000000000000116a                _etext = .
+
+.data           0x0000000000800100        0x8 load address 0x000000000000116a
+                0x0000000000800100                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ .data          0x0000000000800100        0x0 main.o
+ .data          0x0000000000800100        0x0 i2c_master.o
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(floatsisf.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_inf.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_nan.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscA.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscB.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_round.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_split3.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_zero.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(inverse.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(square.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(ftoa_engine.o)
+ .data          0x0000000000800100        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(strrev.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ .rodata.str1.1
+                0x0000000000800100        0x8 main.o
+ *(.gnu.linkonce.d*)
+                0x0000000000800108                . = ALIGN (0x2)
+                0x0000000000800108                _edata = .
+                0x0000000000800108                PROVIDE (__data_end, .)
+
+.bss            0x0000000000800108       0x10
+                0x0000000000800108                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x0000000000800108        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ .bss           0x0000000000800108        0xa main.o
+                0x0000000000800108                headingDegrees
+                0x000000000080010c                raw_z
+                0x000000000080010e                raw_y
+                0x0000000000800110                raw_x
+ .bss           0x0000000000800112        0x0 i2c_master.o
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(floatsisf.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_inf.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_nan.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscA.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscB.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_round.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_split3.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_zero.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(inverse.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(square.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(ftoa_engine.o)
+ .bss           0x0000000000800112        0x0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(strrev.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x0000000000800112        0x6 main.o
+                0x0000000000800112                buffer
+                0x0000000000800118                PROVIDE (__bss_end, .)
+                0x000000000000116a                __data_load_start = LOADADDR (.data)
+                0x0000000000001172                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x0000000000800118        0x0
+                0x0000000000800118                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x0000000000800118                PROVIDE (__noinit_end, .)
+                0x0000000000800118                _end = .
+                0x0000000000800118                PROVIDE (__heap_start, .)
+
+.eeprom         0x0000000000810000        0x0
+ *(.eeprom*)
+                0x0000000000810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab           0x0000000000000000     0x1044
+ *(.stab)
+ .stab          0x0000000000000000      0xc0c i2c_master.o
+ .stab          0x0000000000000c0c      0x228 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+                                        0x234 (size before relaxing)
+ .stab          0x0000000000000e34       0x6c /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+                                         0x78 (size before relaxing)
+ .stab          0x0000000000000ea0       0xf0 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+                                         0xfc (size before relaxing)
+ .stab          0x0000000000000f90       0xb4 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+                                         0xc0 (size before relaxing)
+
+.stabstr        0x0000000000000000      0xef2
+ *(.stabstr)
+ .stabstr       0x0000000000000000      0xef2 i2c_master.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x0000000000000000       0x11
+ *(.comment)
+ .comment       0x0000000000000000       0x11 main.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 i2c_master.o
+ .comment       0x0000000000000011       0x12 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+ .comment       0x0000000000000011       0x12 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+
+.note.gnu.avr.deviceinfo
+                0x0000000000000000       0x3c
+ .note.gnu.avr.deviceinfo
+                0x0000000000000000       0x3c /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x0000000000000000       0x28
+ *(.debug_aranges)
+ .debug_aranges
+                0x0000000000000000       0x28 main.o
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x0000000000000000      0xea7
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x0000000000000000      0x780 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ .debug_info    0x0000000000000780      0x727 main.o
+
+.debug_abbrev   0x0000000000000000      0x980
+ *(.debug_abbrev)
+ .debug_abbrev  0x0000000000000000      0x718 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ .debug_abbrev  0x0000000000000718      0x268 main.o
+
+.debug_line     0x0000000000000000      0x1de
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x0000000000000000       0x1d /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ .debug_line    0x000000000000001d      0x1c1 main.o
+
+.debug_frame    0x0000000000000000       0x98
+ *(.debug_frame)
+ .debug_frame   0x0000000000000000       0x98 main.o
+
+.debug_str      0x0000000000000000      0x514
+ *(.debug_str)
+ .debug_str     0x0000000000000000      0x27d /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+ .debug_str     0x000000000000027d      0x297 main.o
+                                        0x2dd (size before relaxing)
+
+.debug_loc      0x0000000000000000      0x17e
+ *(.debug_loc)
+ .debug_loc     0x0000000000000000      0x17e main.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x0000000000000000       0x18
+ *(.debug_ranges)
+ .debug_ranges  0x0000000000000000       0x18 main.o
+
+.debug_macro
+ *(.debug_macro)
+OUTPUT(main.elf elf32-avr)
+LOAD linker stubs
+
+Cross Reference Table
+
+Symbol                                            File
+__addsf3                                          /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  main.o
+__addsf3x                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+__bad_interrupt                                   /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__bss_end                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+__bss_start                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+__data_end                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+__data_load_start                                 /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+__data_start                                      /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+__divsf3                                          /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(inverse.o)
+                                                  main.o
+__divsf3_pse                                      /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+__divsf3x                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+__do_clear_bss                                    /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_clear_bss.o)
+                                                  main.o
+__do_copy_data                                    /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_copy_data.o)
+                                                  main.o
+__floatsisf                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(floatsisf.o)
+                                                  main.o
+__floatunsisf                                     /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(floatsisf.o)
+__fp_inf                                          /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_inf.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+__fp_nan                                          /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_nan.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+__fp_powser                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+__fp_pscA                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscA.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+__fp_pscB                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_pscB.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+__fp_round                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_round.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+__fp_split3                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_split3.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+__fp_splitA                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_split3.o)
+__fp_szero                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_zero.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(divsf3x.o)
+__fp_zero                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_zero.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3x.o)
+__ftoa_engine                                     /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(ftoa_engine.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+__heap_end                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__init                                            /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__itoa_ncheck                                     /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o)
+                                                  main.o
+__mulsf3                                          /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(square.o)
+                                                  main.o
+__mulsf3_pse                                      /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+__mulsf3x                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3x.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(mulsf3.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(fp_powser.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+__stack                                           /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__subsf3                                          /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(addsf3.o)
+__udivmodsi4                                      /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_udivmodsi4.o)
+                                                  main.o
+__utoa_common                                     /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(itoa_ncheck.o)
+__utoa_ncheck                                     /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+__vector_1                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_10                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_11                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_12                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_13                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_14                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_15                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_16                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_17                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_18                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_19                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_2                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_20                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_21                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_22                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_23                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_24                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_25                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_26                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_27                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_28                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_29                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_3                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_30                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_31                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_32                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_33                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_34                                       /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_4                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_5                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_6                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_7                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_8                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_9                                        /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vector_default                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+__vectors                                         /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+_exit                                             /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+atan                                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+atan2                                             /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan2.o)
+                                                  main.o
+buffer                                            main.o
+dtoa_prf                                          /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtoa_prf.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+dtostrf                                           /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(dtostrf.o)
+                                                  main.o
+exit                                              /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/avr51/libgcc.a(_exit.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+getHeading                                        main.o
+headingDegrees                                    main.o
+i2c_init                                          i2c_master.o
+                                                  main.o
+i2c_readReg                                       i2c_master.o
+i2c_read_ack                                      i2c_master.o
+                                                  main.o
+i2c_read_nack                                     i2c_master.o
+                                                  main.o
+i2c_receive                                       i2c_master.o
+i2c_start                                         i2c_master.o
+                                                  main.o
+i2c_stop                                          i2c_master.o
+                                                  main.o
+i2c_transmit                                      i2c_master.o
+i2c_write                                         i2c_master.o
+                                                  main.o
+i2c_writeReg                                      i2c_master.o
+init_HMC5883L                                     main.o
+init_uart                                         main.o
+inverse                                           /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(inverse.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+main                                              main.o
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/crtatmega128.o
+raw_x                                             main.o
+raw_y                                             main.o
+raw_z                                             main.o
+square                                            /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(square.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libm.a(atan.o)
+strrev                                            /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(strrev.o)
+                                                  /usr/local/Cellar/avr-gcc/6.2.0/lib/gcc/avr/6.2.0/../../../../avr/lib/avr51/libc.a(utoa_ncheck.o)
+uart_putc                                         main.o
+uart_puts                                         main.o

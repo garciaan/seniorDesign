@@ -9,6 +9,7 @@ PRG = main
 OBJ            = $(PRG).o 
 OBJ			   += ./lib/I2C-master-lib/i2c_master.o
 OBJ			   += ./lib/adc/adc.o
+OBJ			   += ./lib/lcd/lcd.o
 
 MCU_TARGET     = atmega128
 OPTIMIZE       = -O2    # options are 1, 2, 3, s

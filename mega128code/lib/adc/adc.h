@@ -6,9 +6,9 @@
 
 
 
-#define VREF        2.56    //Vref voltage for ADC
-
-void enable_adc(int pin);
+//#define VREF        2.56    //Vref voltage for ADC
+#define VREF            5
+void enable_adc();
 int read_adc(int pin);
 double get_voltage(int adc);
 

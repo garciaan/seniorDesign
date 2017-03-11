@@ -35,25 +35,38 @@ void reverse();
 
 
 int main(){
-    
+    DDRB = 0xFF;
+    PORTB = 0x00;
     USART0_Init(MYUBRR);
     enable_adc();
-    init_HMC5883L();
-    init_motors();
-    unsigned char data[MAX_STRING_SIZE];
-
+    int on;
+    int off;
+    double voltage;
+    //init_HMC5883L();
+    //init_motors();
+    unsigned char data[100];
+    /*****************
+    *   THIS IS THE TEST FILE
+    *******************/
     while (1){
-        USART0_Receive_String(data);
-        if (strcmp((char *)data,"eee~")){
-                USART0_send_string((unsigned char*)"Confirm Path1. Executing");
-                USART0_Transmit(10); //Send a new line
-                path1();
-        }
-        else{
-            move((float)data[0],(float)data[1],(float)data[2]);
-        }
-
-        _delay_ms(10);
+        laser_off();
+        //_delay_ms(100);
+        on = read_adc(LASER_SENSOR);
+        USART0_send_string((unsigned char*)"ADC Value ON: ");
+        USART0_send_string((unsigned char*)itoa(on,(char *)data,10));
+        //USART0_send_string("   ");
+        //_delay_ms(100);
+        //laser_on();
+        //_delay_ms(100);
+        //off = read_adc(LASER_SENSOR);
+        //USART0_send_string((unsigned char*)"ADC Value OFF: ");
+        //USART0_send_string((unsigned char*)itoa(off,(char *)data,10));
+        //USART0_Transmit(10);
+        _delay_ms(100);
+        //USART0_send_string((unsigned char*)"Difference: ");
+        //USART0_send_string((unsigned char*)itoa((on-off),(char *)data,10));
+        //USART0_Transmit(10);
+        USART0_Transmit(10);
     }
 
     return 0;

@@ -48,3 +48,4 @@ void TIM16_WriteTCNT1( unsigned int i );
 void move(float left, float right, float z);
 void set_16bitPWM1();
 void init_esc();
+void init_motors();

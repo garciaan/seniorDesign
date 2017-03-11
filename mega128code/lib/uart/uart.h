@@ -12,14 +12,14 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "ascii_special.h"
 
 
 
 /************************
 *   BOTH UART FUNCTIONS
+*   USART1: Bluetooth Module
+*   USART0: RS232 Connection
 *************************/
 void USART1_Init( unsigned int ubrr );
 void USART1_Transmit(unsigned char data );

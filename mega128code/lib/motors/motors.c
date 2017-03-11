@@ -1,5 +1,10 @@
 #include "motors.h"
 
+void init_motors(){
+    set_16bitPWM1();
+    init_esc();
+}
+
 void init_esc(){
     int i;
     for (i = 0; i < 3; ++i){

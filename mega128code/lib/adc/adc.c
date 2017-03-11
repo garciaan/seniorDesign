@@ -1,18 +1,15 @@
 #include "./adc.h"
 
 
-void enable_adc(int pin){
-	if (pin > 7 || pin < 0){
-		//return;
-	}
+void enable_adc(){
 	DDRF = 0x00;
 	PORTF = 0x00;
 	//internally wire REFSn bits in the ADMUX register to connect VREF 
 		//to internal 2.56v reference --> 0.0025 v/step
-	ADMUX = (1 << REFS0) | (1 << REFS1);
+	//ADMUX = (1 << REFS0) | (1 << REFS1); //2.56v
+	ADMUX = (1 << REFS0); //AVCC
 	//Set analog input channel by writing to the MUX in ADMUX
 	//Single ended input, gain is not allowed
-	ADMUX |= pin;
 	
 	//Default Right Adjusted
 

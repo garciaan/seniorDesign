@@ -253,6 +253,7 @@ class MainWindow(QWidget):
             self.sliders[0].setValue(100)
             self.sliders[1].setValue(100)
             self.ser.write(bytes([100,100,0,126]))
+            print (bytes([100,100,50,126,0]))
         except:
             print ("Could not send forward command")
 

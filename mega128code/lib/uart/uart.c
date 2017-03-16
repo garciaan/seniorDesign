@@ -27,19 +27,20 @@ void USART1_send_string(unsigned char *data){
 }
 
 unsigned char USART1_Receive(void){
-    //unsigned long timeout = 50000;
+    unsigned long timeout = 50000;    //This happens to be about 3 seconds
     /* Wait for data to be received or for timeout*/ 
-    //do {
-    //    if((UCSR1A & (1<<RXC1))){
-    //        /* Get and return received data from buffer */ 
-    //        return UDR1;
-    //    }
-    //} while (--timeout);
-    //}while(1);
-    //return 255;
-    //USART1_send_string((unsigned char *)"waiting for character\r");
+    // do {
+    //     if((UCSR1A & (1<<RXC1))){
+    //         /* Get and return received data from buffer */ 
+    //         return UDR1;
+    //     }
+    // } while (--timeout);
+    
+    // return 255;
+    /**********
+    * This is the original
+    ***********/
     while (!(UCSR1A & (1<<RXC1)));
-    //USART1_send_string((unsigned char *)"character received\r");
     return UDR1;
 }
 
@@ -48,11 +49,12 @@ void USART1_Receive_String(unsigned char *str){
     char c;
 
     while ((c = USART1_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
-        if (c == 255){
+        if (c == 255 || i > MAX_STRING_SIZE - 1){
             str[0] = 50;
             str[1] = 50;
             str[2] = 50;
             str[3] = END_STRING;
+            str[4] = '\0';
         }
         str[i] = c;
         ++i;
@@ -96,18 +98,21 @@ void USART0_send_string(unsigned char *data){
 }
 
 unsigned char USART0_Receive(void){
-    unsigned long timeout = 500000;
+    unsigned long timeout = 6000000;    //This happens to be about 3 seconds
     /* Wait for data to be received or for timeout*/ 
-    // do {
-    //     if((UCSR0A & (1<<RXC0))){
-    //         /* Get and return received data from buffer */ 
-    //         return UDR0;
-    //     }
-    // } while (--timeout);
-    // //}while(1);
-    // return 255;
-    while (!(UCSR0A & (1<<RXC0)));
-    return UDR0;
+    do {
+        if((UCSR0A & (1<<RXC0))){
+            /* Get and return received data from buffer */ 
+            return UDR0;
+        }
+    } while (--timeout);
+    return 255;
+
+    /********
+    * This is the original
+    ************/
+    //while (!(UCSR0A & (1<<RXC0)));
+    //return UDR0;
 }
 
 void USART0_Receive_String(unsigned char *str){
@@ -115,11 +120,12 @@ void USART0_Receive_String(unsigned char *str){
     unsigned char c;
 
     while ((c = (unsigned char)USART0_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
-        if (c == 255){
+        if (c == 255 || i > MAX_STRING_SIZE - 1){
             str[0] = 50;
             str[1] = 50;
             str[2] = 50;
             str[3] = END_STRING;
+            str[4] = '\0';
             return;
         }
         str[i] = c;

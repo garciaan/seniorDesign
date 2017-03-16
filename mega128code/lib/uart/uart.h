@@ -6,7 +6,7 @@
 #define MYUBRR F_CPU/16/BAUD-1
 
 //Maximum size of string expected from buoy
-#define MAX_STRING_SIZE 4
+#define MAX_STRING_SIZE 5
 
 
 #include <avr/io.h>
@@ -34,3 +34,4 @@ void USART0_send_string(unsigned char *data);
 unsigned char USART0_Receive(void);
 void USART0_Receive_String(unsigned char *str);
 void USART0_flush();
+void USART0_send_drone(unsigned char *data);

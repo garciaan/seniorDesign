@@ -8,7 +8,7 @@
 #include "../../lib/uart/uart.h"
 #include "../../lib/lcd/lcd.h"
 
-#define size 4
+#define size 5
 
 int main(){
     DDRB = 0xFF;
@@ -29,6 +29,7 @@ int main(){
     for (i = 0; i < size; ++i){
         data[i] = '\0';
     }
+    data[size-2] = '~';
 
     /*****************
     *   THIS IS THE TEST FILE FOR TESTING BOTH UARTS
@@ -37,11 +38,11 @@ int main(){
         
         clear_display();
         string2lcd((unsigned char *)"RS232 Test");
-        USART0_send_string((unsigned char *)"Please send string \"123\" over RS232\r");
+        USART0_send_string((unsigned char *)"Please send string \"123~\" over RS232\r");
         USART0_Receive_String(data);
         home_line2();
         string2lcd(data);
-        if (strcmp((char *)data,"123")){
+        if (strcmp((char *)data,"123~") != 0){ //Strings are not equal
             USART0_send_string((unsigned char *)"Error: ");
             USART0_send_string(data);
             USART0_send_string((unsigned char *)"\r");
@@ -55,11 +56,11 @@ int main(){
 
         clear_display();
         string2lcd((unsigned char *)"Bluetooth Test");
-        USART1_send_string((unsigned char *)"Please send string \"123\" over bluetooth\r");
+        USART1_send_string((unsigned char *)"Please send string \"123~\" over bluetooth\r");
         USART1_Receive_String(data);
         home_line2();
         string2lcd(data);
-        if (strcmp((char *)data,"123")){
+        if (strcmp((char *)data,"123~") != 0){ //Strings are not equal
             USART1_send_string((unsigned char *)"Error");
             USART1_send_string(data);
             USART1_send_string((unsigned char *)"\r");

@@ -8,6 +8,7 @@
 #include "../../lib/adc/adc.h"
 #include "../../lib/motors/motors.h"
 #include "../../lib/uart/uart.h"
+#include "../../lib/lcd/lcd.h"
 #include "../../lib/magnometer/magnometer.h"
 #include "../../lib/lasersensor/lasersensor.h" //NOT YET IMPLEMENTED
 
@@ -39,6 +40,8 @@ int main(){
     PORTB = 0x00;
     USART0_Init(MYUBRR);
     enable_adc();
+    spi_init();
+    lcd_init();
     int on;
     int off;
     double voltage;
@@ -49,11 +52,14 @@ int main(){
     *   THIS IS THE TEST FILE
     *******************/
     while (1){
-        laser_off();
+        laser_on();
         //_delay_ms(100);
         on = read_adc(LASER_SENSOR);
         USART0_send_string((unsigned char*)"ADC Value ON: ");
+
         USART0_send_string((unsigned char*)itoa(on,(char *)data,10));
+        clear_display();
+        string2lcd((unsigned char*)itoa(on,(char *)data,10));
         //USART0_send_string("   ");
         //_delay_ms(100);
         //laser_on();

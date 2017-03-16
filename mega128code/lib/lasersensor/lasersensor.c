@@ -40,10 +40,10 @@ void disable_laser_sensor(){
     SFIOR &= ~(1 << ACME);
 }
 
-void laser_on(){
+void laser_off(){
     PORTB |= (1 << LASER);
 }
-void laser_off(){
+void laser_on(){
     PORTB &= ~(1 << LASER);
 }
 

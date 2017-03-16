@@ -26,10 +26,11 @@ void USART1_Transmit(unsigned char data );
 void USART1_send_string(unsigned char *data);
 unsigned char USART1_Receive(void);
 void USART1_Receive_String(unsigned char *str);
+void USART1_flush();
 
 void USART0_Init( unsigned int ubrr );
 void USART0_Transmit(unsigned char data );
 void USART0_send_string(unsigned char *data);
 unsigned char USART0_Receive(void);
 void USART0_Receive_String(unsigned char *str);
-
+void USART0_flush();

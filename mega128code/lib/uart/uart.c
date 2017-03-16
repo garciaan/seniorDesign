@@ -8,7 +8,7 @@ void USART1_Init( unsigned int ubrr ) {
     /* Enable receiver and transmitter */ 
     UCSR1B = (1<<RXEN1)|(1<<TXEN1);
     /* Set frame format: 8data, 2stop bit */ 
-    UCSR1C = (1<<USBS1)|(3<<UCSZ01);
+    UCSR1C = (3<<UCSZ10);
     _delay_ms(100);
 }
 void USART1_Transmit(unsigned char data ) {
@@ -27,34 +27,45 @@ void USART1_send_string(unsigned char *data){
 }
 
 unsigned char USART1_Receive(void){
-    uint16_t timeout = 20000;
+    //unsigned long timeout = 50000;
     /* Wait for data to be received or for timeout*/ 
-    do {
-        if((UCSR1A & (1<<RXC1))){
-            /* Get and return received data from buffer */ 
-            return UDR1;
-        }
-    } while (--timeout);
-    return -1;
+    //do {
+    //    if((UCSR1A & (1<<RXC1))){
+    //        /* Get and return received data from buffer */ 
+    //        return UDR1;
+    //    }
+    //} while (--timeout);
+    //}while(1);
+    //return 255;
+    //USART1_send_string((unsigned char *)"waiting for character\r");
+    while (!(UCSR1A & (1<<RXC1)));
+    //USART1_send_string((unsigned char *)"character received\r");
+    return UDR1;
 }
 
 void USART1_Receive_String(unsigned char *str){
     int i = 0;
     char c;
 
-    while ((c = USART1_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
-        if (c == -1){
+    while ((c = USART1_Receive()) != 0x00){ //END_STRING == ~ or 0x7E
+        if (c == 255){
             str[0] = 50;
             str[1] = 50;
             str[2] = 50;
+            str[3] = '\0';
         }
         str[i] = c;
         ++i;
-        if (i >= MAX_STRING_SIZE){
-            str[MAX_STRING_SIZE - 1] = '\0';
+    }
+}
 
-            return;
-        }
+void USART1_flush(){
+    unsigned char dummy;
+    USART1_send_string((unsigned char *)"Flushing UART1");
+    while (UCSR1A & (1 << RXC1)){
+        dummy = UDR1;
+        USART1_Transmit(dummy);
+
     }
 }
 
@@ -65,8 +76,8 @@ void USART0_Init( unsigned int ubrr ) {
     UBRR0L = (unsigned char)ubrr;
     /* Enable receiver and transmitter */ 
     UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-    /* Set frame format: 8data, 1stop bit */ 
-    UCSR0C = (3<<UCSZ00);
+    /* Set frame format: 8data, 2stop bit */ 
+    UCSR0C = (1 << USBS0) | (3<<UCSZ00);
     _delay_ms(100);
 }
 void USART0_Transmit(unsigned char data ) {
@@ -85,27 +96,25 @@ void USART0_send_string(unsigned char *data){
 }
 
 unsigned char USART0_Receive(void){
-    uint16_t timeout = 50000;
-    //unsigned char buffer[16];
+    unsigned long timeout = 500000;
     /* Wait for data to be received or for timeout*/ 
-    while (timeout > 0) {
-        if((UCSR0A & (1<<RXC0))){
-            /* Get and return received data from buffer */ 
-            return UDR0;
-        }
-        //clear_display();
-        //string2lcd((unsigned char *)utoa((unsigned int)timeout,buffer,10));
-        _delay_us(10);
-        --timeout;
-    }
-    return 255;
+    // do {
+    //     if((UCSR0A & (1<<RXC0))){
+    //         /* Get and return received data from buffer */ 
+    //         return UDR0;
+    //     }
+    // } while (--timeout);
+    // //}while(1);
+    // return 255;
+    while (!(UCSR0A & (1<<RXC0)));
+    return UDR0;
 }
 
 void USART0_Receive_String(unsigned char *str){
     int i = 0;
     unsigned char c;
 
-    while ((c = (unsigned char)USART0_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
+    while ((c = (unsigned char)USART0_Receive()) != 0x00){ //END_STRING == ~ or 0x7E
         if (c == 255){
             str[0] = 50;
             str[1] = 50;
@@ -114,16 +123,13 @@ void USART0_Receive_String(unsigned char *str){
             return;
         }
         str[i] = c;
-        //char2lcd(c);
-        //string2lcd(str);
         ++i;
-        if (i >= MAX_STRING_SIZE){
-            str[MAX_STRING_SIZE - 1] = '\0';
-
-            return;
-        }
     }
-    str[i] = '\0';
-    //string2lcd(str);
+}
 
+void USART0_flush(){
+    unsigned char dummy;
+    while (UCSR0A & (1 << RXC0)){
+        dummy = UDR0;
+    }
 }

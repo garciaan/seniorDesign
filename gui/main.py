@@ -38,15 +38,16 @@ class MainWindow(QWidget):
         self.right_motor_power = 50 #note that 0 is full reverse, 50 is stop, and 100 is full forward
         self.z_motor_power = 50     #note that 0 is full reverse, 50 is stop, and 100 is full forward
         self.sendSliderTimer = QtCore.QTimer()
-        self.sendSliderTimer.setInterval(1)
+        self.sendSliderTimer.setInterval(300)
+        self.sendSliderTimer.timeout.connect(self.sendSlider)
 
     def initUI(self):
         
         grid = QGridLayout()
         self.setLayout(grid)
     
-        delay = 50
-        interval = 5
+        delay = 500
+        interval = 300
 
         stop_button = QPushButton(text = "Stop")
         stop_button.setAutoRepeat(1)
@@ -100,7 +101,7 @@ class MainWindow(QWidget):
 
         send_button = QCheckBox(text = "Send slider values")
         send_button.setChecked(False)
-        send_button.stateChanged.connect(lambda:self.setSendSlider(send_button))
+        send_button.stateChanged.connect(lambda:self.sendSliderHandle(send_button))
 
         self.sliders = []
         for x in range (3):
@@ -133,9 +134,25 @@ class MainWindow(QWidget):
         self.show()
 
 
-    def setSendSlider(button):
+    def setSendSlider(self,button):
         if button.isChecked():
             pass
+
+    def sendSlider(self):
+        print ("Sending slider")
+
+    def sendSliderHandle(self,button):
+        if button.isChecked() == True:
+            print ("Enabling Send Slider")
+            try:
+                self.sendSliderTimer.start(500)
+                print ("Enabled Send Slider")
+            except Exception as e:
+                print ("Could not enable send slider timer: ")
+                print (e)
+        else:
+            print ("Disabling Send Slider")
+            self.sendSliderTimer.stop()
 
     def setSliderValues(self,motor):
         self.motor_powers[motor] = self.sliders[motor].value()
@@ -155,7 +172,7 @@ class MainWindow(QWidget):
    
 
     def bt_handle(self,button,port = '/dev/cu.HC-05-DevB'):
-        if button.isChecked() == True:
+        if button.isChecked() == False:
             try:
                 self.ser = serial.Serial(port)
                 self.bluetooth_connected = True
@@ -163,22 +180,28 @@ class MainWindow(QWidget):
             except ValueError:
                 self.ser = None
                 print ("Could not connect to " + port + ": Value Error")
+                button.setCheckState(False)
 
             except serial.SerialException:
                 self.ser = None
                 print ("Could not connect to " + port + ": Device not found")
+                button.setCheckState(False)
             
             except:
                 self.ser = None
                 print ("Could not connect to " + port + ":Unknown error")
+                button.setCheckState(False)
         else:
+            button.setCheckState(False)
             try:
                 if (self.ser.is_open):
                     print ("Closing " + port.name)
                     port.close()
                     self.bluetooth_connected = False
+                    
                 else:
                     print (port.name + " is not open")
+
             except Exception as e:
                 print ("Invalid Port")
                 print (e)
@@ -217,7 +240,10 @@ class MainWindow(QWidget):
             print ("Stop")
             self.sliders[0].setValue(50)
             self.sliders[1].setValue(50)
-            self.ser.write(bytes([50,50,0,126]))
+            #self.ser.write(bytes([50,50,0,126]))
+            self.ser.write(bytes([100]))
+            self.ser.flush()
+
         except:
             print ("Could not send stop command")
 

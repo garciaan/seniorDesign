@@ -47,12 +47,12 @@ void USART1_Receive_String(unsigned char *str){
     int i = 0;
     char c;
 
-    while ((c = USART1_Receive()) != 0x00){ //END_STRING == ~ or 0x7E
+    while ((c = USART1_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
         if (c == 255){
             str[0] = 50;
             str[1] = 50;
             str[2] = 50;
-            str[3] = '\0';
+            str[3] = END_STRING;
         }
         str[i] = c;
         ++i;
@@ -114,12 +114,12 @@ void USART0_Receive_String(unsigned char *str){
     int i = 0;
     unsigned char c;
 
-    while ((c = (unsigned char)USART0_Receive()) != 0x00){ //END_STRING == ~ or 0x7E
+    while ((c = (unsigned char)USART0_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
         if (c == 255){
             str[0] = 50;
             str[1] = 50;
             str[2] = 50;
-            str[3] = '\0';
+            str[3] = END_STRING;
             return;
         }
         str[i] = c;

@@ -34,47 +34,52 @@ int main(){
     *   THIS IS THE TEST FILE FOR TESTING BOTH UARTS
     *******************/
     while (1){
+        
+        clear_display();
+        string2lcd((unsigned char *)"RS232 Test");
+        USART0_send_string((unsigned char *)"Please send string \"123\" over RS232\r");
+        USART0_Receive_String(data);
+        home_line2();
+        string2lcd(data);
+        if (strcmp((char *)data,"123")){
+            USART0_send_string((unsigned char *)"Error: ");
+            USART0_send_string(data);
+            USART0_send_string((unsigned char *)"\r");
+        }
+        else {
+            USART0_send_string((unsigned char *)"Received Data: ");
+            USART0_send_string(data);
+            USART0_send_string((unsigned char *)"\r");
+        }
+        USART0_send_string((unsigned char *)"RS232 Test Completed\r");
 
-        // clear_display();
-        // string2lcd((unsigned char *)"RS232 Test");
-        // USART0_send_string((unsigned char *)"Please send string \"123\" over RS232\r");
-        // USART0_Receive_String(data);
-        // home_line2();
-        // string2lcd(data);
-        // if (strcmp((char *)data,"123")){
-        //     USART0_send_string((unsigned char *)"Error: ");
-        //     USART0_send_string(data);
-        //     USART0_send_string((unsigned char *)"\r");
-        // }
-        // else {
-        //     USART0_send_string((unsigned char *)"Received Data: ");
-        //     USART0_send_string(data);
-        //     USART0_send_string((unsigned char *)"\r");
-        // }
-        // USART0_send_string((unsigned char *)"RS232 Test Completed\r");
+        clear_display();
+        string2lcd((unsigned char *)"Bluetooth Test");
+        USART1_send_string((unsigned char *)"Please send string \"123\" over bluetooth\r");
+        USART1_Receive_String(data);
+        home_line2();
+        string2lcd(data);
+        if (strcmp((char *)data,"123")){
+            USART1_send_string((unsigned char *)"Error");
+            USART1_send_string(data);
+            USART1_send_string((unsigned char *)"\r");
+        }
+        else {
+            USART1_send_string((unsigned char *)"Received Data: ");
+            USART1_send_string(data);
+            USART1_send_string((unsigned char *)"\r");
+        }
+        USART1_send_string((unsigned char *)"Bluetooth Test Completed\r");
 
-        // clear_display();
-        // string2lcd((unsigned char *)"Bluetooth Test");
-        // USART1_send_string((unsigned char *)"Please send string \"123\" over bluetooth\r");
-        // USART1_Receive_String(data);
-        // home_line2();
-        // string2lcd(data);
-        // if (strcmp((char *)data,"123")){
-        //     USART1_send_string((unsigned char *)"Error");
-        //     USART1_send_string(data);
-        //     USART1_send_string((unsigned char *)"\r");
-        // }
-        // else {
-        //     USART1_send_string((unsigned char *)"Received Data: ");
-        //     USART1_send_string(data);
-        //     USART1_send_string((unsigned char *)"\r");
-        // }
-        // USART1_send_string((unsigned char *)"Bluetooth Test Completed\r");
+        USART0_send_string((unsigned char *)"ALL TESTS COMPLETED. RESETTING...\r---------------------------------\r");
+        USART1_send_string((unsigned char *)"ALL TESTS COMPLETED. RESETTING...\r---------------------------------\r");
 
-        // clear_display();
-        // string2lcd((unsigned char *)"UART Test Completed");
-        // home_line2();
-        // string2lcd((unsigned char *)"Resetting...");
+
+        clear_display();
+        string2lcd((unsigned char *)"Tests Complete");
+        home_line2();
+        string2lcd((unsigned char *)"Resetting...");
+        _delay_ms(2000);
     }
 
     return 0;

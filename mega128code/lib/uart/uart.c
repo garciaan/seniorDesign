@@ -49,12 +49,14 @@ void USART1_Receive_String(unsigned char *str){
     char c;
 
     while ((c = USART1_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
+        
         if (c == 255 || i > MAX_STRING_SIZE - 1){
             str[0] = 50;
-            str[1] = 50;
-            str[2] = 50;
+            str[1] = 25;
+            str[2] = 75;
             str[3] = END_STRING;
             str[4] = '\0';
+            break;
         }
         str[i] = c;
         ++i;

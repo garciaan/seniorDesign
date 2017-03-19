@@ -38,7 +38,7 @@ int main(){
         home_line2();
         string2lcd(data);
         USART0_send_string(data);
-        _delay_ms(1000);
+        _delay_ms(10);
     }
 
     return 0;

@@ -1,8 +1,8 @@
 #include "motors.h"
 
 void init_motors(){
-    set_16bitPWM1();
     init_esc();
+    set_16bitPWM1();
 }
 
 void init_esc(){

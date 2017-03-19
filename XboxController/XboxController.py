@@ -50,7 +50,9 @@ event.value
 """
 #Main class for reading the xbox controller values
 class XboxController(threading.Thread):
-
+    y_value = 50
+    x_value = 50
+    z_value = 50
     #internal ids for the xbox controls
     class XboxControls():
         LTHUMBX = 0

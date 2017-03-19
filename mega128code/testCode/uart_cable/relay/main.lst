@@ -3,25 +3,25 @@ main.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000114  00800100  000005c2  00000636  2**0
+  0 .data         00000114  00800100  000005d4  00000648  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000005c2  00000000  00000000  00000074  2**1
+  1 .text         000005d4  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .stab         00001c5c  00000000  00000000  0000074c  2**2
+  2 .stab         00001c08  00000000  00000000  0000075c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  3 .stabstr      0000119e  00000000  00000000  000023a8  2**0
+  3 .stabstr      00001177  00000000  00000000  00002364  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .comment      00000011  00000000  00000000  00003546  2**0
+  4 .comment      00000011  00000000  00000000  000034db  2**0
                   CONTENTS, READONLY
-  5 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00003558  2**2
+  5 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000034ec  2**2
                   CONTENTS, READONLY
-  6 .debug_info   00000780  00000000  00000000  00003594  2**0
+  6 .debug_info   00000780  00000000  00000000  00003528  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000718  00000000  00000000  00003d14  2**0
+  7 .debug_abbrev 00000718  00000000  00000000  00003ca8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000001d  00000000  00000000  0000442c  2**0
+  8 .debug_line   0000001d  00000000  00000000  000043c0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000027d  00000000  00000000  00004449  2**0
+  9 .debug_str    0000027d  00000000  00000000  000043dd  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -75,7 +75,7 @@ Disassembly of section .text:
   98:	12 e0       	ldi	r17, 0x02	; 2
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e2 ec       	ldi	r30, 0xC2	; 194
+  9e:	e4 ed       	ldi	r30, 0xD4	; 212
   a0:	f5 e0       	ldi	r31, 0x05	; 5
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -85,8 +85,8 @@ Disassembly of section .text:
   ac:	a4 31       	cpi	r26, 0x14	; 20
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
-  b2:	0e 94 43 02 	call	0x486	; 0x486 <main>
-  b6:	0c 94 df 02 	jmp	0x5be	; 0x5be <_exit>
+  b2:	0e 94 4c 02 	call	0x498	; 0x498 <main>
+  b6:	0c 94 e8 02 	jmp	0x5d0	; 0x5d0 <_exit>
 
 000000ba <__bad_interrupt>:
   ba:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -681,543 +681,555 @@ void USART1_send_string(unsigned char *data){
 00000352 <USART1_Receive_String>:
 
 void USART1_Receive_String(unsigned char *str){
- 352:	fc 01       	movw	r30, r24
- 354:	dc 01       	movw	r26, r24
-    int i = 0;
- 356:	20 e0       	ldi	r18, 0x00	; 0
- 358:	30 e0       	ldi	r19, 0x00	; 0
-    char c;
-
-    while ((c = USART1_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
-        if (c == 255 || i > MAX_STRING_SIZE - 1){
-            str[0] = 50;
- 35a:	82 e3       	ldi	r24, 0x32	; 50
-            str[1] = 50;
-            str[2] = 50;
-            str[3] = END_STRING;
- 35c:	4e e7       	ldi	r20, 0x7E	; 126
+ 352:	dc 01       	movw	r26, r24
+ 354:	fc 01       	movw	r30, r24
+ 356:	9c 01       	movw	r18, r24
+ 358:	2b 5f       	subi	r18, 0xFB	; 251
+ 35a:	3f 4f       	sbci	r19, 0xFF	; 255
     
     // return 255;
     /**********
     * This is the original
     ***********/
     while (!(UCSR1A & (1<<RXC1)));
- 35e:	90 91 9b 00 	lds	r25, 0x009B
- 362:	97 ff       	sbrs	r25, 7
- 364:	fc cf       	rjmp	.-8      	; 0x35e <USART1_Receive_String+0xc>
+ 35c:	90 91 9b 00 	lds	r25, 0x009B
+ 360:	97 ff       	sbrs	r25, 7
+ 362:	fc cf       	rjmp	.-8      	; 0x35c <USART1_Receive_String+0xa>
     return UDR1;
- 366:	90 91 9c 00 	lds	r25, 0x009C
+ 364:	90 91 9c 00 	lds	r25, 0x009C
 
 void USART1_Receive_String(unsigned char *str){
     int i = 0;
     char c;
 
     while ((c = USART1_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
- 36a:	9e 37       	cpi	r25, 0x7E	; 126
- 36c:	61 f0       	breq	.+24     	; 0x386 <USART1_Receive_String+0x34>
+ 368:	9e 37       	cpi	r25, 0x7E	; 126
+ 36a:	29 f0       	breq	.+10     	; 0x376 <USART1_Receive_String+0x24>
+        
         if (c == 255 || i > MAX_STRING_SIZE - 1){
- 36e:	25 30       	cpi	r18, 0x05	; 5
- 370:	31 05       	cpc	r19, r1
- 372:	2c f0       	brlt	.+10     	; 0x37e <USART1_Receive_String+0x2c>
-            str[0] = 50;
- 374:	80 83       	st	Z, r24
-            str[1] = 50;
- 376:	81 83       	std	Z+1, r24	; 0x01
-            str[2] = 50;
- 378:	82 83       	std	Z+2, r24	; 0x02
+ 36c:	e2 17       	cp	r30, r18
+ 36e:	f3 07       	cpc	r31, r19
+ 370:	19 f0       	breq	.+6      	; 0x378 <USART1_Receive_String+0x26>
+            str[2] = 75;
             str[3] = END_STRING;
- 37a:	43 83       	std	Z+3, r20	; 0x03
             str[4] = '\0';
- 37c:	14 82       	std	Z+4, r1	; 0x04
+            break;
         }
         str[i] = c;
- 37e:	9d 93       	st	X+, r25
+ 372:	91 93       	st	Z+, r25
+ 374:	f3 cf       	rjmp	.-26     	; 0x35c <USART1_Receive_String+0xa>
+ 376:	08 95       	ret
+    char c;
+
+    while ((c = USART1_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
+        
+        if (c == 255 || i > MAX_STRING_SIZE - 1){
+            str[0] = 50;
+ 378:	82 e3       	ldi	r24, 0x32	; 50
+ 37a:	8c 93       	st	X, r24
+            str[1] = 25;
+ 37c:	89 e1       	ldi	r24, 0x19	; 25
+ 37e:	11 96       	adiw	r26, 0x01	; 1
+ 380:	8c 93       	st	X, r24
+ 382:	11 97       	sbiw	r26, 0x01	; 1
+            str[2] = 75;
+ 384:	8b e4       	ldi	r24, 0x4B	; 75
+ 386:	12 96       	adiw	r26, 0x02	; 2
+ 388:	8c 93       	st	X, r24
+ 38a:	12 97       	sbiw	r26, 0x02	; 2
+            str[3] = END_STRING;
+ 38c:	8e e7       	ldi	r24, 0x7E	; 126
+ 38e:	13 96       	adiw	r26, 0x03	; 3
+ 390:	8c 93       	st	X, r24
+ 392:	13 97       	sbiw	r26, 0x03	; 3
+            str[4] = '\0';
+ 394:	14 96       	adiw	r26, 0x04	; 4
+ 396:	1c 92       	st	X, r1
+            break;
+ 398:	08 95       	ret
+
+0000039a <USART1_flush>:
+        str[i] = c;
         ++i;
- 380:	2f 5f       	subi	r18, 0xFF	; 255
- 382:	3f 4f       	sbci	r19, 0xFF	; 255
- 384:	ec cf       	rjmp	.-40     	; 0x35e <USART1_Receive_String+0xc>
     }
 }
- 386:	08 95       	ret
-
-00000388 <USART1_flush>:
 
 void USART1_flush(){
- 388:	e5 e0       	ldi	r30, 0x05	; 5
- 38a:	f2 e0       	ldi	r31, 0x02	; 2
- 38c:	96 e4       	ldi	r25, 0x46	; 70
+ 39a:	e5 e0       	ldi	r30, 0x05	; 5
+ 39c:	f2 e0       	ldi	r31, 0x02	; 2
+ 39e:	96 e4       	ldi	r25, 0x46	; 70
     UCSR1C = (3<<UCSZ10);
     _delay_ms(100);
 }
 void USART1_Transmit(unsigned char data ) {
     /* Wait for empty transmit buffer */ 
     while ( !( UCSR1A & (1<<UDRE1)) );
- 38e:	80 91 9b 00 	lds	r24, 0x009B
- 392:	85 ff       	sbrs	r24, 5
- 394:	fc cf       	rjmp	.-8      	; 0x38e <USART1_flush+0x6>
+ 3a0:	80 91 9b 00 	lds	r24, 0x009B
+ 3a4:	85 ff       	sbrs	r24, 5
+ 3a6:	fc cf       	rjmp	.-8      	; 0x3a0 <USART1_flush+0x6>
     /* Put data into buffer, sends the data */ 
     UDR1 = data;
- 396:	90 93 9c 00 	sts	0x009C, r25
+ 3a8:	90 93 9c 00 	sts	0x009C, r25
 }
 
 void USART1_send_string(unsigned char *data){
     int i = 0;
     while (data[i] != '\0'){
- 39a:	91 91       	ld	r25, Z+
- 39c:	91 11       	cpse	r25, r1
- 39e:	f7 cf       	rjmp	.-18     	; 0x38e <USART1_flush+0x6>
+ 3ac:	91 91       	ld	r25, Z+
+ 3ae:	91 11       	cpse	r25, r1
+ 3b0:	f7 cf       	rjmp	.-18     	; 0x3a0 <USART1_flush+0x6>
 }
 
 void USART1_flush(){
     unsigned char dummy;
     USART1_send_string((unsigned char *)"Flushing UART1");
     while (UCSR1A & (1 << RXC1)){
- 3a0:	80 91 9b 00 	lds	r24, 0x009B
- 3a4:	87 ff       	sbrs	r24, 7
- 3a6:	0c c0       	rjmp	.+24     	; 0x3c0 <USART1_flush+0x38>
+ 3b2:	80 91 9b 00 	lds	r24, 0x009B
+ 3b6:	87 ff       	sbrs	r24, 7
+ 3b8:	0c c0       	rjmp	.+24     	; 0x3d2 <USART1_flush+0x38>
         dummy = UDR1;
- 3a8:	90 91 9c 00 	lds	r25, 0x009C
+ 3ba:	90 91 9c 00 	lds	r25, 0x009C
     UCSR1C = (3<<UCSZ10);
     _delay_ms(100);
 }
 void USART1_Transmit(unsigned char data ) {
     /* Wait for empty transmit buffer */ 
     while ( !( UCSR1A & (1<<UDRE1)) );
- 3ac:	80 91 9b 00 	lds	r24, 0x009B
- 3b0:	85 ff       	sbrs	r24, 5
- 3b2:	fc cf       	rjmp	.-8      	; 0x3ac <USART1_flush+0x24>
+ 3be:	80 91 9b 00 	lds	r24, 0x009B
+ 3c2:	85 ff       	sbrs	r24, 5
+ 3c4:	fc cf       	rjmp	.-8      	; 0x3be <USART1_flush+0x24>
     /* Put data into buffer, sends the data */ 
     UDR1 = data;
- 3b4:	90 93 9c 00 	sts	0x009C, r25
+ 3c6:	90 93 9c 00 	sts	0x009C, r25
 }
 
 void USART1_flush(){
     unsigned char dummy;
     USART1_send_string((unsigned char *)"Flushing UART1");
     while (UCSR1A & (1 << RXC1)){
- 3b8:	80 91 9b 00 	lds	r24, 0x009B
- 3bc:	87 fd       	sbrc	r24, 7
- 3be:	f4 cf       	rjmp	.-24     	; 0x3a8 <USART1_flush+0x20>
- 3c0:	08 95       	ret
+ 3ca:	80 91 9b 00 	lds	r24, 0x009B
+ 3ce:	87 fd       	sbrc	r24, 7
+ 3d0:	f4 cf       	rjmp	.-24     	; 0x3ba <USART1_flush+0x20>
+ 3d2:	08 95       	ret
 
-000003c2 <USART0_Init>:
+000003d4 <USART0_Init>:
 }
 
 
 void USART0_Init( unsigned int ubrr ) {
     /* Set baud rate */
     UBRR0H = (unsigned char)(ubrr>>8);
- 3c2:	90 93 90 00 	sts	0x0090, r25
+ 3d4:	90 93 90 00 	sts	0x0090, r25
     UBRR0L = (unsigned char)ubrr;
- 3c6:	89 b9       	out	0x09, r24	; 9
+ 3d8:	89 b9       	out	0x09, r24	; 9
     /* Enable receiver and transmitter */ 
     UCSR0B = (1<<RXEN0)|(1<<TXEN0);
- 3c8:	88 e1       	ldi	r24, 0x18	; 24
- 3ca:	8a b9       	out	0x0a, r24	; 10
+ 3da:	88 e1       	ldi	r24, 0x18	; 24
+ 3dc:	8a b9       	out	0x0a, r24	; 10
     /* Set frame format: 8data, 2stop bit */ 
     UCSR0C = (1 << USBS0) | (3<<UCSZ00);
- 3cc:	8e e0       	ldi	r24, 0x0E	; 14
- 3ce:	80 93 95 00 	sts	0x0095, r24
- 3d2:	2f ef       	ldi	r18, 0xFF	; 255
- 3d4:	81 ee       	ldi	r24, 0xE1	; 225
- 3d6:	94 e0       	ldi	r25, 0x04	; 4
- 3d8:	21 50       	subi	r18, 0x01	; 1
- 3da:	80 40       	sbci	r24, 0x00	; 0
- 3dc:	90 40       	sbci	r25, 0x00	; 0
- 3de:	e1 f7       	brne	.-8      	; 0x3d8 <USART0_Init+0x16>
- 3e0:	00 c0       	rjmp	.+0      	; 0x3e2 <USART0_Init+0x20>
- 3e2:	00 00       	nop
- 3e4:	08 95       	ret
+ 3de:	8e e0       	ldi	r24, 0x0E	; 14
+ 3e0:	80 93 95 00 	sts	0x0095, r24
+ 3e4:	2f ef       	ldi	r18, 0xFF	; 255
+ 3e6:	81 ee       	ldi	r24, 0xE1	; 225
+ 3e8:	94 e0       	ldi	r25, 0x04	; 4
+ 3ea:	21 50       	subi	r18, 0x01	; 1
+ 3ec:	80 40       	sbci	r24, 0x00	; 0
+ 3ee:	90 40       	sbci	r25, 0x00	; 0
+ 3f0:	e1 f7       	brne	.-8      	; 0x3ea <USART0_Init+0x16>
+ 3f2:	00 c0       	rjmp	.+0      	; 0x3f4 <USART0_Init+0x20>
+ 3f4:	00 00       	nop
+ 3f6:	08 95       	ret
 
-000003e6 <USART0_Transmit>:
-    _delay_ms(100);
-}
-void USART0_Transmit(unsigned char data ) {
-    /* Wait for empty transmit buffer */ 
-    while ( !( UCSR0A & (1<<UDRE0)) );
- 3e6:	5d 9b       	sbis	0x0b, 5	; 11
- 3e8:	fe cf       	rjmp	.-4      	; 0x3e6 <USART0_Transmit>
-    /* Put data into buffer, sends the data */ 
-    UDR0 = data;
- 3ea:	8c b9       	out	0x0c, r24	; 12
- 3ec:	08 95       	ret
-
-000003ee <USART0_send_string>:
-}
-
-void USART0_send_string(unsigned char *data){
- 3ee:	fc 01       	movw	r30, r24
-    int i = 0;
-    while (data[i] != '\0'){
- 3f0:	90 81       	ld	r25, Z
- 3f2:	99 23       	and	r25, r25
- 3f4:	39 f0       	breq	.+14     	; 0x404 <USART0_send_string+0x16>
- 3f6:	31 96       	adiw	r30, 0x01	; 1
-    UCSR0C = (1 << USBS0) | (3<<UCSZ00);
+000003f8 <USART0_Transmit>:
     _delay_ms(100);
 }
 void USART0_Transmit(unsigned char data ) {
     /* Wait for empty transmit buffer */ 
     while ( !( UCSR0A & (1<<UDRE0)) );
  3f8:	5d 9b       	sbis	0x0b, 5	; 11
- 3fa:	fe cf       	rjmp	.-4      	; 0x3f8 <USART0_send_string+0xa>
+ 3fa:	fe cf       	rjmp	.-4      	; 0x3f8 <USART0_Transmit>
     /* Put data into buffer, sends the data */ 
     UDR0 = data;
- 3fc:	9c b9       	out	0x0c, r25	; 12
+ 3fc:	8c b9       	out	0x0c, r24	; 12
+ 3fe:	08 95       	ret
+
+00000400 <USART0_send_string>:
+}
+
+void USART0_send_string(unsigned char *data){
+ 400:	fc 01       	movw	r30, r24
+    int i = 0;
+    while (data[i] != '\0'){
+ 402:	90 81       	ld	r25, Z
+ 404:	99 23       	and	r25, r25
+ 406:	39 f0       	breq	.+14     	; 0x416 <USART0_send_string+0x16>
+ 408:	31 96       	adiw	r30, 0x01	; 1
+    UCSR0C = (1 << USBS0) | (3<<UCSZ00);
+    _delay_ms(100);
+}
+void USART0_Transmit(unsigned char data ) {
+    /* Wait for empty transmit buffer */ 
+    while ( !( UCSR0A & (1<<UDRE0)) );
+ 40a:	5d 9b       	sbis	0x0b, 5	; 11
+ 40c:	fe cf       	rjmp	.-4      	; 0x40a <USART0_send_string+0xa>
+    /* Put data into buffer, sends the data */ 
+    UDR0 = data;
+ 40e:	9c b9       	out	0x0c, r25	; 12
 }
 
 void USART0_send_string(unsigned char *data){
     int i = 0;
     while (data[i] != '\0'){
- 3fe:	91 91       	ld	r25, Z+
- 400:	91 11       	cpse	r25, r1
- 402:	fa cf       	rjmp	.-12     	; 0x3f8 <USART0_send_string+0xa>
- 404:	08 95       	ret
+ 410:	91 91       	ld	r25, Z+
+ 412:	91 11       	cpse	r25, r1
+ 414:	fa cf       	rjmp	.-12     	; 0x40a <USART0_send_string+0xa>
+ 416:	08 95       	ret
 
-00000406 <USART0_Receive>:
+00000418 <USART0_Receive>:
         USART0_Transmit(data[i]);
         ++i;
     }
 }
 
 unsigned char USART0_Receive(void){
- 406:	80 e8       	ldi	r24, 0x80	; 128
- 408:	9d e8       	ldi	r25, 0x8D	; 141
- 40a:	ab e5       	ldi	r26, 0x5B	; 91
- 40c:	b0 e0       	ldi	r27, 0x00	; 0
- 40e:	04 c0       	rjmp	.+8      	; 0x418 <USART0_Receive+0x12>
- 410:	01 97       	sbiw	r24, 0x01	; 1
- 412:	a1 09       	sbc	r26, r1
- 414:	b1 09       	sbc	r27, r1
+ 418:	80 e8       	ldi	r24, 0x80	; 128
+ 41a:	9d e8       	ldi	r25, 0x8D	; 141
+ 41c:	ab e5       	ldi	r26, 0x5B	; 91
+ 41e:	b0 e0       	ldi	r27, 0x00	; 0
+ 420:	04 c0       	rjmp	.+8      	; 0x42a <USART0_Receive+0x12>
+ 422:	01 97       	sbiw	r24, 0x01	; 1
+ 424:	a1 09       	sbc	r26, r1
+ 426:	b1 09       	sbc	r27, r1
     do {
         if((UCSR0A & (1<<RXC0))){
             /* Get and return received data from buffer */ 
             return UDR0;
         }
     } while (--timeout);
- 416:	21 f0       	breq	.+8      	; 0x420 <USART0_Receive+0x1a>
+ 428:	21 f0       	breq	.+8      	; 0x432 <USART0_Receive+0x1a>
 
 unsigned char USART0_Receive(void){
     unsigned long timeout = 6000000;    //This happens to be about 3 seconds
     /* Wait for data to be received or for timeout*/ 
     do {
         if((UCSR0A & (1<<RXC0))){
- 418:	5f 9b       	sbis	0x0b, 7	; 11
- 41a:	fa cf       	rjmp	.-12     	; 0x410 <USART0_Receive+0xa>
+ 42a:	5f 9b       	sbis	0x0b, 7	; 11
+ 42c:	fa cf       	rjmp	.-12     	; 0x422 <USART0_Receive+0xa>
             /* Get and return received data from buffer */ 
             return UDR0;
- 41c:	8c b1       	in	r24, 0x0c	; 12
- 41e:	08 95       	ret
+ 42e:	8c b1       	in	r24, 0x0c	; 12
+ 430:	08 95       	ret
         }
     } while (--timeout);
     return 255;
- 420:	8f ef       	ldi	r24, 0xFF	; 255
+ 432:	8f ef       	ldi	r24, 0xFF	; 255
     /********
     * This is the original
     ************/
     //while (!(UCSR0A & (1<<RXC0)));
     //return UDR0;
 }
- 422:	08 95       	ret
+ 434:	08 95       	ret
 
-00000424 <USART0_Receive_String>:
+00000436 <USART0_Receive_String>:
 
 void USART0_Receive_String(unsigned char *str){
- 424:	dc 01       	movw	r26, r24
- 426:	fc 01       	movw	r30, r24
- 428:	9c 01       	movw	r18, r24
- 42a:	2b 5f       	subi	r18, 0xFB	; 251
- 42c:	3f 4f       	sbci	r19, 0xFF	; 255
- 42e:	40 e8       	ldi	r20, 0x80	; 128
- 430:	5d e8       	ldi	r21, 0x8D	; 141
- 432:	6b e5       	ldi	r22, 0x5B	; 91
- 434:	70 e0       	ldi	r23, 0x00	; 0
- 436:	05 c0       	rjmp	.+10     	; 0x442 <USART0_Receive_String+0x1e>
- 438:	41 50       	subi	r20, 0x01	; 1
- 43a:	51 09       	sbc	r21, r1
- 43c:	61 09       	sbc	r22, r1
- 43e:	71 09       	sbc	r23, r1
+ 436:	dc 01       	movw	r26, r24
+ 438:	fc 01       	movw	r30, r24
+ 43a:	9c 01       	movw	r18, r24
+ 43c:	2b 5f       	subi	r18, 0xFB	; 251
+ 43e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 440:	40 e8       	ldi	r20, 0x80	; 128
+ 442:	5d e8       	ldi	r21, 0x8D	; 141
+ 444:	6b e5       	ldi	r22, 0x5B	; 91
+ 446:	70 e0       	ldi	r23, 0x00	; 0
+ 448:	05 c0       	rjmp	.+10     	; 0x454 <USART0_Receive_String+0x1e>
+ 44a:	41 50       	subi	r20, 0x01	; 1
+ 44c:	51 09       	sbc	r21, r1
+ 44e:	61 09       	sbc	r22, r1
+ 450:	71 09       	sbc	r23, r1
     do {
         if((UCSR0A & (1<<RXC0))){
             /* Get and return received data from buffer */ 
             return UDR0;
         }
     } while (--timeout);
- 440:	61 f0       	breq	.+24     	; 0x45a <USART0_Receive_String+0x36>
+ 452:	61 f0       	breq	.+24     	; 0x46c <USART0_Receive_String+0x36>
 
 unsigned char USART0_Receive(void){
     unsigned long timeout = 6000000;    //This happens to be about 3 seconds
     /* Wait for data to be received or for timeout*/ 
     do {
         if((UCSR0A & (1<<RXC0))){
- 442:	5f 9b       	sbis	0x0b, 7	; 11
- 444:	f9 cf       	rjmp	.-14     	; 0x438 <USART0_Receive_String+0x14>
+ 454:	5f 9b       	sbis	0x0b, 7	; 11
+ 456:	f9 cf       	rjmp	.-14     	; 0x44a <USART0_Receive_String+0x14>
             /* Get and return received data from buffer */ 
             return UDR0;
- 446:	9c b1       	in	r25, 0x0c	; 12
+ 458:	9c b1       	in	r25, 0x0c	; 12
 
 void USART0_Receive_String(unsigned char *str){
     int i = 0;
     unsigned char c;
 
     while ((c = (unsigned char)USART0_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
- 448:	9e 37       	cpi	r25, 0x7E	; 126
- 44a:	b1 f0       	breq	.+44     	; 0x478 <USART0_Receive_String+0x54>
+ 45a:	9e 37       	cpi	r25, 0x7E	; 126
+ 45c:	b1 f0       	breq	.+44     	; 0x48a <USART0_Receive_String+0x54>
         if (c == 255 || i > MAX_STRING_SIZE - 1){
- 44c:	9f 3f       	cpi	r25, 0xFF	; 255
- 44e:	29 f0       	breq	.+10     	; 0x45a <USART0_Receive_String+0x36>
- 450:	e2 17       	cp	r30, r18
- 452:	f3 07       	cpc	r31, r19
- 454:	11 f0       	breq	.+4      	; 0x45a <USART0_Receive_String+0x36>
+ 45e:	9f 3f       	cpi	r25, 0xFF	; 255
+ 460:	29 f0       	breq	.+10     	; 0x46c <USART0_Receive_String+0x36>
+ 462:	e2 17       	cp	r30, r18
+ 464:	f3 07       	cpc	r31, r19
+ 466:	11 f0       	breq	.+4      	; 0x46c <USART0_Receive_String+0x36>
             str[2] = 50;
             str[3] = END_STRING;
             str[4] = '\0';
             return;
         }
         str[i] = c;
- 456:	91 93       	st	Z+, r25
- 458:	ea cf       	rjmp	.-44     	; 0x42e <USART0_Receive_String+0xa>
+ 468:	91 93       	st	Z+, r25
+ 46a:	ea cf       	rjmp	.-44     	; 0x440 <USART0_Receive_String+0xa>
     int i = 0;
     unsigned char c;
 
     while ((c = (unsigned char)USART0_Receive()) != END_STRING){ //END_STRING == ~ or 0x7E
         if (c == 255 || i > MAX_STRING_SIZE - 1){
             str[0] = 50;
- 45a:	82 e3       	ldi	r24, 0x32	; 50
- 45c:	8c 93       	st	X, r24
-            str[1] = 50;
- 45e:	11 96       	adiw	r26, 0x01	; 1
- 460:	8c 93       	st	X, r24
- 462:	11 97       	sbiw	r26, 0x01	; 1
-            str[2] = 50;
- 464:	12 96       	adiw	r26, 0x02	; 2
- 466:	8c 93       	st	X, r24
- 468:	12 97       	sbiw	r26, 0x02	; 2
-            str[3] = END_STRING;
- 46a:	8e e7       	ldi	r24, 0x7E	; 126
- 46c:	13 96       	adiw	r26, 0x03	; 3
+ 46c:	82 e3       	ldi	r24, 0x32	; 50
  46e:	8c 93       	st	X, r24
- 470:	13 97       	sbiw	r26, 0x03	; 3
+            str[1] = 50;
+ 470:	11 96       	adiw	r26, 0x01	; 1
+ 472:	8c 93       	st	X, r24
+ 474:	11 97       	sbiw	r26, 0x01	; 1
+            str[2] = 50;
+ 476:	12 96       	adiw	r26, 0x02	; 2
+ 478:	8c 93       	st	X, r24
+ 47a:	12 97       	sbiw	r26, 0x02	; 2
+            str[3] = END_STRING;
+ 47c:	8e e7       	ldi	r24, 0x7E	; 126
+ 47e:	13 96       	adiw	r26, 0x03	; 3
+ 480:	8c 93       	st	X, r24
+ 482:	13 97       	sbiw	r26, 0x03	; 3
             str[4] = '\0';
- 472:	14 96       	adiw	r26, 0x04	; 4
- 474:	1c 92       	st	X, r1
+ 484:	14 96       	adiw	r26, 0x04	; 4
+ 486:	1c 92       	st	X, r1
             return;
- 476:	08 95       	ret
- 478:	08 95       	ret
+ 488:	08 95       	ret
+ 48a:	08 95       	ret
 
-0000047a <USART0_flush>:
- 47a:	5f 9b       	sbis	0x0b, 7	; 11
- 47c:	03 c0       	rjmp	.+6      	; 0x484 <USART0_flush+0xa>
- 47e:	8c b1       	in	r24, 0x0c	; 12
- 480:	5f 99       	sbic	0x0b, 7	; 11
- 482:	fd cf       	rjmp	.-6      	; 0x47e <USART0_flush+0x4>
- 484:	08 95       	ret
+0000048c <USART0_flush>:
+ 48c:	5f 9b       	sbis	0x0b, 7	; 11
+ 48e:	03 c0       	rjmp	.+6      	; 0x496 <USART0_flush+0xa>
+ 490:	8c b1       	in	r24, 0x0c	; 12
+ 492:	5f 99       	sbic	0x0b, 7	; 11
+ 494:	fd cf       	rjmp	.-6      	; 0x490 <USART0_flush+0x4>
+ 496:	08 95       	ret
 
-00000486 <main>:
+00000498 <main>:
 To run:
 * Reset board and follow instructions
 * Verify terminal does not report an error
 **************************/
 
 int main(){
- 486:	cf 93       	push	r28
- 488:	df 93       	push	r29
- 48a:	00 d0       	rcall	.+0      	; 0x48c <main+0x6>
- 48c:	00 d0       	rcall	.+0      	; 0x48e <main+0x8>
- 48e:	1f 92       	push	r1
- 490:	cd b7       	in	r28, 0x3d	; 61
- 492:	de b7       	in	r29, 0x3e	; 62
+ 498:	cf 93       	push	r28
+ 49a:	df 93       	push	r29
+ 49c:	00 d0       	rcall	.+0      	; 0x49e <main+0x6>
+ 49e:	00 d0       	rcall	.+0      	; 0x4a0 <main+0x8>
+ 4a0:	1f 92       	push	r1
+ 4a2:	cd b7       	in	r28, 0x3d	; 61
+ 4a4:	de b7       	in	r29, 0x3e	; 62
     DDRB = 0xFF;
- 494:	8f ef       	ldi	r24, 0xFF	; 255
- 496:	87 bb       	out	0x17, r24	; 23
+ 4a6:	8f ef       	ldi	r24, 0xFF	; 255
+ 4a8:	87 bb       	out	0x17, r24	; 23
     PORTB = 0x00;
- 498:	18 ba       	out	0x18, r1	; 24
+ 4aa:	18 ba       	out	0x18, r1	; 24
     USART0_Init(MYUBRR);
- 49a:	87 e6       	ldi	r24, 0x67	; 103
- 49c:	90 e0       	ldi	r25, 0x00	; 0
- 49e:	0e 94 e1 01 	call	0x3c2	; 0x3c2 <USART0_Init>
+ 4ac:	87 e6       	ldi	r24, 0x67	; 103
+ 4ae:	90 e0       	ldi	r25, 0x00	; 0
+ 4b0:	0e 94 ea 01 	call	0x3d4	; 0x3d4 <USART0_Init>
     USART0_send_string((unsigned char *)"USART0 (RS232) Initialized \r");
- 4a2:	80 e0       	ldi	r24, 0x00	; 0
- 4a4:	91 e0       	ldi	r25, 0x01	; 1
- 4a6:	0e 94 f7 01 	call	0x3ee	; 0x3ee <USART0_send_string>
+ 4b4:	80 e0       	ldi	r24, 0x00	; 0
+ 4b6:	91 e0       	ldi	r25, 0x01	; 1
+ 4b8:	0e 94 00 02 	call	0x400	; 0x400 <USART0_send_string>
     //USART0_Transmit('A');
     USART1_Init(MYUBRR);
- 4aa:	87 e6       	ldi	r24, 0x67	; 103
- 4ac:	90 e0       	ldi	r25, 0x00	; 0
- 4ae:	0e 94 78 01 	call	0x2f0	; 0x2f0 <USART1_Init>
+ 4bc:	87 e6       	ldi	r24, 0x67	; 103
+ 4be:	90 e0       	ldi	r25, 0x00	; 0
+ 4c0:	0e 94 78 01 	call	0x2f0	; 0x2f0 <USART1_Init>
     USART1_send_string((unsigned char *)"USART1 (Bluetooth) Initialized \r");
- 4b2:	8d e1       	ldi	r24, 0x1D	; 29
- 4b4:	91 e0       	ldi	r25, 0x01	; 1
- 4b6:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+ 4c4:	8d e1       	ldi	r24, 0x1D	; 29
+ 4c6:	91 e0       	ldi	r25, 0x01	; 1
+ 4c8:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
 
     spi_init();
- 4ba:	0e 94 dd 00 	call	0x1ba	; 0x1ba <spi_init>
+ 4cc:	0e 94 dd 00 	call	0x1ba	; 0x1ba <spi_init>
     lcd_init();
- 4be:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <lcd_init>
+ 4d0:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <lcd_init>
     string2lcd((unsigned char*)"LCD Initialized");
- 4c2:	8e e3       	ldi	r24, 0x3E	; 62
- 4c4:	91 e0       	ldi	r25, 0x01	; 1
- 4c6:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
- 4ca:	2f ef       	ldi	r18, 0xFF	; 255
- 4cc:	83 ed       	ldi	r24, 0xD3	; 211
- 4ce:	90 e3       	ldi	r25, 0x30	; 48
- 4d0:	21 50       	subi	r18, 0x01	; 1
- 4d2:	80 40       	sbci	r24, 0x00	; 0
- 4d4:	90 40       	sbci	r25, 0x00	; 0
- 4d6:	e1 f7       	brne	.-8      	; 0x4d0 <main+0x4a>
- 4d8:	00 c0       	rjmp	.+0      	; 0x4da <main+0x54>
- 4da:	00 00       	nop
+ 4d4:	8e e3       	ldi	r24, 0x3E	; 62
+ 4d6:	91 e0       	ldi	r25, 0x01	; 1
+ 4d8:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
+ 4dc:	2f ef       	ldi	r18, 0xFF	; 255
+ 4de:	83 ed       	ldi	r24, 0xD3	; 211
+ 4e0:	90 e3       	ldi	r25, 0x30	; 48
+ 4e2:	21 50       	subi	r18, 0x01	; 1
+ 4e4:	80 40       	sbci	r24, 0x00	; 0
+ 4e6:	90 40       	sbci	r25, 0x00	; 0
+ 4e8:	e1 f7       	brne	.-8      	; 0x4e2 <main+0x4a>
+ 4ea:	00 c0       	rjmp	.+0      	; 0x4ec <main+0x54>
+ 4ec:	00 00       	nop
     _delay_ms(1000);
 
     unsigned char data[size];
     int i;
     for (i = 0; i < size; ++i){
         data[i] = '\0';
- 4dc:	19 82       	std	Y+1, r1	; 0x01
- 4de:	1a 82       	std	Y+2, r1	; 0x02
- 4e0:	1b 82       	std	Y+3, r1	; 0x03
- 4e2:	1d 82       	std	Y+5, r1	; 0x05
+ 4ee:	19 82       	std	Y+1, r1	; 0x01
+ 4f0:	1a 82       	std	Y+2, r1	; 0x02
+ 4f2:	1b 82       	std	Y+3, r1	; 0x03
+ 4f4:	1d 82       	std	Y+5, r1	; 0x05
     }
     data[size-2] = '~';
- 4e4:	8e e7       	ldi	r24, 0x7E	; 126
- 4e6:	8c 83       	std	Y+4, r24	; 0x04
+ 4f6:	8e e7       	ldi	r24, 0x7E	; 126
+ 4f8:	8c 83       	std	Y+4, r24	; 0x04
     /*****************
     *   THIS IS THE TEST FILE FOR TESTING BOTH UARTS
     *******************/
     while (1){
         
         clear_display();
- 4e8:	0e 94 68 00 	call	0xd0	; 0xd0 <clear_display>
+ 4fa:	0e 94 68 00 	call	0xd0	; 0xd0 <clear_display>
         string2lcd((unsigned char *)"Waiting Rec...");
- 4ec:	8e e4       	ldi	r24, 0x4E	; 78
- 4ee:	91 e0       	ldi	r25, 0x01	; 1
- 4f0:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
+ 4fe:	8e e4       	ldi	r24, 0x4E	; 78
+ 500:	91 e0       	ldi	r25, 0x01	; 1
+ 502:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
         USART1_send_string((unsigned char *)"Please send string \"123~\" over bluetooth\r");
- 4f4:	8d e5       	ldi	r24, 0x5D	; 93
- 4f6:	91 e0       	ldi	r25, 0x01	; 1
- 4f8:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+ 506:	8d e5       	ldi	r24, 0x5D	; 93
+ 508:	91 e0       	ldi	r25, 0x01	; 1
+ 50a:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
         USART1_Receive_String(data);
- 4fc:	ce 01       	movw	r24, r28
- 4fe:	01 96       	adiw	r24, 0x01	; 1
- 500:	0e 94 a9 01 	call	0x352	; 0x352 <USART1_Receive_String>
+ 50e:	ce 01       	movw	r24, r28
+ 510:	01 96       	adiw	r24, 0x01	; 1
+ 512:	0e 94 a9 01 	call	0x352	; 0x352 <USART1_Receive_String>
         home_line2();
- 504:	0e 94 82 00 	call	0x104	; 0x104 <home_line2>
+ 516:	0e 94 82 00 	call	0x104	; 0x104 <home_line2>
         string2lcd(data);
- 508:	ce 01       	movw	r24, r28
- 50a:	01 96       	adiw	r24, 0x01	; 1
- 50c:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
+ 51a:	ce 01       	movw	r24, r28
+ 51c:	01 96       	adiw	r24, 0x01	; 1
+ 51e:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
         if (strcmp((char *)data,"123~") != 0){ //Strings are not equal
- 510:	67 e8       	ldi	r22, 0x87	; 135
- 512:	71 e0       	ldi	r23, 0x01	; 1
- 514:	ce 01       	movw	r24, r28
- 516:	01 96       	adiw	r24, 0x01	; 1
- 518:	0e 94 d6 02 	call	0x5ac	; 0x5ac <strcmp>
- 51c:	89 2b       	or	r24, r25
- 51e:	69 f0       	breq	.+26     	; 0x53a <main+0xb4>
+ 522:	67 e8       	ldi	r22, 0x87	; 135
+ 524:	71 e0       	ldi	r23, 0x01	; 1
+ 526:	ce 01       	movw	r24, r28
+ 528:	01 96       	adiw	r24, 0x01	; 1
+ 52a:	0e 94 df 02 	call	0x5be	; 0x5be <strcmp>
+ 52e:	89 2b       	or	r24, r25
+ 530:	69 f0       	breq	.+26     	; 0x54c <main+0xb4>
             USART1_send_string((unsigned char *)"Error");
- 520:	8c e8       	ldi	r24, 0x8C	; 140
- 522:	91 e0       	ldi	r25, 0x01	; 1
+ 532:	8c e8       	ldi	r24, 0x8C	; 140
+ 534:	91 e0       	ldi	r25, 0x01	; 1
         }
 
         USART0_send_string(data);
         USART0_Receive_String(data);
         if (strcmp((char *)data,"123~") != 0){ //Strings are not equal
             USART1_send_string((unsigned char *)"Error Receiving from drone: ");
- 524:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+ 536:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
             USART1_send_string(data);
- 528:	ce 01       	movw	r24, r28
- 52a:	01 96       	adiw	r24, 0x01	; 1
- 52c:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
-            USART1_send_string((unsigned char *)"\r");
- 530:	8b e1       	ldi	r24, 0x1B	; 27
- 532:	91 e0       	ldi	r25, 0x01	; 1
- 534:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
-            continue;
- 538:	d7 cf       	rjmp	.-82     	; 0x4e8 <main+0x62>
-            USART1_send_string(data);
-            USART1_send_string((unsigned char *)"\r");
-            continue;
-        }
-
-        USART0_send_string(data);
  53a:	ce 01       	movw	r24, r28
  53c:	01 96       	adiw	r24, 0x01	; 1
- 53e:	0e 94 f7 01 	call	0x3ee	; 0x3ee <USART0_send_string>
+ 53e:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+            USART1_send_string((unsigned char *)"\r");
+ 542:	8b e1       	ldi	r24, 0x1B	; 27
+ 544:	91 e0       	ldi	r25, 0x01	; 1
+ 546:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+            continue;
+ 54a:	d7 cf       	rjmp	.-82     	; 0x4fa <main+0x62>
+            USART1_send_string(data);
+            USART1_send_string((unsigned char *)"\r");
+            continue;
+        }
+
+        USART0_send_string(data);
+ 54c:	ce 01       	movw	r24, r28
+ 54e:	01 96       	adiw	r24, 0x01	; 1
+ 550:	0e 94 00 02 	call	0x400	; 0x400 <USART0_send_string>
         USART0_Receive_String(data);
- 542:	ce 01       	movw	r24, r28
- 544:	01 96       	adiw	r24, 0x01	; 1
- 546:	0e 94 12 02 	call	0x424	; 0x424 <USART0_Receive_String>
+ 554:	ce 01       	movw	r24, r28
+ 556:	01 96       	adiw	r24, 0x01	; 1
+ 558:	0e 94 1b 02 	call	0x436	; 0x436 <USART0_Receive_String>
         if (strcmp((char *)data,"123~") != 0){ //Strings are not equal
- 54a:	67 e8       	ldi	r22, 0x87	; 135
- 54c:	71 e0       	ldi	r23, 0x01	; 1
- 54e:	ce 01       	movw	r24, r28
- 550:	01 96       	adiw	r24, 0x01	; 1
- 552:	0e 94 d6 02 	call	0x5ac	; 0x5ac <strcmp>
- 556:	89 2b       	or	r24, r25
- 558:	19 f0       	breq	.+6      	; 0x560 <main+0xda>
+ 55c:	67 e8       	ldi	r22, 0x87	; 135
+ 55e:	71 e0       	ldi	r23, 0x01	; 1
+ 560:	ce 01       	movw	r24, r28
+ 562:	01 96       	adiw	r24, 0x01	; 1
+ 564:	0e 94 df 02 	call	0x5be	; 0x5be <strcmp>
+ 568:	89 2b       	or	r24, r25
+ 56a:	19 f0       	breq	.+6      	; 0x572 <main+0xda>
             USART1_send_string((unsigned char *)"Error Receiving from drone: ");
- 55a:	82 e9       	ldi	r24, 0x92	; 146
- 55c:	91 e0       	ldi	r25, 0x01	; 1
- 55e:	e2 cf       	rjmp	.-60     	; 0x524 <main+0x9e>
+ 56c:	82 e9       	ldi	r24, 0x92	; 146
+ 56e:	91 e0       	ldi	r25, 0x01	; 1
+ 570:	e2 cf       	rjmp	.-60     	; 0x536 <main+0x9e>
             USART1_send_string(data);
             USART1_send_string((unsigned char *)"\r");
             continue;
         }
         else {
             USART1_send_string((unsigned char *)"SUCCESS: ");
- 560:	8f ea       	ldi	r24, 0xAF	; 175
- 562:	91 e0       	ldi	r25, 0x01	; 1
- 564:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+ 572:	8f ea       	ldi	r24, 0xAF	; 175
+ 574:	91 e0       	ldi	r25, 0x01	; 1
+ 576:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
             USART1_send_string(data);
- 568:	ce 01       	movw	r24, r28
- 56a:	01 96       	adiw	r24, 0x01	; 1
- 56c:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+ 57a:	ce 01       	movw	r24, r28
+ 57c:	01 96       	adiw	r24, 0x01	; 1
+ 57e:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
             USART1_send_string((unsigned char *)"\r");
- 570:	8b e1       	ldi	r24, 0x1B	; 27
- 572:	91 e0       	ldi	r25, 0x01	; 1
- 574:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+ 582:	8b e1       	ldi	r24, 0x1B	; 27
+ 584:	91 e0       	ldi	r25, 0x01	; 1
+ 586:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
         }
 
         USART1_send_string((unsigned char *)"TEST COMPLETE\r-------------------------------\r");
- 578:	89 eb       	ldi	r24, 0xB9	; 185
- 57a:	91 e0       	ldi	r25, 0x01	; 1
- 57c:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
+ 58a:	89 eb       	ldi	r24, 0xB9	; 185
+ 58c:	91 e0       	ldi	r25, 0x01	; 1
+ 58e:	0e 94 93 01 	call	0x326	; 0x326 <USART1_send_string>
         clear_display();
- 580:	0e 94 68 00 	call	0xd0	; 0xd0 <clear_display>
+ 592:	0e 94 68 00 	call	0xd0	; 0xd0 <clear_display>
         string2lcd((unsigned char *)"Tests Complete");
- 584:	88 ee       	ldi	r24, 0xE8	; 232
- 586:	91 e0       	ldi	r25, 0x01	; 1
- 588:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
+ 596:	88 ee       	ldi	r24, 0xE8	; 232
+ 598:	91 e0       	ldi	r25, 0x01	; 1
+ 59a:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
         home_line2();
- 58c:	0e 94 82 00 	call	0x104	; 0x104 <home_line2>
+ 59e:	0e 94 82 00 	call	0x104	; 0x104 <home_line2>
         string2lcd((unsigned char *)"Resetting...");
- 590:	87 ef       	ldi	r24, 0xF7	; 247
- 592:	91 e0       	ldi	r25, 0x01	; 1
- 594:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
- 598:	2f ef       	ldi	r18, 0xFF	; 255
- 59a:	87 ea       	ldi	r24, 0xA7	; 167
- 59c:	91 e6       	ldi	r25, 0x61	; 97
- 59e:	21 50       	subi	r18, 0x01	; 1
- 5a0:	80 40       	sbci	r24, 0x00	; 0
- 5a2:	90 40       	sbci	r25, 0x00	; 0
- 5a4:	e1 f7       	brne	.-8      	; 0x59e <main+0x118>
- 5a6:	00 c0       	rjmp	.+0      	; 0x5a8 <main+0x122>
- 5a8:	00 00       	nop
- 5aa:	9e cf       	rjmp	.-196    	; 0x4e8 <main+0x62>
+ 5a2:	87 ef       	ldi	r24, 0xF7	; 247
+ 5a4:	91 e0       	ldi	r25, 0x01	; 1
+ 5a6:	0e 94 ae 00 	call	0x15c	; 0x15c <string2lcd>
+ 5aa:	2f ef       	ldi	r18, 0xFF	; 255
+ 5ac:	87 ea       	ldi	r24, 0xA7	; 167
+ 5ae:	91 e6       	ldi	r25, 0x61	; 97
+ 5b0:	21 50       	subi	r18, 0x01	; 1
+ 5b2:	80 40       	sbci	r24, 0x00	; 0
+ 5b4:	90 40       	sbci	r25, 0x00	; 0
+ 5b6:	e1 f7       	brne	.-8      	; 0x5b0 <main+0x118>
+ 5b8:	00 c0       	rjmp	.+0      	; 0x5ba <main+0x122>
+ 5ba:	00 00       	nop
+ 5bc:	9e cf       	rjmp	.-196    	; 0x4fa <main+0x62>
 
-000005ac <strcmp>:
- 5ac:	fb 01       	movw	r30, r22
- 5ae:	dc 01       	movw	r26, r24
- 5b0:	8d 91       	ld	r24, X+
- 5b2:	01 90       	ld	r0, Z+
- 5b4:	80 19       	sub	r24, r0
- 5b6:	01 10       	cpse	r0, r1
- 5b8:	d9 f3       	breq	.-10     	; 0x5b0 <strcmp+0x4>
- 5ba:	99 0b       	sbc	r25, r25
- 5bc:	08 95       	ret
+000005be <strcmp>:
+ 5be:	fb 01       	movw	r30, r22
+ 5c0:	dc 01       	movw	r26, r24
+ 5c2:	8d 91       	ld	r24, X+
+ 5c4:	01 90       	ld	r0, Z+
+ 5c6:	80 19       	sub	r24, r0
+ 5c8:	01 10       	cpse	r0, r1
+ 5ca:	d9 f3       	breq	.-10     	; 0x5c2 <strcmp+0x4>
+ 5cc:	99 0b       	sbc	r25, r25
+ 5ce:	08 95       	ret
 
-000005be <_exit>:
- 5be:	f8 94       	cli
+000005d0 <_exit>:
+ 5d0:	f8 94       	cli
 
-000005c0 <__stop_program>:
- 5c0:	ff cf       	rjmp	.-2      	; 0x5c0 <__stop_program>
+000005d2 <__stop_program>:
+ 5d2:	ff cf       	rjmp	.-2      	; 0x5d2 <__stop_program>

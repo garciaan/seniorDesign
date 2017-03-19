@@ -7,10 +7,12 @@ import sys, os
 from PyQt5.QtWidgets import (QWidget, QGridLayout, 
     QPushButton, QApplication, QCheckBox, QSlider)
 from PyQt5 import (QtGui,QtCore)
-
+from math import pi, cos, sqrt
 import serial
 sys.path.append(os.path.dirname(__file__) + "../XboxController/")
 from XboxController import XboxController
+
+from time import sleep
 
 def contains(main_list,items):
     try:
@@ -40,6 +42,9 @@ class MainWindow(QWidget):
         self.sendSliderTimer = QtCore.QTimer()
         self.sendSliderTimer.setInterval(300)
         self.sendSliderTimer.timeout.connect(self.sendSlider)
+        self.calcMotorPower = QtCore.QTimer()
+        self.calcMotorPower.setInterval(10)
+        self.calcMotorPower.timeout.connect(self.calculate_motor_power)
 
     def initUI(self):
         
@@ -93,7 +98,7 @@ class MainWindow(QWidget):
         sr_button.pressed.connect(self.swing_right)
 
         bt_button = QCheckBox(text = "Connect to Drone")
-        bt_button.pressed.connect(lambda: self.bt_handle(bt_button))
+        bt_button.pressed.connect(lambda: self.bt_handle(bt_button,'/dev/tty.usbserial'))
 
         xbox_button = QCheckBox(text = "Use Xbox Controller")
         xbox_button.setChecked(False)
@@ -106,11 +111,11 @@ class MainWindow(QWidget):
         self.sliders = []
         for x in range (3):
             self.sliders.append(QSlider(QtCore.Qt.Vertical))
-            self.sliders[x].setMinimum(0)
+            self.sliders[x].setMinimum(1)
             self.sliders[x].setMaximum(100)
             self.sliders[x].setValue(50)
             self.sliders[x].valueChanged.connect(lambda: self.setSliderValues(x))
-            self.sliders[x].setInvertedAppearance(True)
+            self.sliders[x].setInvertedAppearance(False)
         
 
 
@@ -140,6 +145,13 @@ class MainWindow(QWidget):
 
     def sendSlider(self):
         print ("Sending slider")
+        try:
+            print ([self.sliders[0].value(),self.sliders[1].value(),self.sliders[2].value()])
+            print (bytes([self.sliders[0].value(),self.sliders[1].value(),self.sliders[2].value(),126]))
+            self.ser.write(bytes([self.sliders[0].value(),self.sliders[1].value(),self.sliders[2].value(),126]))
+        except Exception as e:
+            print ("Uh oh. Well I caught it")
+            print (e)
 
     def sendSliderHandle(self,button):
         if button.isChecked() == True:
@@ -174,7 +186,7 @@ class MainWindow(QWidget):
     def bt_handle(self,button,port = '/dev/cu.HC-05-DevB'):
         if button.isChecked() == False:
             try:
-                self.ser = serial.Serial(port)
+                self.ser = serial.Serial(port, baudrate = 9600)
                 self.bluetooth_connected = True
                 print ("Connected on " + self.ser.name)
             except ValueError:
@@ -200,7 +212,7 @@ class MainWindow(QWidget):
                     self.bluetooth_connected = False
                     
                 else:
-                    print (port.name + " is not open")
+                    print (port + " is not open")
 
             except Exception as e:
                 print ("Invalid Port")
@@ -222,7 +234,10 @@ class MainWindow(QWidget):
             print("Swing Right")
             self.sliders[0].setValue(100)
             self.sliders[1].setValue(50)
-            self.ser.write(bytes([100,50,0,126]))
+            if (not self.sendSliderTimer.isActive()):
+                self.ser.write(bytes([100,50,self.sliders[2].value(),126]))
+                print (bytes([100,50,self.sliders[2].value(),126]))
+            
         except:
             print ("Could not send swing right command")
 
@@ -231,7 +246,10 @@ class MainWindow(QWidget):
             print("Swing Left")
             self.sliders[0].setValue(50)
             self.sliders[1].setValue(100)
-            self.ser.write(bytes([50,100,0,126]))
+            if (not self.sendSliderTimer.isActive()):
+                self.ser.write(bytes([50,100,self.sliders[2].value(),126]))
+                print (bytes([50,100,self.sliders[2].value(),126]))
+            
         except:
             print ("Could not send swing left command")
 
@@ -240,9 +258,9 @@ class MainWindow(QWidget):
             print ("Stop")
             self.sliders[0].setValue(50)
             self.sliders[1].setValue(50)
-            #self.ser.write(bytes([50,50,0,126]))
-            self.ser.write(bytes([100]))
-            self.ser.flush()
+            if (not self.sendSliderTimer.isActive()):
+                self.ser.write(bytes([50,50,self.sliders[2].value(),126]))
+                print (bytes([50,50,self.sliders[2].value(),126]))
 
         except:
             print ("Could not send stop command")
@@ -252,17 +270,20 @@ class MainWindow(QWidget):
             print ("Forward")
             self.sliders[0].setValue(100)
             self.sliders[1].setValue(100)
-            self.ser.write(bytes([100,100,0,126]))
-            print (bytes([100,100,50,126,0]))
+            if (not self.sendSliderTimer.isActive()):
+                self.ser.write(bytes([100,100,self.sliders[2].value(),126]))
+                print (bytes([100,100,self.sliders[2].value(),126]))
         except:
             print ("Could not send forward command")
 
     def reverse(self):
         try:
             print ("Reverse")
-            self.sliders[0].setValue(0)
-            self.sliders[1].setValue(0)
-            self.ser.write(bytes([0,0,0,126]))
+            self.sliders[0].setValue(1)
+            self.sliders[1].setValue(1)
+            if (not self.sendSliderTimer.isActive()):
+                self.ser.write(bytes([1,1,self.sliders[2].value(),126]))
+                print (bytes([1,1,self.sliders[2].value(),126]))
         except:
             print ("Could not send reverse command")
 
@@ -270,17 +291,22 @@ class MainWindow(QWidget):
         try:
             print ("Right")
             self.sliders[0].setValue(100)
-            self.sliders[1].setValue(0)
-            self.ser.write(bytes([100,0,0,126]))
+            self.sliders[1].setValue(1)
+            if (not self.sendSliderTimer.isActive()):
+                self.ser.write(bytes([100,1,self.sliders[2].value(),126]))
+                print (bytes([100,1,self.sliders[2].value(),126]))
+        
         except:
             print ("Could not send right command")
 
     def left(self):
         try:
             print ("Left")
-            self.sliders[0].setValue(0)
+            self.sliders[0].setValue(1)
             self.sliders[1].setValue(100)
-            self.ser.write(bytes([0,100,0,126]))
+            if (not self.sendSliderTimer.isActive()):
+                self.ser.write(bytes([1,100,self.sliders[2].value(),126]))
+                print (bytes([1,100,self.sliders[2].value(),126]))
         except:
             print ("Could not send left command")
 
@@ -297,17 +323,59 @@ class MainWindow(QWidget):
                 self.keys.remove(event.key())
             except:
                 pass
+
+    def calculate_motor_power(self):
+        # send.append(int(self.xboxCont.LTHUMBY))
+        # send.append(int(self.xboxCont.LTHUMBY
+        left_motor = self.xboxCont.LTHUMBY
+        right_motor = self.xboxCont.LTHUMBY
+        z_motor = self.xboxCont.RTHUMBY
+        # if (self.xboxCont.LTHUMBY < 65 and self.xboxCont.LTHUMBY > 35 and self.xboxCont.LTHUMBX > 75):
+        #     #check spin right
+        #     left_motor = self.xboxCont.LTHUMBX
+        #     right_motor = -self.xboxCont.LTHUMBX
+        # elif (self.xboxCont.LTHUMBY < 65 and self.xboxCont.LTHUMBY > 35 and self.xboxCont.LTHUMBX < 35):
+        #     #check spin left
+        #     left_motor = -self.xboxCont.LTHUMBX
+        #     right_motor = 100 - self.xboxCont.LTHUMBX
+        if (self.xboxCont.LTHUMBX > 55):
+            unit_x = (self.xboxCont.LTHUMBX - 50)/float(50)
+            ratio = sqrt(1 - (unit_x * unit_x))
+            right_motor = self.xboxCont.LTHUMBY * ratio
+        elif (self.xboxCont.LTHUMBX < 45):
+            unit_x = (self.xboxCont.LTHUMBX - 50)/float(50)
+            ratio = sqrt(1 - (unit_x * unit_x))
+            left_motor = self.xboxCont.LTHUMBY * ratio
+        self.motor_powers = [left_motor,right_motor,z_motor]
+        self.sliders[0].setValue(left_motor)
+        self.sliders[1].setValue(right_motor)
+        self.sliders[2].setValue(z_motor)
+        #print (self.motor_powers)
+
+        return self.motor_powers
+
+            
+            
+
     def setXboxSend(self,button):
+        # motors = self.calculate_motor_power()
+        # self.setSliderValues(motors)
         if button.isChecked() == True:
             try:
                 #generic call back
+                self.calcMotorPower.start()
                 def controlCallBack(xboxControlId, value):
+                    # print ("Control Id = {}, Value = {}".format(xboxControlId, value))
                     if (xboxControlId == 1):
-                        self.left_y = value
-                        #print ("Y axis: {0}".format(value))
+                        self.y_value = value
+                    if (xboxControlId == 0):
+                        self.x_value = value
+                    if (xboxControlId == 3):
+                        self.z_value = value
 
+                    
                 #setup xbox controller, set out the deadzone and scale, also invert the Y Axis (for some reason in Pygame negative is up - wierd! 
-                self.xboxCont = XboxController(controlCallBack, deadzone = 10, scale = 50, invertYAxis = True)
+                self.xboxCont = XboxController(controlCallBack, deadzone = 5, scale = 50, invertYAxis = True)
                 self.xboxCont.start()
                 print ("Xbox 360 Controller Connected")
 
@@ -318,6 +386,7 @@ class MainWindow(QWidget):
             try:
                 self.xboxCont.stop()
                 self.xboxCont = None
+                self.calcMotorPower.stop()
                 print ("Xbox 360 Controller Disconnected")
             except:
                 pass

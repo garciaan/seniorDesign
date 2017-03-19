@@ -34,16 +34,16 @@ void forward();
 void reverse();
 
 
-
 int main(){
-    
+    DDRB = 0xFF;
+    PORTB = 0;
     USART0_Init(MYUBRR);
+    USART0_send_string((unsigned char *)"USART0 (RS232) Initialized \r");
+
     //enable_adc();
     //init_HMC5883L();
-    //init_motors();
-    spi_init();
-    lcd_init();
-    clear_display();
+    init_motors();
+
 
     unsigned char data[MAX_STRING_SIZE];
     int i;
@@ -52,28 +52,28 @@ int main(){
     }
     data[MAX_STRING_SIZE - 2] = '~';
 
-    string2lcd((unsigned char *)"Ready");
+    move(50,50,50);
     while (1){
         USART0_Receive_String(data);
-        //USART0_send_string(data);
-        clear_display();
-        string2lcd(data);
+        // USART0_send_string(data);
+
         if (strcmp((char *)data,"eee~") == 0){
-            clear_display();
-            string2lcd((unsigned char *)"Path 1");
-            USART0_send_string((unsigned char*)"Confirm Path1. Executing.");
             path1();
         }
-        else{
-            //USART0_send_string((unsigned char *)"Moving: ");
+        else if (strcmp((char *)data,"222~") == 0){
+            data[0] = 's';
+            data[1] = 't';
+            data[2] = 'o';
+            move(50,50,50);
             USART0_send_string(data);
-            clear_display();
-            string2lcd((unsigned char*)"Moving ");
-            string2lcd(data);
-            //move((float)data[0],(float)data[1],(float)data[2]);
+        }
+        else{
+            // USART0_send_string((unsigned char *)"Moving: ");
+            USART0_send_string(data);
+            move((float)data[0],(float)data[1],(float)data[2]);
         }
 
-        _delay_ms(10);
+        //_delay_ms(10);
     }
 
     return 0;

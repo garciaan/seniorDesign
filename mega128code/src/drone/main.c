@@ -11,6 +11,7 @@
 #include "../../lib/magnometer/magnometer.h"
 #include "../../lib/lasersensor/lasersensor.h" //NOT YET IMPLEMENTED
 #include "../../lib/lcd/lcd.h"
+#include "../../lib/pressuresensor/pressuresensor.h"
 
 
 //Some easy to read defines
@@ -38,12 +39,12 @@ int main(){
     DDRB = 0xFF;
     PORTB = 0;
     USART0_Init(MYUBRR);
-    USART0_send_string((unsigned char *)"USART0 (RS232) Initialized \r");
+    USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r");
 
-    //enable_adc();
+    enable_adc();
     //init_HMC5883L();
     init_motors();
-
+    char buffer[10];
 
     unsigned char data[MAX_STRING_SIZE];
     int i;
@@ -54,10 +55,17 @@ int main(){
 
     move(50,50,50);
     while (1){
+        USART0_send_string((unsigned char*)"Depth: ");
+        USART0_send_string((unsigned char *)dtostrf(get_depth_feet(),3,7,buffer));
+        USART0_send_string((unsigned char*)"\r");
+        USART0_send_string((unsigned char*)"Voltage: ");
+        USART0_send_string((unsigned char *)dtostrf(get_voltage(PSENSOR_PIN),3,7,buffer));
+        USART0_send_string((unsigned char*)"\r");
         USART0_Receive_String(data);
         // USART0_send_string(data);
 
         if (strcmp((char *)data,"eee~") == 0){
+            USART0_send_string((unsigned char *)"eee~");
             path1();
         }
         else if (strcmp((char *)data,"222~") == 0){
@@ -81,50 +89,50 @@ int main(){
 
 void path1(){
     //Forward for 2 seconds (about 6 feet)
-    clear_display();
-    string2lcd((unsigned char *)"Forward");
+    // clear_display();
+    // string2lcd((unsigned char *)"Forward");
     move(50 + (MOVE_SPEED/2),50 + (MOVE_SPEED/2),STABLE_Z);
     _delay_ms(2000);
     //Down 3 seconds (aim for about 4 feet)
-    clear_display();
-    string2lcd((unsigned char *)"Down");
+    // clear_display();
+    // string2lcd((unsigned char *)"Down");
     move (50,50,0);
     _delay_ms(3000);
     //spin left 90 degrees
-    clear_display();
-    string2lcd((unsigned char *)"Turn Left");
+    // clear_display();
+    // string2lcd((unsigned char *)"Turn Left");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
-    clear_display();
-    string2lcd((unsigned char *)"Forward");
+    // clear_display();
+    // string2lcd((unsigned char *)"Forward");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //Spin left 90 degrees
-    clear_display();
-    string2lcd((unsigned char *)"Turn Left");
+    // clear_display();
+    // string2lcd((unsigned char *)"Turn Left");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
-    clear_display();
-    string2lcd((unsigned char *)"Forward");
+    // clear_display();
+    // string2lcd((unsigned char *)"Forward");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //Up 3 seconds (resurface)
-    clear_display();
-    string2lcd((unsigned char *)"Up");
+    // clear_display();
+    // string2lcd((unsigned char *)"Up");
     move(50,50,100);
     //Spin left 90 degrees
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
-    clear_display();
-    string2lcd((unsigned char *)"Forward");
+    // clear_display();
+    // string2lcd((unsigned char *)"Forward");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     //Spin left 90 degrees
-    clear_display();
-    string2lcd((unsigned char *)"Turn Left");
+    // clear_display();
+    // string2lcd((unsigned char *)"Turn Left");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);

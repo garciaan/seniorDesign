@@ -45,6 +45,9 @@ class MainWindow(QWidget):
         self.calcMotorPower = QtCore.QTimer()
         self.calcMotorPower.setInterval(10)
         self.calcMotorPower.timeout.connect(self.calculate_motor_power)
+        self.readSerialTimer = QtCore.QTimer()
+        self.readSerialTimer.setInterval(500)
+        self.readSerialTimer.timeout.connect(self.readSerial)    
 
     def initUI(self):
         
@@ -57,6 +60,7 @@ class MainWindow(QWidget):
         stop_button = QPushButton(text = "Stop")
         stop_button.setAutoRepeat(1)
         stop_button.setAutoRepeatDelay(delay)
+        stop_button.setAutoRepeatInterval(interval)
         stop_button.pressed.connect(self.stop)
 
         forward_button = QPushButton(text = "Forward")
@@ -97,8 +101,11 @@ class MainWindow(QWidget):
         sr_button.setAutoRepeatInterval(interval)
         sr_button.pressed.connect(self.swing_right)
 
-        bt_button = QCheckBox(text = "Connect to Drone")
-        bt_button.pressed.connect(lambda: self.bt_handle(bt_button,'/dev/tty.usbserial'))
+        path1_button = QPushButton(text = "Path 1")
+        path1_button.pressed.connect(self.send_path1)
+
+        self.bt_button = QCheckBox(text = "Connect to Drone")
+        self.bt_button.pressed.connect(lambda: self.bt_handle('/dev/tty.usbserial'))
 
         xbox_button = QCheckBox(text = "Use Xbox Controller")
         xbox_button.setChecked(False)
@@ -126,28 +133,40 @@ class MainWindow(QWidget):
         grid.addWidget(reverse_button,3,3)
         grid.addWidget(sl_button,1,2)
         grid.addWidget(sr_button,1,4)
-        grid.addWidget(bt_button,1,1)
+        grid.addWidget(self.bt_button,1,1)
         grid.addWidget(xbox_button,2,1)
         grid.addWidget(send_button,3,1)
         grid.addWidget(self.sliders[0],1,5,2,4)
         grid.addWidget(self.sliders[1],1,7,2,4)
         grid.addWidget(self.sliders[2],1,9,2,4)
+        grid.addWidget(path1_button,4,1)
 
         
         self.move(300, 150)
         self.setWindowTitle('AquaDrone Controller')
         self.show()
 
+    def send_path1(self):
+        try:
+            self.ser.write(bytes([101,101,101,126]))
+            print ("Doing path 1")
+        except Exception as e:
+            print ("Error")
+            print (e)
+
+    def readSerial(self):
+        print (self.ser.read(4))
+        
 
     def setSendSlider(self,button):
         if button.isChecked():
             pass
 
     def sendSlider(self):
-        print ("Sending slider")
         try:
+            self.ser.reset_input_buffer()
             print ([self.sliders[0].value(),self.sliders[1].value(),self.sliders[2].value()])
-            print (bytes([self.sliders[0].value(),self.sliders[1].value(),self.sliders[2].value(),126]))
+            # print (bytes([self.sliders[0].value(),self.sliders[1].value(),self.sliders[2].value(),126]))
             self.ser.write(bytes([self.sliders[0].value(),self.sliders[1].value(),self.sliders[2].value(),126]))
         except Exception as e:
             print ("Uh oh. Well I caught it")
@@ -183,32 +202,34 @@ class MainWindow(QWidget):
 
    
 
-    def bt_handle(self,button,port = '/dev/cu.HC-05-DevB'):
-        if button.isChecked() == False:
+    def bt_handle(self,port = '/dev/cu.HC-05-DevB'):
+        if self.bt_button.isChecked() == False:
             try:
-                self.ser = serial.Serial(port, baudrate = 9600)
+                self.ser = serial.Serial(port, baudrate = 9600,timeout = 0)
                 self.bluetooth_connected = True
+                #self.readSerialTimer.start(500)
                 print ("Connected on " + self.ser.name)
+                self.ser.reset_input_buffer()
             except ValueError:
                 self.ser = None
                 print ("Could not connect to " + port + ": Value Error")
-                button.setCheckState(False)
+                self.bt_button.setCheckState(False)
 
             except serial.SerialException:
                 self.ser = None
                 print ("Could not connect to " + port + ": Device not found")
-                button.setCheckState(False)
+                self.bt_button.setCheckState(False)
             
             except:
                 self.ser = None
                 print ("Could not connect to " + port + ":Unknown error")
-                button.setCheckState(False)
+                self.bt_button.setCheckState(False)
         else:
-            button.setCheckState(False)
             try:
                 if (self.ser.is_open):
-                    print ("Closing " + port.name)
-                    port.close()
+                    self.readSerialTimer.stop()
+                    print ("Closing " + port)
+                    self.ser.close()
                     self.bluetooth_connected = False
                     
                 else:
@@ -375,7 +396,7 @@ class MainWindow(QWidget):
 
                     
                 #setup xbox controller, set out the deadzone and scale, also invert the Y Axis (for some reason in Pygame negative is up - wierd! 
-                self.xboxCont = XboxController(controlCallBack, deadzone = 5, scale = 50, invertYAxis = True)
+                self.xboxCont = XboxController(controlCallBack, deadzone = 10, scale = 50, invertYAxis = True)
                 self.xboxCont.start()
                 print ("Xbox 360 Controller Connected")
 
@@ -396,6 +417,8 @@ class MainWindow(QWidget):
             self.swing_left()
         elif (contains(self.keys,[QtCore.Qt.Key_W,QtCore.Qt.Key_D])):
             self.swing_right()
+        elif (contains(self.keys,QtCore.Qt.Key_Space)):
+            self.stop()
         elif (contains(self.keys,QtCore.Qt.Key_W)):
             self.forward()
         elif (contains(self.keys,QtCore.Qt.Key_S)):

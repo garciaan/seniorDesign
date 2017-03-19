@@ -104,8 +104,11 @@ class MainWindow(QWidget):
         path1_button = QPushButton(text = "Path 1")
         path1_button.pressed.connect(self.send_path1)
 
+        calibrate_psensor_button = QPushButton(text = "Calibrate Depth")
+        calibrate_psensor_button.press.connect(self.calibrate)
+
         self.bt_button = QCheckBox(text = "Connect to Drone")
-        self.bt_button.pressed.connect(lambda: self.bt_handle('/dev/tty.usbserial'))
+        self.bt_button.pressed.connect(lambda: self.bt_handle('/dev/ttyUSB0'))
 
         xbox_button = QCheckBox(text = "Use Xbox Controller")
         xbox_button.setChecked(False)
@@ -150,6 +153,14 @@ class MainWindow(QWidget):
         try:
             self.ser.write(bytes([101,101,101,126]))
             print ("Doing path 1")
+        except Exception as e:
+            print ("Error")
+            print (e)
+    
+    def calibrate(self):
+        try:
+            self.ser.write(bytes([102,102,102,126]))
+            print ("Calibrated")
         except Exception as e:
             print ("Error")
             print (e)

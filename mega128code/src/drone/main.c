@@ -42,6 +42,7 @@ int main(){
     USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r");
 
     enable_adc();
+    calibrate_pressure_sensor();
     //init_HMC5883L();
     init_motors();
     char buffer[10];
@@ -67,6 +68,10 @@ int main(){
         if (strcmp((char *)data,"eee~") == 0){
             USART0_send_string((unsigned char *)"eee~");
             path1();
+        }
+        else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
+            calibrate_pressure_sensor();
+            USART0_send_string(data);
         }
         else if (strcmp((char *)data,"222~") == 0){
             data[0] = 's';

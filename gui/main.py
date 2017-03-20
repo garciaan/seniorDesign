@@ -105,7 +105,7 @@ class MainWindow(QWidget):
         path1_button.pressed.connect(self.send_path1)
 
         calibrate_psensor_button = QPushButton(text = "Calibrate Depth")
-        calibrate_psensor_button.press.connect(self.calibrate)
+        calibrate_psensor_button.pressed.connect(self.calibrate)
 
         self.bt_button = QCheckBox(text = "Connect to Drone")
         self.bt_button.pressed.connect(lambda: self.bt_handle('/dev/ttyUSB0'))
@@ -143,6 +143,7 @@ class MainWindow(QWidget):
         grid.addWidget(self.sliders[1],1,7,2,4)
         grid.addWidget(self.sliders[2],1,9,2,4)
         grid.addWidget(path1_button,4,1)
+        grid.addWidget(calibrate_psensor_button,5,1)
 
         
         self.move(300, 150)

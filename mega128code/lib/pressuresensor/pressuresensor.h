@@ -4,7 +4,7 @@
 #include "../adc/adc.h"
 
 //#define PSENSOR_MIN 0.4736328		//voltage at 0 ft (just below water)
-float PSENSOR_MIN;
+volatile float PSENSOR_MIN;
 
 #define PSENSOR_PIN	0		//PORTF pin that is attach to sensor
 

@@ -1,7 +1,6 @@
 #include "motors.h"
 
 void init_motors(){
-    init_esc();
     set_16bitPWM1();
 }
 
@@ -92,7 +91,7 @@ void move(float left, float right, float z){
     left_speed = (unsigned int)((left - MIN_INPUT)/((double)STEP) + MIN_SPEED);
     right_speed = (unsigned int)((right - MIN_INPUT)/((double)STEP) + MIN_SPEED);
     //This needs to be redone to account for a different speed controller
-    z_speed = (unsigned int)(ICR1 * (z/((double)MAX_INPUT))); 
+    z_speed = (unsigned int)((z - MIN_INPUT)/((double)STEP) + MIN_SPEED);
     OCR1A = left_speed;
     OCR1B = right_speed;
     OCR1C = z_speed;

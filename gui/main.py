@@ -5,7 +5,7 @@
 
 import sys, os
 from PyQt5.QtWidgets import (QWidget, QGridLayout, 
-    QPushButton, QApplication, QCheckBox, QSlider)
+    QPushButton, QApplication, QCheckBox, QSlider, QStatusBar, QLabel)
 from PyQt5 import (QtGui,QtCore)
 from math import pi, cos, sqrt
 import serial
@@ -133,7 +133,17 @@ class MainWindow(QWidget):
             self.sliders[x].valueChanged.connect(lambda: self.setSliderValues(x))
             self.sliders[x].setInvertedAppearance(False)
         
+        self.depth_label = QLabel()
+        self.depth_label.setText("Depth:")
 
+        self.depth = QLabel()
+        self.depth.setText("Not set")
+
+        self.object_label = QLabel()
+        self.object_label.setText("Object Detected:")
+        
+        self.object_detected = QLabel()
+        self.object_detected.setText("Not set")
 
         grid.addWidget(forward_button,1,3)
         grid.addWidget(stop_button,2,3)
@@ -153,7 +163,12 @@ class MainWindow(QWidget):
         grid.addWidget(stabilize_button,6,1)
         grid.addWidget(dive_button,7,1)
 
-        
+        grid.addWidget(self.depth_label,4,2)
+        grid.addWidget(self.depth,4,3)
+        grid.addWidget(self.object_label,5,2)
+        grid.addWidget(self.object_detected,5,3)
+
+
         self.move(300, 150)
         self.setWindowTitle('AquaDrone Controller')
         self.show()
@@ -192,12 +207,12 @@ class MainWindow(QWidget):
             while (self.ser.in_waiting > 0):
                 line = (self.ser.readline().decode("ascii"))
                 if (line.find("Depth:") != -1):
-                    index = line.find("Depth: ") + len("Depth: ")
-                    self.depth = line[index:index+10]
+                    index = line.find("Depth: ")
+                    self.depth.setText(line[index:index + 10 + len("Depth: ")])
                 if (line.find("Object: YES") != -1):
-                    self.object = "YES"
+                    self.object_detected.setText("YES")
                 else:
-                    self.object = "NO"
+                    self.object_detected.setText("NO")
                 if (line.find("Heading: ") != -1):
                     index = line.find("Heading: ") + len("Heading: ")
                     self.heading = "Not yet implemented"

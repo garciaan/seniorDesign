@@ -81,10 +81,10 @@ void move(float left, float right, float z){
         right = MAX_INPUT - SATURATE_DIFFERENCE;
     }
     if (z < (MIN_INPUT + SATURATE_DIFFERENCE)){
-        z = MIN_INPUT + SATURATE_DIFFERENCE;
+        z = MIN_INPUT + 1;
     }
     if (z > (MAX_INPUT - SATURATE_DIFFERENCE)){
-        z = MAX_INPUT - SATURATE_DIFFERENCE;
+        z = MAX_INPUT;
     }
 
     unsigned int left_speed, right_speed, z_speed;

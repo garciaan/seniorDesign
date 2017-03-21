@@ -76,7 +76,7 @@ int main(){
             USART0_send_string((unsigned char *)"Initiating path 1\r\n");
             //disable RX0
             UCSR0B &= ~(1<<RXEN0);
-            path1();
+            path2();
             //enable RX0
             UCSR0B |= (1<<RXEN0);
         }
@@ -298,7 +298,25 @@ void path1(){
     //Complete (back in some position as start)
 }
 void path2(){
-    //Implement if necessary
+    USART0_send_string((unsigned char *)"Diving (10 seconds)\r\n");
+    move(1,1,STABLE_Z);
+    _delay_ms(10000);
+
+    USART0_send_string((unsigned char *)"Turn right (1 second) r\n");
+    move(100,1,STABLE_Z);
+    _delay_ms(1000);
+
+    USART0_send_string((unsigned char *)"Continue Diving (5 seconds)\r\n");
+    move(1,1,STABLE_Z);
+    _delay_ms(5000);
+
+    USART0_send_string((unsigned char *)"Resurfacing...\r\n");
+    move(100,100,STABLE_Z);
+    _delay_ms(5000);
+
+    USART0_send_string((unsigned char *)"Path Complete\r\n");
+    move(50,50,50);
+
 }
 void path3(){
     //Implement if necessary

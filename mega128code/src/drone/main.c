@@ -68,10 +68,12 @@ int main(){
     move(50,50,50);
     while (1){
         USART0_Receive_String(data);
-        // USART0_send_string(data);
+        USART0_send_string((unsigned char *)"Data received: ");
+        USART0_send_string(data);
+        USART0_send_string((unsigned char *)"\r\n");
 
         if (strcmp((char *)data,"eee~") == 0){
-            USART0_send_string(data);
+            USART0_send_string((unsigned char *)"Initiating path 1\r\n");
             //disable RX0
             UCSR0B &= ~(1<<RXEN0);
             path1();
@@ -79,26 +81,23 @@ int main(){
             UCSR0B |= (1<<RXEN0);
         }
         else if (data[0] == 103 && data[1] == 103 && data[3] == 126){ //0x67 0x67 0xdd 0x7e or 103 103 ddd 126
-            USART0_send_string(data);
             USART0_send_string((unsigned char *)"Stable Z Set\r\n");
             STABLE_Z = data[2]; 
         }
         else if (strcmp((char *)data,"hhh~") == 0){ //0x68 0x68 0x68 0x7e or 104 104 104 126
-            dive(10);
             USART0_send_string((unsigned char *)"Diving to 10 feet\r\n");
-            USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r\n");
+            dive(10);
+            USART0_send_string((unsigned char *)"Depth reached. Waiting for 10 seconds.\r\n");
             _delay_ms(10000);
+            move(50,50,50);
+            USART0_send_string((unsigned char *)"Returning to surface\r\n");
         }
         else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
             calibrate_pressure_sensor();
-            USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r\n");
         }
         else if (strcmp((char *)data,"222~") == 0){
+            USART0_send_string((unsigned char *)"Stopping \r\n");
             move(50,50,50);
-            USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r\n");
         }
         else{
             USART0_send_string((unsigned char *)"Moving: ");

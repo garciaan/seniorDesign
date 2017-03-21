@@ -162,7 +162,6 @@ class MainWindow(QWidget):
     def dive(self):
         try:
             self.ser.write(bytes([104,104,104,126]))
-            print ("Diving to 10 feet for 10 seconds")
         except Exception as e:
             print ("Error")
             print (e)
@@ -170,7 +169,6 @@ class MainWindow(QWidget):
     def send_path1(self):
         try:
             self.ser.write(bytes([101,101,101,126]))
-            print ("Doing path 1")
         except Exception as e:
             print ("Error")
             print (e)
@@ -178,7 +176,6 @@ class MainWindow(QWidget):
     def stabilize(self):
         try:
             self.ser.write(bytes([103,103,self.sliders[2].value(),126]))
-            print ("Stabilizing Z Axis")
         except Exception as e:
             print ("Error")
             print (e)
@@ -186,13 +183,12 @@ class MainWindow(QWidget):
     def calibrate(self):
         try:
             self.ser.write(bytes([102,102,102,126]))
-            print ("Calibrated")
         except Exception as e:
             print ("Error")
             print (e)
 
     def readSerial(self):
-        if (self.ser.in_waiting):
+        while (self.ser.in_waiting):
             print (self.ser.readline())
 
     def setSendSlider(self,button):
@@ -244,7 +240,7 @@ class MainWindow(QWidget):
             try:
                 self.ser = serial.Serial(port, baudrate = 9600,timeout = 0)
                 self.bluetooth_connected = True
-                #self.readSerialTimer.start(500)
+                self.readSerialTimer.start(500)
                 print ("Connected on " + self.ser.name)
                 self.ser.reset_input_buffer()
             except ValueError:
@@ -289,7 +285,6 @@ class MainWindow(QWidget):
 
     def swing_right(self):
         try:
-            print("Swing Right")
             self.sliders[0].setValue(100)
             self.sliders[1].setValue(50)
             if (not self.sendSliderTimer.isActive()):
@@ -301,7 +296,6 @@ class MainWindow(QWidget):
 
     def swing_left(self):
         try:
-            print("Swing Left")
             self.sliders[0].setValue(50)
             self.sliders[1].setValue(100)
             if (not self.sendSliderTimer.isActive()):
@@ -313,7 +307,6 @@ class MainWindow(QWidget):
 
     def stop(self):
         try:
-            print ("Stop")
             self.sliders[0].setValue(50)
             self.sliders[1].setValue(50)
             if (not self.sendSliderTimer.isActive()):
@@ -325,7 +318,6 @@ class MainWindow(QWidget):
 
     def forward(self):
         try:
-            print ("Forward")
             self.sliders[0].setValue(100)
             self.sliders[1].setValue(100)
             if (not self.sendSliderTimer.isActive()):
@@ -336,7 +328,6 @@ class MainWindow(QWidget):
 
     def reverse(self):
         try:
-            print ("Reverse")
             self.sliders[0].setValue(1)
             self.sliders[1].setValue(1)
             if (not self.sendSliderTimer.isActive()):
@@ -347,7 +338,6 @@ class MainWindow(QWidget):
 
     def right(self):
         try:
-            print ("Right")
             self.sliders[0].setValue(100)
             self.sliders[1].setValue(1)
             if (not self.sendSliderTimer.isActive()):
@@ -359,7 +349,6 @@ class MainWindow(QWidget):
 
     def left(self):
         try:
-            print ("Left")
             self.sliders[0].setValue(1)
             self.sliders[1].setValue(100)
             if (not self.sendSliderTimer.isActive()):

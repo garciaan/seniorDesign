@@ -107,6 +107,9 @@ class MainWindow(QWidget):
         calibrate_psensor_button = QPushButton(text = "Calibrate Depth")
         calibrate_psensor_button.pressed.connect(self.calibrate)
 
+        stabilize_button = QPushButton(text = "Stablize Z Axis")
+        stabilize_button.pressed.connect(self.stabilize)
+
         self.bt_button = QCheckBox(text = "Connect to Drone")
         self.bt_button.pressed.connect(lambda: self.bt_handle('/dev/ttyUSB0'))
 
@@ -154,6 +157,14 @@ class MainWindow(QWidget):
         try:
             self.ser.write(bytes([101,101,101,126]))
             print ("Doing path 1")
+        except Exception as e:
+            print ("Error")
+            print (e)
+    
+    def stabilize(self):
+        try:
+            self.ser.write(bytes([103,103,self.sliders[2].value(),126]))
+            print ("Stabilizing Z Axis")
         except Exception as e:
             print ("Error")
             print (e)

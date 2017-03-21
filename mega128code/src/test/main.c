@@ -53,25 +53,25 @@ int main(){
     *******************/
     while (1){
         laser_on();
-        //_delay_ms(100);
+        _delay_ms(10);
         on = read_adc(LASER_SENSOR);
         USART0_send_string((unsigned char*)"ADC Value ON: ");
-
         USART0_send_string((unsigned char*)itoa(on,(char *)data,10));
         clear_display();
         string2lcd((unsigned char*)itoa(on,(char *)data,10));
-        //USART0_send_string("   ");
-        //_delay_ms(100);
-        //laser_on();
-        //_delay_ms(100);
-        //off = read_adc(LASER_SENSOR);
-        //USART0_send_string((unsigned char*)"ADC Value OFF: ");
-        //USART0_send_string((unsigned char*)itoa(off,(char *)data,10));
-        //USART0_Transmit(10);
-        _delay_ms(100);
-        //USART0_send_string((unsigned char*)"Difference: ");
-        //USART0_send_string((unsigned char*)itoa((on-off),(char *)data,10));
-        //USART0_Transmit(10);
+        USART0_send_string("   ");
+        _delay_ms(200);
+        laser_off();
+        _delay_ms(10);
+        off = read_adc(LASER_SENSOR);
+        USART0_send_string((unsigned char*)"ADC Value OFF: ");
+        USART0_send_string((unsigned char*)itoa(off,(char *)data,10));
+        USART0_send_string("   ");
+        _delay_ms(200);
+
+        USART0_send_string((unsigned char*)"Difference: ");
+        USART0_send_string((unsigned char*)itoa((on-off),(char *)data,10));
+        USART0_Transmit(10);
         USART0_Transmit(10);
     }
 

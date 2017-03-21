@@ -20,7 +20,7 @@ void enable_adc(){
 	//Set free running mode
 	//ADCSRA |= (1 << ADFR);
 	//Enable the ADC Interrupt Flag
-	ADCSRA |= (1 << ADIE);
+	//ADCSRA |= (1 << ADIE);
 	//Start first conversion by setting ADSC in ADCSRA
 	ADCSRA |= (1 << ADSC);
 

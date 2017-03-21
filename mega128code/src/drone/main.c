@@ -4,6 +4,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 #include "../../lib/uart/ascii_special.h"
 #include "../../lib/adc/adc.h"
 #include "../../lib/motors/motors.h"
@@ -20,8 +21,8 @@
 #define PATH3 3
 #define MOVE_SPEED 50
 #define TURN_SPEED 15
-#define STABLE_Z 50
-
+//#define STABLE_Z 50
+volatile int STABLE_Z = 0;
 
 
 /************************
@@ -33,19 +34,97 @@ void path3();
 void turn(int degrees);
 void forward();
 void reverse();
+void dive(float depth);
 
+void init_data_timer();
+void enable_bumpers();
 
+char buffer[10];
+volatile int object_detected = 0;
+
+ISR(INT4_vect){  //Left bumper on PE4
+    object_detected = 1;
+    USART0_send_string((unsigned char *)"Left Bumper Hit\r");
+
+    //reverse
+    USART0_send_string((unsigned char *)"Reversing\r");
+    move(0,0,STABLE_Z);
+    _delay_ms(1000);
+    
+
+    move (50,50,STABLE_Z);
+    _delay_ms(500);
+
+    //turn left
+    USART0_send_string((unsigned char *)"Turning Right\r");
+    move(50 - TURN_SPEED,50 + TURN_SPEED,STABLE_Z);
+    _delay_ms(1000);
+    USART0_send_string((unsigned char*)"Resuming\r");
+}
+
+ISR(INT5_vect){  //Right bumper on PE5
+    object_detected = 1;
+    USART0_send_string((unsigned char *)"Right Bumper Hit\r");
+
+    //reverse
+    USART0_send_string((unsigned char *)"Reversing\r");
+    move(0,0,STABLE_Z);
+    _delay_ms(1000);
+    
+
+    move (50,50,STABLE_Z);
+    _delay_ms(500);
+
+    //turn left
+    USART0_send_string((unsigned char *)"Turning Left\r");
+    move(50 + TURN_SPEED,50 - TURN_SPEED,STABLE_Z);
+    _delay_ms(1000);
+    USART0_send_string((unsigned char*)"Resuming\r");
+}
+
+/******************
+*   Sends the drone info once ever .5 seconds
+    Format:
+        Depth: ddd.dddddd
+        Object: (NO | YES)
+        Heading: ddd.dddddd
+        Water Level: (OK | WARNING | ERROR) : dd.dd
+*******************/
+ISR(TIMER3_COMPA_vect){ 
+    USART0_send_string((unsigned char *)"Depth: ");
+    USART0_send_string((unsigned char *)dtostrf(get_depth_feet(),3,7,buffer));
+    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"Object: ");
+    if (object_detected){
+        USART0_send_string((unsigned char*)"YES");
+        object_detected = 0;
+    }
+    else {
+        USART0_send_string((unsigned char*)"NO");
+    }
+    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"Heading: ");
+    USART0_send_string((unsigned char*)"Not yet implemented");
+    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"Water Level: ");
+    USART0_send_string((unsigned char*)"Not yet implemented");
+    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"\r");
+}
 int main(){
     DDRB = 0xFF;
     PORTB = 0;
     USART0_Init(MYUBRR);
     USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r");
-
+    STABLE_Z = 60;
     enable_adc();
     calibrate_pressure_sensor();
     //init_HMC5883L();
     init_motors();
-    char buffer[10];
+    init_data_timer();
+    enable_bumpers();
+    sei();
+    
 
     unsigned char data[MAX_STRING_SIZE];
     int i;
@@ -56,33 +135,32 @@ int main(){
 
     move(50,50,50);
     while (1){
-        USART0_send_string((unsigned char*)"Depth: ");
-        USART0_send_string((unsigned char *)dtostrf(get_depth_feet(),3,7,buffer));
-        USART0_send_string((unsigned char*)"\r");
-        USART0_send_string((unsigned char*)"Voltage: ");
-        USART0_send_string((unsigned char *)dtostrf(get_voltage(PSENSOR_PIN),3,7,buffer));
-        USART0_send_string((unsigned char*)"\r");
         USART0_Receive_String(data);
         // USART0_send_string(data);
 
         if (strcmp((char *)data,"eee~") == 0){
-            USART0_send_string((unsigned char *)"eee~");
+            USART0_send_string(data);
             path1();
+        }
+        else if (data[0] == 103 && data[1] == 103 && data[3] == 126){ //0x67 0x67 0xdd 0x7e or 103 103 ddd 126
+            USART0_send_string(data);
+            USART0_send_string((unsigned char *)"Stable Z Set\r");
+            STABLE_Z = data[2]; 
         }
         else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
             calibrate_pressure_sensor();
             USART0_send_string(data);
+            USART0_send_string((unsigned char*)"\r");
         }
         else if (strcmp((char *)data,"222~") == 0){
-            data[0] = 's';
-            data[1] = 't';
-            data[2] = 'o';
             move(50,50,50);
             USART0_send_string(data);
+            USART0_send_string((unsigned char*)"\r");
         }
         else{
-            // USART0_send_string((unsigned char *)"Moving: ");
+            USART0_send_string((unsigned char *)"Moving: ");
             USART0_send_string(data);
+            USART0_send_string((unsigned char*)"\r");
             move((float)data[0],(float)data[1],(float)data[2]);
         }
 
@@ -92,52 +170,113 @@ int main(){
     return 0;
 }
 
+void dive(float depth){
+    float current_depth = 0;
+    while (current_depth < depth){
+        current_depth = get_depth_feet();
+        move(50,50,STABLE_Z + 20);
+        _delay_ms(100);
+    }
+    move(50,50,STABLE_Z);
+}
+
+void enable_bumpers(){
+    //Set pins as inputs
+    DDRE &= ~(1 << 4);
+    DDRE &= ~(1 << 5);
+    
+    //Enable internal pullups
+    PORTE |= (1 << 4);
+    PORTE |= (1 << 5);
+
+    //Set both interrupt 4 and 5 to falling edge
+    EICRB |= (1 << ISC41);
+    EICRB |= (1 << ISC51);
+
+    //enable the interrupts
+    EIMSK |= (1 << INT4) | (1 << INT5);
+}
+void init_data_timer(){
+    //CTC Mode
+    TCCR3A |= (1 << COM3A1);
+    TCCR3A &= ~(1 << COM3A0);
+
+    //Prescalar 256
+    TCCR3B |= (1 << CS32);
+
+    unsigned char sreg;
+    /* Save global interrupt flag */ 
+    sreg = SREG;
+    /* Disable interrupts */ 
+    cli();
+    /* Set TCNTn to 1 */
+    TCNT3 = 1;
+    sei();
+    /* Restore global interrupt flag */ 
+    SREG = sreg;
+    ICR3 = 65535;
+    OCR3A = 65535;
+
+    //Enable timer3a interrupt
+    ETIMSK = (1 << OCIE3A);
+
+}
+
 void path1(){
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
+    USART0_send_string((unsigned char*)"Move Forward\r");
     move(50 + (MOVE_SPEED/2),50 + (MOVE_SPEED/2),STABLE_Z);
     _delay_ms(2000);
     //Down 3 seconds (aim for about 4 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Down");
+    USART0_send_string((unsigned char*)"Move Down\r");
     move (50,50,0);
     _delay_ms(3000);
     //spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
+    USART0_send_string((unsigned char*)"Turn Left\r");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
+    USART0_send_string((unsigned char*)"Move Forward\r");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //Spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
+    USART0_send_string((unsigned char*)"Turn Left\r");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
+    USART0_send_string((unsigned char*)"Move Forward\r");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //Up 3 seconds (resurface)
     // clear_display();
     // string2lcd((unsigned char *)"Up");
+    USART0_send_string((unsigned char*)"Move Up\r");
     move(50,50,100);
     //Spin left 90 degrees
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
+    USART0_send_string((unsigned char*)"Move Forward\r");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     //Spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
+    USART0_send_string((unsigned char*)"Turn Left\r");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);

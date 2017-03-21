@@ -42,6 +42,77 @@ void enable_bumpers();
 char buffer[10];
 volatile int object_detected = 0;
 
+
+int main(){
+    DDRB = 0xFF;
+    PORTB = 0;
+    USART0_Init(MYUBRR);
+    USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r");
+    STABLE_Z = 50;
+    enable_adc();
+    calibrate_pressure_sensor();
+    //init_HMC5883L();
+    init_motors();
+    init_data_timer();
+    enable_bumpers();
+    sei();
+    
+
+    unsigned char data[MAX_STRING_SIZE];
+    int i;
+    for (i = 0; i < MAX_STRING_SIZE; ++i){
+        data[i] = '\0';
+    }
+    data[MAX_STRING_SIZE - 2] = '~';
+
+    move(50,50,50);
+    while (1){
+        USART0_Receive_String(data);
+        // USART0_send_string(data);
+
+        if (strcmp((char *)data,"eee~") == 0){
+            USART0_send_string(data);
+            //disable RX0
+            UCSR0B &= ~(1<<RXEN0);
+            path1();
+            //enable RX0
+            UCSR0B |= (1<<RXEN0);
+        }
+        else if (data[0] == 103 && data[1] == 103 && data[3] == 126){ //0x67 0x67 0xdd 0x7e or 103 103 ddd 126
+            USART0_send_string(data);
+            USART0_send_string((unsigned char *)"Stable Z Set\r");
+            STABLE_Z = data[2]; 
+        }
+        else if (strcmp((char *)data,"hhh~") == 0){ //0x68 0x68 0x68 0x7e or 104 104 104 126
+            dive(10);
+            USART0_send_string((unsigned char *)"Diving to 10 feet\r");
+            USART0_send_string(data);
+            USART0_send_string((unsigned char*)"\r");
+            _delay_ms(10000);
+        }
+        else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
+            calibrate_pressure_sensor();
+            USART0_send_string(data);
+            USART0_send_string((unsigned char*)"\r");
+        }
+        else if (strcmp((char *)data,"222~") == 0){
+            move(50,50,50);
+            USART0_send_string(data);
+            USART0_send_string((unsigned char*)"\r");
+        }
+        else{
+            USART0_send_string((unsigned char *)"Moving: ");
+            USART0_send_string(data);
+            USART0_send_string((unsigned char*)"\r");
+            move((float)data[0],(float)data[1],(float)data[2]);
+        }
+
+        //_delay_ms(10);
+    }
+
+    return 0;
+}
+
 ISR(INT4_vect){  //Left bumper on PE4
     object_detected = 1;
     USART0_send_string((unsigned char *)"Left Bumper Hit\r");
@@ -110,64 +181,6 @@ ISR(TIMER3_COMPA_vect){
     USART0_send_string((unsigned char*)"Not yet implemented");
     USART0_send_string((unsigned char*)"\r");
     USART0_send_string((unsigned char*)"\r");
-}
-int main(){
-    DDRB = 0xFF;
-    PORTB = 0;
-    USART0_Init(MYUBRR);
-    USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r");
-    STABLE_Z = 50;
-    enable_adc();
-    calibrate_pressure_sensor();
-    //init_HMC5883L();
-    init_motors();
-    init_data_timer();
-    enable_bumpers();
-    sei();
-    
-
-    unsigned char data[MAX_STRING_SIZE];
-    int i;
-    for (i = 0; i < MAX_STRING_SIZE; ++i){
-        data[i] = '\0';
-    }
-    data[MAX_STRING_SIZE - 2] = '~';
-
-    move(50,50,50);
-    while (1){
-        USART0_Receive_String(data);
-        // USART0_send_string(data);
-
-        if (strcmp((char *)data,"eee~") == 0){
-            USART0_send_string(data);
-            path1();
-        }
-        else if (data[0] == 103 && data[1] == 103 && data[3] == 126){ //0x67 0x67 0xdd 0x7e or 103 103 ddd 126
-            USART0_send_string(data);
-            USART0_send_string((unsigned char *)"Stable Z Set\r");
-            STABLE_Z = data[2]; 
-        }
-        else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
-            calibrate_pressure_sensor();
-            USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r");
-        }
-        else if (strcmp((char *)data,"222~") == 0){
-            move(50,50,50);
-            USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r");
-        }
-        else{
-            USART0_send_string((unsigned char *)"Moving: ");
-            USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r");
-            move((float)data[0],(float)data[1],(float)data[2]);
-        }
-
-        //_delay_ms(10);
-    }
-
-    return 0;
 }
 
 void dive(float depth){

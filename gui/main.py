@@ -110,6 +110,9 @@ class MainWindow(QWidget):
         stabilize_button = QPushButton(text = "Stablize Z Axis")
         stabilize_button.pressed.connect(self.stabilize)
 
+        dive_button = QPushButton(text = "Dive Test")
+        dive_button.pressed.connect(self.dive)
+
         self.bt_button = QCheckBox(text = "Connect to Drone")
         self.bt_button.pressed.connect(lambda: self.bt_handle('/dev/ttyUSB0'))
 
@@ -153,6 +156,15 @@ class MainWindow(QWidget):
         self.move(300, 150)
         self.setWindowTitle('AquaDrone Controller')
         self.show()
+
+
+    def dive(self):
+        try:
+            self.ser.write(bytes([104,104,104,126]))
+            print ("Diving to 10 feet for 10 seconds")
+        except Exception as e:
+            print ("Error")
+            print (e)
 
     def send_path1(self):
         try:

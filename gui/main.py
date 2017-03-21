@@ -188,8 +188,23 @@ class MainWindow(QWidget):
             print (e)
 
     def readSerial(self):
-        while (self.ser.in_waiting > 0):
-            print (self.ser.readline().decode("ascii"))
+        try:
+            while (self.ser.in_waiting > 0):
+                line = (self.ser.readline().decode("ascii"))
+                if (line.find("Depth:") != -1):
+                    index = line.find("Depth: ") + len("Depth: ")
+                    self.depth = line[index:index+10]
+                if (line.find("Object: YES") != -1):
+                    self.object = "YES"
+                else:
+                    self.object = "NO"
+                if (line.find("Heading: ") != -1):
+                    index = line.find("Heading: ") + len("Heading: ")
+                    self.heading = "Not yet implemented"
+                print ("Line: " + line)
+        except Exception as e:
+            print ("Error")
+            print (e)
 
     def setSendSlider(self,button):
         if button.isChecked():

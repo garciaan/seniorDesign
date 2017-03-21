@@ -87,13 +87,16 @@ int main(){
         else if (strcmp((char *)data,"hhh~") == 0){ //0x68 0x68 0x68 0x7e or 104 104 104 126
             USART0_send_string((unsigned char *)"Diving to 10 feet\r\n");
             dive(10);
+            _delay_ms(1000);
             USART0_send_string((unsigned char *)"Depth reached. Waiting for 10 seconds.\r\n");
             _delay_ms(10000);
             move(50,50,50);
             USART0_send_string((unsigned char *)"Returning to surface\r\n");
         }
         else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
+            USART0_send_string((unsigned char *)"Calibrating\r\n");
             calibrate_pressure_sensor();
+            USART0_send_string((unsigned char *)"Calibrate complete\r\n");
         }
         else if (strcmp((char *)data,"222~") == 0){
             USART0_send_string((unsigned char *)"Stopping \r\n");

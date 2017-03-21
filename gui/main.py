@@ -188,8 +188,8 @@ class MainWindow(QWidget):
             print (e)
 
     def readSerial(self):
-        while (self.ser.in_waiting):
-            print (self.ser.readline())
+        while (self.ser.in_waiting > 0):
+            print (self.ser.readline().decode("ascii"))
 
     def setSendSlider(self,button):
         if button.isChecked():

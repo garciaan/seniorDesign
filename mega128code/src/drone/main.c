@@ -22,7 +22,7 @@
 #define MOVE_SPEED 50
 #define TURN_SPEED 15
 //#define STABLE_Z 50
-volatile int STABLE_Z = 0;
+volatile int STABLE_Z = 50;
 
 
 /************************
@@ -116,7 +116,7 @@ int main(){
     PORTB = 0;
     USART0_Init(MYUBRR);
     USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r");
-    STABLE_Z = 60;
+    STABLE_Z = 50;
     enable_adc();
     calibrate_pressure_sensor();
     //init_HMC5883L();

@@ -147,6 +147,7 @@ class MainWindow(QWidget):
         grid.addWidget(self.sliders[2],1,9,2,4)
         grid.addWidget(path1_button,4,1)
         grid.addWidget(calibrate_psensor_button,5,1)
+        grid.addWidget(stabilize_button,6,1)
 
         
         self.move(300, 150)

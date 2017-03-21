@@ -47,7 +47,7 @@ int main(){
     DDRB = 0xFF;
     PORTB = 0;
     USART0_Init(MYUBRR);
-    USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r");
+    USART0_send_string((unsigned char *)"USART0 (RS232) Initialized\r\n");
     STABLE_Z = 50;
     enable_adc();
     calibrate_pressure_sensor();
@@ -80,30 +80,30 @@ int main(){
         }
         else if (data[0] == 103 && data[1] == 103 && data[3] == 126){ //0x67 0x67 0xdd 0x7e or 103 103 ddd 126
             USART0_send_string(data);
-            USART0_send_string((unsigned char *)"Stable Z Set\r");
+            USART0_send_string((unsigned char *)"Stable Z Set\r\n");
             STABLE_Z = data[2]; 
         }
         else if (strcmp((char *)data,"hhh~") == 0){ //0x68 0x68 0x68 0x7e or 104 104 104 126
             dive(10);
-            USART0_send_string((unsigned char *)"Diving to 10 feet\r");
+            USART0_send_string((unsigned char *)"Diving to 10 feet\r\n");
             USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r");
+            USART0_send_string((unsigned char*)"\r\n");
             _delay_ms(10000);
         }
         else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
             calibrate_pressure_sensor();
             USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r");
+            USART0_send_string((unsigned char*)"\r\n");
         }
         else if (strcmp((char *)data,"222~") == 0){
             move(50,50,50);
             USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r");
+            USART0_send_string((unsigned char*)"\r\n");
         }
         else{
             USART0_send_string((unsigned char *)"Moving: ");
             USART0_send_string(data);
-            USART0_send_string((unsigned char*)"\r");
+            USART0_send_string((unsigned char*)"\r\n");
             move((float)data[0],(float)data[1],(float)data[2]);
         }
 
@@ -115,10 +115,10 @@ int main(){
 
 ISR(INT4_vect){  //Left bumper on PE4
     object_detected = 1;
-    USART0_send_string((unsigned char *)"Left Bumper Hit\r");
+    USART0_send_string((unsigned char *)"Left Bumper Hit\r\n");
 
     //reverse
-    USART0_send_string((unsigned char *)"Reversing\r");
+    USART0_send_string((unsigned char *)"Reversing\r\n");
     move(0,0,STABLE_Z);
     _delay_ms(1000);
     
@@ -127,18 +127,18 @@ ISR(INT4_vect){  //Left bumper on PE4
     _delay_ms(500);
 
     //turn left
-    USART0_send_string((unsigned char *)"Turning Right\r");
+    USART0_send_string((unsigned char *)"Turning Right\r\n");
     move(50 - TURN_SPEED,50 + TURN_SPEED,STABLE_Z);
     _delay_ms(1000);
-    USART0_send_string((unsigned char*)"Resuming\r");
+    USART0_send_string((unsigned char*)"Resuming\r\n");
 }
 
 ISR(INT5_vect){  //Right bumper on PE5
     object_detected = 1;
-    USART0_send_string((unsigned char *)"Right Bumper Hit\r");
+    USART0_send_string((unsigned char *)"Right Bumper Hit\r\n");
 
     //reverse
-    USART0_send_string((unsigned char *)"Reversing\r");
+    USART0_send_string((unsigned char *)"Reversing\r\n");
     move(0,0,STABLE_Z);
     _delay_ms(1000);
     
@@ -147,10 +147,10 @@ ISR(INT5_vect){  //Right bumper on PE5
     _delay_ms(500);
 
     //turn left
-    USART0_send_string((unsigned char *)"Turning Left\r");
+    USART0_send_string((unsigned char *)"Turning Left\r\n");
     move(50 + TURN_SPEED,50 - TURN_SPEED,STABLE_Z);
     _delay_ms(1000);
-    USART0_send_string((unsigned char*)"Resuming\r");
+    USART0_send_string((unsigned char*)"Resuming\r\n");
 }
 
 /******************
@@ -164,7 +164,7 @@ ISR(INT5_vect){  //Right bumper on PE5
 ISR(TIMER3_COMPA_vect){ 
     USART0_send_string((unsigned char *)"Depth: ");
     USART0_send_string((unsigned char *)dtostrf(get_depth_feet(),3,7,buffer));
-    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"\r\n");
     USART0_send_string((unsigned char*)"Object: ");
     if (object_detected){
         USART0_send_string((unsigned char*)"YES");
@@ -173,14 +173,14 @@ ISR(TIMER3_COMPA_vect){
     else {
         USART0_send_string((unsigned char*)"NO");
     }
-    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"\r\n");
     USART0_send_string((unsigned char*)"Heading: ");
     USART0_send_string((unsigned char*)"Not yet implemented");
-    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"\r\n");
     USART0_send_string((unsigned char*)"Water Level: ");
     USART0_send_string((unsigned char*)"Not yet implemented");
-    USART0_send_string((unsigned char*)"\r");
-    USART0_send_string((unsigned char*)"\r");
+    USART0_send_string((unsigned char*)"\r\n");
+    USART0_send_string((unsigned char*)"\r\n");
 }
 
 void dive(float depth){
@@ -239,57 +239,57 @@ void path1(){
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
-    USART0_send_string((unsigned char*)"Move Forward\r");
+    USART0_send_string((unsigned char*)"Move Forward\r\n");
     move(50 + (MOVE_SPEED/2),50 + (MOVE_SPEED/2),STABLE_Z);
     _delay_ms(2000);
     //Down 3 seconds (aim for about 4 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Down");
-    USART0_send_string((unsigned char*)"Move Down\r");
+    USART0_send_string((unsigned char*)"Move Down\r\n");
     move (50,50,0);
     _delay_ms(3000);
     //spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
-    USART0_send_string((unsigned char*)"Turn Left\r");
+    USART0_send_string((unsigned char*)"Turn Left\r\n");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
-    USART0_send_string((unsigned char*)"Move Forward\r");
+    USART0_send_string((unsigned char*)"Move Forward\r\n");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //Spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
-    USART0_send_string((unsigned char*)"Turn Left\r");
+    USART0_send_string((unsigned char*)"Turn Left\r\n");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
-    USART0_send_string((unsigned char*)"Move Forward\r");
+    USART0_send_string((unsigned char*)"Move Forward\r\n");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //Up 3 seconds (resurface)
     // clear_display();
     // string2lcd((unsigned char *)"Up");
-    USART0_send_string((unsigned char*)"Move Up\r");
+    USART0_send_string((unsigned char*)"Move Up\r\n");
     move(50,50,100);
     //Spin left 90 degrees
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
-    USART0_send_string((unsigned char*)"Move Forward\r");
+    USART0_send_string((unsigned char*)"Move Forward\r\n");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     //Spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
-    USART0_send_string((unsigned char*)"Turn Left\r");
+    USART0_send_string((unsigned char*)"Turn Left\r\n");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
     _delay_ms(2000);
     //turn(-90);

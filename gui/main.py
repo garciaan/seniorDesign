@@ -46,7 +46,7 @@ class MainWindow(QWidget):
         self.calcMotorPower.setInterval(10)
         self.calcMotorPower.timeout.connect(self.calculate_motor_power)
         self.readSerialTimer = QtCore.QTimer()
-        self.readSerialTimer.setInterval(500)
+        self.readSerialTimer.setInterval(100)
         self.readSerialTimer.timeout.connect(self.readSerial)    
 
     def initUI(self):
@@ -192,7 +192,8 @@ class MainWindow(QWidget):
             print (e)
 
     def readSerial(self):
-        print (self.ser.read(4))
+        if (self.ser.in_waiting):
+            print (self.ser.readline()
         
 
     def setSendSlider(self,button):

@@ -193,8 +193,7 @@ class MainWindow(QWidget):
 
     def readSerial(self):
         if (self.ser.in_waiting):
-            print (self.ser.readline()
-        
+            print (self.ser.readline())
 
     def setSendSlider(self,button):
         if button.isChecked():

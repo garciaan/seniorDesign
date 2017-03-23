@@ -132,6 +132,7 @@ ISR(INT4_vect){  //Left bumper on PE4
     USART0_send_string((unsigned char *)"Turning Right\r\n");
     move(50 - TURN_SPEED,50 + TURN_SPEED,STABLE_Z);
     _delay_ms(1000);
+    move(50,50,STABLE_Z);
     USART0_send_string((unsigned char*)"Resuming\r\n");
 }
 
@@ -152,6 +153,7 @@ ISR(INT5_vect){  //Right bumper on PE5
     USART0_send_string((unsigned char *)"Turning Left\r\n");
     move(50 + TURN_SPEED,50 - TURN_SPEED,STABLE_Z);
     _delay_ms(1000);
+    move(50,50,STABLE_Z);
     USART0_send_string((unsigned char*)"Resuming\r\n");
 }
 

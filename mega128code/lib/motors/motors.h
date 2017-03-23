@@ -38,7 +38,7 @@
 *************************/
 #define MIN_INPUT   0
 #define MAX_INPUT   100
-#define SATURATE_DIFFERENCE 30 //takes this value away from the max and min
+#define SATURATE_DIFFERENCE 1 //takes this value away from the max and min
                                 //NOTE: This is 100% - SATURATE_DIFFERENCE*2 for
                                 //      max power
 

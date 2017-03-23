@@ -1,0 +1,7 @@
+CREATE TABLE  `garciaan-db`.`mySQLlvl1` (
+`ID` INT NOT NULL ,
+`Name` VARCHAR( 32 ) NOT NULL ,
+`Age` INT NOT NULL ,
+`DateTime` DATETIME NOT NULL ,
+`Comments` VARCHAR( 100 ) NOT NULL
+) ENGINE = INNODB

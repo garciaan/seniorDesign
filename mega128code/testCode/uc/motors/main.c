@@ -24,7 +24,7 @@
 
 #define MIN_INPUT   0
 #define MAX_INPUT   100
-#define SATURATE_DIFFERENCE 0 //takes this value away from the max and min
+#define SATURATE_DIFFERENCE 30 //takes this value away from the max and min
 
 #define STEP        (double)(MAX_INPUT - MIN_INPUT)/((double)(MAX_SPEED - MIN_SPEED))
 

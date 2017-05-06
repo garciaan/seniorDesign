@@ -13,6 +13,7 @@
 #include "../../lib/lasersensor/lasersensor.h" //NOT YET IMPLEMENTED
 #include "../../lib/lcd/lcd.h"
 #include "../../lib/pressuresensor/pressuresensor.h"
+#include "../../lib/leds/leds.h"
 
 
 //Some easy to read defines
@@ -23,6 +24,7 @@
 #define TURN_SPEED 15
 //#define STABLE_Z 50
 volatile int STABLE_Z = 50;
+#define MAX_DEPTH 12 //in feet, used for LED response
 
 
 /************************
@@ -35,6 +37,7 @@ void turn(int degrees);
 void forward();
 void reverse();
 void dive(float depth);
+void depth_to_leds();
 
 void init_data_timer();
 void enable_bumpers();
@@ -51,10 +54,12 @@ int main(){
     STABLE_Z = 50;
     enable_adc();
     calibrate_pressure_sensor();
-    //init_HMC5883L();
+    //init_HMC5883L(); //magnometer
     init_motors();
-    init_data_timer();
+    //init_data_timer();
     enable_bumpers();
+    init_leds();
+    //set_rgb(RED);
     sei();
     
 
@@ -71,7 +76,7 @@ int main(){
         USART0_send_string((unsigned char *)"Data received: ");
         USART0_send_string(data);
         USART0_send_string((unsigned char *)"\r\n");
-
+        //depth_to_leds();
         if (strcmp((char *)data,"eee~") == 0){
             USART0_send_string((unsigned char *)"Initiating path 1\r\n");
             //disable RX0
@@ -116,6 +121,7 @@ int main(){
 }
 
 ISR(INT4_vect){  //Left bumper on PE4
+    set_rgb(RED);
     object_detected = 1;
     USART0_send_string((unsigned char *)"Left Bumper Hit\r\n");
 
@@ -137,6 +143,7 @@ ISR(INT4_vect){  //Left bumper on PE4
 }
 
 ISR(INT5_vect){  //Right bumper on PE5
+    set_rgb(RED);
     object_detected = 1;
     USART0_send_string((unsigned char *)"Right Bumper Hit\r\n");
 
@@ -197,21 +204,24 @@ void dive(float depth){
     move(50,50,STABLE_Z);
 }
 
+/*********
+* Need to do rising edge
+**********/
 void enable_bumpers(){
     //Set pins as inputs
-    DDRE &= ~(1 << 4);
-    DDRE &= ~(1 << 5);
+    DDRE &= ~(1 << 6);
+    DDRE &= ~(1 << 7);
     
     //Enable internal pullups
-    PORTE |= (1 << 4);
-    PORTE |= (1 << 5);
+    PORTE |= (1 << 6);
+    PORTE |= (1 << 7);
 
-    //Set both interrupt 4 and 5 to falling edge
-    EICRB |= (1 << ISC41);
-    EICRB |= (1 << ISC51);
+    //Set both interrupt 4 and 5 to rising edge
+    EICRB |= (1 << ISC61) | (1 << ISC60);
+    EICRB |= (1 << ISC71) | (1 << ISC70);
 
     //enable the interrupts
-    EIMSK |= (1 << INT4) | (1 << INT5);
+    EIMSK |= (1 << INT6) | (1 << INT7);
 }
 void init_data_timer(){
     //CTC Mode
@@ -347,5 +357,16 @@ void turn(int degrees){
     }
 }
 
+void depth_to_leds(){
+    float depth = get_depth_feet();
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+
+    red = (int)((depth)/((float)MAX_DEPTH) * 255);
+    green = (int)((MAX_DEPTH - depth)/((float)MAX_DEPTH) * 255);
+
+    set_rgb(red,green,blue);
+}
 
 

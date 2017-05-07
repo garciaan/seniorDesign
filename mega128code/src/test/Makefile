@@ -15,6 +15,9 @@ OBJ			   	+= ../../lib/motors/motors.o
 OBJ 		   	+= ../../lib/magnometer/magnometer.o
 OBJ 		   	+= ../../lib/lasersensor/lasersensor.o 
 OBJ				+= ../../lib/pressuresensor/pressuresensor.o
+OBJ				+= ../../lib/leds/leds.o
+
+LIB_DIR = ../../lib/
 
 MCU_TARGET     = atmega128
 OPTIMIZE       = -O2    # options are 1, 2, 3, s
@@ -31,9 +34,12 @@ override LDFLAGS       = -Wl,-Map,$(PRG).map
 OBJCOPY        = avr-objcopy
 OBJDUMP        = avr-objdump
 
-all: $(PRG).elf lst text eeprom size
+all: lib $(PRG).elf lst text eeprom size
 
-$(PRG).elf: $(OBJ)
+lib:
+	make -C $(LIB_DIR)
+
+$(PRG).elf: $(OBJ) 
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 clean: 
 	rm -rf *.o $(PRG).elf *.eps *.png *.pdf *.bak 

@@ -25,8 +25,10 @@
 //#define STABLE_Z 50
 volatile int STABLE_Z = 50;
 #define MAX_DEPTH 12 //in feet, used for LED response
+#define AUTO_DIVE_DEPTH 5
 
-
+volatile int data_timer_counter;
+#define TIMER0_DIVIDER 15
 /************************
 *   High level movement functions
 *************************/
@@ -41,6 +43,9 @@ void depth_to_leds();
 
 void init_data_timer();
 void enable_bumpers();
+void bumper_response();
+volatile int bumper_hit;
+void auto_delay(int ms);
 
 char buffer[10];
 volatile int object_detected = 0;
@@ -56,9 +61,10 @@ int main(){
     calibrate_pressure_sensor();
     //init_HMC5883L(); //magnometer
     init_motors();
-    //init_data_timer();
+    data_timer_counter = 0;
+    init_data_timer();
     enable_bumpers();
-    init_leds();
+    //init_leds();
     //set_rgb(RED);
     sei();
     
@@ -72,6 +78,12 @@ int main(){
 
     move(50,50,50);
     while (1){
+        //PORTB &= ((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3));
+        if (bumper_hit) {
+            bumper_hit = 0;
+            bumper_response();
+            bumper_hit = 0;
+        }
         USART0_Receive_String(data);
         USART0_send_string((unsigned char *)"Data received: ");
         USART0_send_string(data);
@@ -81,7 +93,7 @@ int main(){
             USART0_send_string((unsigned char *)"Initiating path 1\r\n");
             //disable RX0
             UCSR0B &= ~(1<<RXEN0);
-            path2();
+            path1();
             //enable RX0
             UCSR0B |= (1<<RXEN0);
         }
@@ -92,10 +104,10 @@ int main(){
         else if (strcmp((char *)data,"hhh~") == 0){ //0x68 0x68 0x68 0x7e or 104 104 104 126
             USART0_send_string((unsigned char *)"Diving to 10 feet\r\n");
             dive(10);
-            _delay_ms(1000);
+            move(50,50,STABLE_Z);
             USART0_send_string((unsigned char *)"Depth reached. Waiting for 10 seconds.\r\n");
-            _delay_ms(10000);
-            move(50,50,50);
+            auto_delay(10000);
+            move(50,50,STABLE_Z);
             USART0_send_string((unsigned char *)"Returning to surface\r\n");
         }
         else if (strcmp((char *)data,"fff~") == 0){ //0x66 0x66 0x66 0x7e or 102 102 102 126
@@ -114,84 +126,56 @@ int main(){
             move((float)data[0],(float)data[1],(float)data[2]);
         }
 
-        //_delay_ms(10);
+        auto_delay(10);
     }
 
     return 0;
 }
 
-ISR(INT4_vect){  //Left bumper on PE4
-    set_rgb(RED);
-    object_detected = 1;
-    USART0_send_string((unsigned char *)"Left Bumper Hit\r\n");
-
-    //reverse
-    USART0_send_string((unsigned char *)"Reversing\r\n");
-    move(0,0,STABLE_Z);
-    _delay_ms(1000);
-    
-
-    move (50,50,STABLE_Z);
-    _delay_ms(500);
-
-    //turn left
-    USART0_send_string((unsigned char *)"Turning Right\r\n");
-    move(50 - TURN_SPEED,50 + TURN_SPEED,STABLE_Z);
-    _delay_ms(1000);
-    move(50,50,STABLE_Z);
-    USART0_send_string((unsigned char*)"Resuming\r\n");
+ISR(INT6_vect){  //Left bumper on PE6
+    bumper_hit = 1;
+    EIFR |= (1 << INTF6);
 }
 
-ISR(INT5_vect){  //Right bumper on PE5
-    set_rgb(RED);
-    object_detected = 1;
-    USART0_send_string((unsigned char *)"Right Bumper Hit\r\n");
-
-    //reverse
-    USART0_send_string((unsigned char *)"Reversing\r\n");
-    move(0,0,STABLE_Z);
-    _delay_ms(1000);
-    
-
-    move (50,50,STABLE_Z);
-    _delay_ms(500);
-
-    //turn left
-    USART0_send_string((unsigned char *)"Turning Left\r\n");
-    move(50 + TURN_SPEED,50 - TURN_SPEED,STABLE_Z);
-    _delay_ms(1000);
-    move(50,50,STABLE_Z);
-    USART0_send_string((unsigned char*)"Resuming\r\n");
+ISR(INT7_vect){  //Right bumper on PE7
+    bumper_hit = 1;
+    EIFR |= (1 << INTF7);
 }
 
 /******************
-*   Sends the drone info once ever .5 seconds
+*   Sends the drone info 30 times per sec
     Format:
         Depth: ddd.dddddd
         Object: (NO | YES)
         Heading: ddd.dddddd
         Water Level: (OK | WARNING | ERROR) : dd.dd
 *******************/
-ISR(TIMER3_COMPA_vect){ 
-    USART0_send_string((unsigned char *)"Depth: ");
-    USART0_send_string((unsigned char *)dtostrf(get_depth_feet(),3,7,buffer));
-    USART0_send_string((unsigned char*)"\r\n");
-    USART0_send_string((unsigned char*)"Object: ");
-    if (object_detected){
-        USART0_send_string((unsigned char*)"YES");
-        object_detected = 0;
+ISR(TIMER0_COMP_vect){
+    if (data_timer_counter >= TIMER0_DIVIDER){ 
+        data_timer_counter = 0;
+        USART0_send_string((unsigned char *)"Depth: ");
+        USART0_send_string((unsigned char *)dtostrf(get_depth_feet(),3,7,buffer));
+        USART0_send_string((unsigned char*)"\r\n");
+        USART0_send_string((unsigned char*)"Object: ");
+        if (object_detected){
+            USART0_send_string((unsigned char*)"YES");
+            object_detected = 0;
+        }
+        else {
+            USART0_send_string((unsigned char*)"NO");
+        }
+        USART0_send_string((unsigned char*)"\r\n");
+        USART0_send_string((unsigned char*)"Heading: ");
+        USART0_send_string((unsigned char*)"Not yet implemented");
+        USART0_send_string((unsigned char*)"\r\n");
+        USART0_send_string((unsigned char*)"Water Level: ");
+        USART0_send_string((unsigned char*)"Not yet implemented");
+        USART0_send_string((unsigned char*)"\r\n");
+        USART0_send_string((unsigned char*)"\r\n");
     }
     else {
-        USART0_send_string((unsigned char*)"NO");
+        ++data_timer_counter;
     }
-    USART0_send_string((unsigned char*)"\r\n");
-    USART0_send_string((unsigned char*)"Heading: ");
-    USART0_send_string((unsigned char*)"Not yet implemented");
-    USART0_send_string((unsigned char*)"\r\n");
-    USART0_send_string((unsigned char*)"Water Level: ");
-    USART0_send_string((unsigned char*)"Not yet implemented");
-    USART0_send_string((unsigned char*)"\r\n");
-    USART0_send_string((unsigned char*)"\r\n");
 }
 
 void dive(float depth){
@@ -199,7 +183,7 @@ void dive(float depth){
     while (current_depth < depth){
         current_depth = get_depth_feet();
         move(50,50,STABLE_Z + 20);
-        _delay_ms(100);
+        auto_delay(100);
     }
     move(50,50,STABLE_Z);
 }
@@ -221,15 +205,47 @@ void enable_bumpers(){
     EICRB |= (1 << ISC71) | (1 << ISC70);
 
     //enable the interrupts
-    EIMSK |= (1 << INT6) | (1 << INT7);
+    EIMSK |= (1 << INT7);
 }
+
+void bumper_response(){
+    set_rgb(RED);
+    object_detected = 1;
+    USART0_send_string((unsigned char *)"--------------------------------\r\n");
+    USART0_send_string((unsigned char *)"Bumper Hit\r\n");
+    USART0_send_string((unsigned char *)"Object: YES\r\n");
+
+    //reverse
+    USART0_send_string((unsigned char *)"Reversing\r\n");
+    move(0,0,STABLE_Z);
+    _delay_ms(1000);
+    
+
+    move (50,50,STABLE_Z);
+    _delay_ms(500);
+
+    //turn left
+    USART0_send_string((unsigned char *)"Turning Left\r\n");
+    move(50 + TURN_SPEED,50 - TURN_SPEED,STABLE_Z);
+    _delay_ms(1000);
+    move(50,50,STABLE_Z);
+    USART0_send_string((unsigned char*)"Resuming\r\n");
+    USART0_send_string((unsigned char *)"--------------------------------\r\n");
+    EIFR |= (1 << INTF7);
+    bumper_hit = 0;
+}
+/**********
+*    Timer 0
+**********/
 void init_data_timer(){
     //CTC Mode
-    TCCR3A |= (1 << COM3A1);
-    TCCR3A &= ~(1 << COM3A0);
+    TCCR0 |= (1 << WGM01);
+    TCCR0 &= ~(1 << WGM00);
 
-    //Prescalar 256
-    TCCR3B |= (1 << CS32);
+    //Prescalar 1024
+    TCCR0 |= (1 << CS02);
+    TCCR0 |= (1 << CS01);
+    TCCR0 |= (1 << CS00);
 
     unsigned char sreg;
     /* Save global interrupt flag */ 
@@ -237,15 +253,14 @@ void init_data_timer(){
     /* Disable interrupts */ 
     cli();
     /* Set TCNTn to 1 */
-    TCNT3 = 1;
+    TCNT0 = 1;
     sei();
     /* Restore global interrupt flag */ 
     SREG = sreg;
-    ICR3 = 65535;
-    OCR3A = 65535;
+    OCR0 = 255;
 
-    //Enable timer3a interrupt
-    ETIMSK = (1 << OCIE3A);
+    //Enable timer0 interrupt
+    ETIMSK = (1 << OCIE0);
 
 }
 
@@ -254,80 +269,66 @@ void path1(){
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
     USART0_send_string((unsigned char*)"Move Forward\r\n");
-    move(50 + (MOVE_SPEED/2),50 + (MOVE_SPEED/2),STABLE_Z);
-    _delay_ms(2000);
+    move(50 + (MOVE_SPEED/2),50 + (MOVE_SPEED/2),0);
+    auto_delay(2000);
     //Down 3 seconds (aim for about 4 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Down");
     USART0_send_string((unsigned char*)"Move Down\r\n");
     move (50,50,0);
-    _delay_ms(3000);
+    while (get_depth_feet() < AUTO_DIVE_DEPTH);
     //spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
     USART0_send_string((unsigned char*)"Turn Left\r\n");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
-    _delay_ms(2000);
+    auto_delay(500);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
     USART0_send_string((unsigned char*)"Move Forward\r\n");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
-    _delay_ms(2000);
+    auto_delay(2000);
     //Spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
     USART0_send_string((unsigned char*)"Turn Left\r\n");
     move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
-    _delay_ms(2000);
+    auto_delay(500);
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
     USART0_send_string((unsigned char*)"Move Forward\r\n");
     move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
-    _delay_ms(2000);
+    auto_delay(2000);
     //Up 3 seconds (resurface)
     // clear_display();
     // string2lcd((unsigned char *)"Up");
     USART0_send_string((unsigned char*)"Move Up\r\n");
     move(50,50,100);
+    while (get_depth_feet() > 1);
+    
     //Spin left 90 degrees
     //turn(-90);
     //Forward for 2 seconds (about 6 feet)
     // clear_display();
     // string2lcd((unsigned char *)"Forward");
     USART0_send_string((unsigned char*)"Move Forward\r\n");
-    move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
+    move(50 + MOVE_SPEED/2, 50 + MOVE_SPEED/2, 0);
+    auto_delay(2000);
     //Spin left 90 degrees
     // clear_display();
     // string2lcd((unsigned char *)"Turn Left");
     USART0_send_string((unsigned char*)"Turn Left\r\n");
-    move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, STABLE_Z);
-    _delay_ms(2000);
+    move(50 - MOVE_SPEED/2, 50 + MOVE_SPEED/2, 0);
+    auto_delay(500);
     //turn(-90);
     //Complete (back in some position as start)
 }
 void path2(){
-    USART0_send_string((unsigned char *)"Diving (10 seconds)\r\n");
-    move(1,1,STABLE_Z);
-    _delay_ms(10000);
-
-    USART0_send_string((unsigned char *)"Turn right (1 second) r\n");
-    move(100,1,STABLE_Z);
-    _delay_ms(1000);
-
-    USART0_send_string((unsigned char *)"Continue Diving (5 seconds)\r\n");
-    move(1,1,STABLE_Z);
-    _delay_ms(5000);
-
-    USART0_send_string((unsigned char *)"Resurfacing...\r\n");
-    move(100,100,STABLE_Z);
-    _delay_ms(5000);
-
-    USART0_send_string((unsigned char *)"Path Complete\r\n");
-    move(50,50,50);
+    //Implement if necessary
 
 }
 void path3(){
@@ -369,4 +370,9 @@ void depth_to_leds(){
     set_rgb(red,green,blue);
 }
 
-
+void auto_delay(int ms){
+    _delay_ms(1);
+    if (bumper_hit){
+        bumper_response();
+    }
+}

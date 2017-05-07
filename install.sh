@@ -15,6 +15,7 @@ then
 	sudo pip3 install --upgrade pip
 	sudo pip3 install pygame
 	sudo pip3 install pyqt5
+	sudo pip3 install python3-pyqt5
 else
 	echo "Unkown Operating System"
 fi

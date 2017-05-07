@@ -1,8 +1,8 @@
 #include "leds.h"
 
 void init_leds(){
-    DDRE |= 0xFF;
-    PORTE = 0;
+    DDRE |= (1 << 3) | (1 << 4) | (1 << 5);
+    PORTE &= ~((1 << 3) | (1 << 4) | (1 << 5));
     set_16bitPWM3();
     set_rgb(WHITE);
 }
